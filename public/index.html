@@ -15,9 +15,11 @@
         <a href="#" class="nav-link">Khoá học</a>
         <a href="#" class="nav-link">Giới thiệu</a>
       </nav>
-      <div class="auth">
-        <a href="#" class="btn btn-outline">Đăng nhập</a>
-        <a href="#" class="btn btn-primary">Đăng ký</a>
+      <!-- Khu vực auth sẽ được JS fill -->
+      <div class="auth" id="auth-area">
+       <!-- JS có thể fill như trước, hoặc đơn giản: -->
+        <a href="login.html" class="btn btn-outline">Đăng nhập</a>
+        <a href="register.html" class="btn btn-primary">Đăng ký</a>
       </div>
     </div>
   </header>
@@ -73,7 +75,7 @@
           <p class="video-desc">
             Nắm các khái niệm cơ bản về cấu trúc trang web và cách dùng HTML, CSS.
           </p>
-          <a href="video.html" class="btn btn-sm btn-primary">Xem chi tiết</a>
+          <a href="video.html" class="btn btn-sm btn-primary video-detail-link">Xem chi tiết</a>
         </div>
       </article>
 
@@ -87,7 +89,7 @@
           <p class="video-desc">
             Học cách dàn layout hiện đại, responsive với Flexbox.
           </p>
-          <a href="video.html" class="btn btn-sm btn-primary">Xem chi tiết</a>
+          <a href="video.html" class="btn btn-sm btn-primary video-detail-link">Xem chi tiết</a>
         </div>
       </article>
 
@@ -101,7 +103,7 @@
           <p class="video-desc">
             Tìm hiểu biến, hàm, sự kiện và thao tác đơn giản trên DOM.
           </p>
-          <a href="video.html" class="btn btn-sm btn-primary">Xem chi tiết</a>
+          <a href="video.html" class="btn btn-sm btn-primary video-detail-link">Xem chi tiết</a>
         </div>
       </article>
 
@@ -115,5 +117,64 @@
       <p>© 2025 StudyVideo · Nền tảng web học tập video demo (HTML/CSS)</p>
     </div>
   </footer>
+
+  <!-- SCRIPT: xử lý trạng thái đăng nhập -->
+  <script>
+    function renderAuthArea() {
+      const authArea = document.getElementById("auth-area");
+      if (!authArea) return;
+
+      const userJson = localStorage.getItem("user");
+      if (!userJson) {
+        // Chưa đăng nhập
+        authArea.innerHTML = `
+          <a href="auth.html" class="btn btn-outline">Đăng nhập</a>
+          <a href="auth.html" class="btn btn-primary">Đăng ký</a>
+        `;
+        return;
+      }
+
+      try {
+        const user = JSON.parse(userJson);
+        const displayName = user.name || user.email || "Người dùng";
+        authArea.innerHTML = `
+          <span class="user-name" style="margin-right:8px;font-size:14px;">
+            Xin chào, <strong>${displayName}</strong>
+          </span>
+          <button class="btn btn-outline btn-sm" id="logout-btn">Đăng xuất</button>
+        `;
+        const logoutBtn = document.getElementById("logout-btn");
+        if (logoutBtn) {
+          logoutBtn.addEventListener("click", () => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            window.location.reload();
+          });
+        }
+      } catch (err) {
+        console.error("Lỗi parse user từ localStorage:", err);
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        renderAuthArea();
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderAuthArea();
+
+      // Bảo vệ nút "Xem chi tiết" – nếu chưa login thì chuyển sang auth.html
+      const detailLinks = document.querySelectorAll(".video-detail-link");
+      detailLinks.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            e.preventDefault();
+            alert("Vui lòng đăng nhập trước khi xem chi tiết video.");
+            window.location.href = "auth.html";
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

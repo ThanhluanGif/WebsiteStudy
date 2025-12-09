@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Đăng ký / Đăng nhập - WebsiteStudy</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Thêm chút style nhẹ cho form (dùng chung với style.css sẵn có) */
+    .auth-wrapper {
+      max-width: 480px;
+      margin: 40px auto;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 24px 28px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+    }
+    .auth-wrapper h1 {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+    .auth-wrapper h2 {
+      font-size: 18px;
+      margin: 16px 0 8px;
+    }
+    .auth-input {
+      width: 100%;
+      margin: 4px 0;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+    .auth-input:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 1px #2563eb33;
+    }
+    .auth-msg {
+      font-size: 13px;
+      margin-top: 6px;
+      color: #6b7280;
+    }
+    .auth-msg.error {
+      color: #dc2626;
+    }
+    .auth-msg.success {
+      color: #16a34a;
+    }
+    .auth-divider {
+      margin: 20px 0;
+      border-top: 1px dashed #e5e7eb;
+    }
+    .auth-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+      gap: 8px;
+    }
+    .auth-small-link {
+      font-size: 12px;
+      color: #2563eb;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <main class="auth-wrapper">
+    <h1>Tài khoản WebsiteStudy</h1>
+    <p style="font-size:13px;color:#6b7280;margin-bottom:12px;">
+      Dùng để đăng nhập và lưu lại nhận xét, đánh giá video học tập.
+    </p>
+
+    <!-- ĐĂNG KÝ -->
+    <section>
+      <h2>Đăng ký</h2>
+      <form id="register-form">
+        <input
+          type="text"
+          id="reg-name"
+          class="auth-input"
+          placeholder="Họ và tên"
+        />
+        <input
+          type="email"
+          id="reg-email"
+          class="auth-input"
+          placeholder="Email"
+        />
+        <input
+          type="password"
+          id="reg-password"
+          class="auth-input"
+          placeholder="Mật khẩu"
+        />
+        <div class="auth-actions">
+          <button type="submit" class="btn btn-primary btn-sm">
+            Đăng ký
+          </button>
+          <span class="auth-small-link" id="goto-login">
+            Đã có tài khoản? Đăng nhập
+          </span>
+        </div>
+      </form>
+      <p id="register-msg" class="auth-msg"></p>
+    </section>
+
+    <div class="auth-divider"></div>
+
+    <!-- ĐĂNG NHẬP -->
+    <section>
+      <h2>Đăng nhập</h2>
+      <form id="login-form">
+        <input
+          type="email"
+          id="login-email"
+          class="auth-input"
+          placeholder="Email"
+        />
+        <input
+          type="password"
+          id="login-password"
+          class="auth-input"
+          placeholder="Mật khẩu"
+        />
+        <div class="auth-actions">
+          <button type="submit" class="btn btn-primary btn-sm">
+            Đăng nhập
+          </button>
+          <span class="auth-small-link" id="goto-register">
+            Chưa có tài khoản? Đăng ký
+          </span>
+        </div>
+      </form>
+      <p id="login-msg" class="auth-msg"></p>
+    </section>
+  </main>
+
+  <script>
+    // Scroll nhanh giữa 2 form
+    document.getElementById("goto-login").addEventListener("click", () => {
+      document.getElementById("login-form").scrollIntoView({ behavior: "smooth" });
+    });
+    document.getElementById("goto-register").addEventListener("click", () => {
+      document.getElementById("register-form").scrollIntoView({ behavior: "smooth" });
+    });
+
+    // HÀM SET MESSAGE
+    function setMsg(el, text, type = "") {
+      el.textContent = text || "";
+      el.classList.remove("error", "success");
+      if (type) el.classList.add(type);
+    }
+
+    // ==== ĐĂNG KÝ ====
+    const regForm = document.getElementById("register-form");
+    const regMsg = document.getElementById("register-msg");
+
+    regForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("reg-name").value.trim();
+      const email = document.getElementById("reg-email").value.trim();
+      const password = document.getElementById("reg-password").value.trim();
+
+      if (!name || !email || !password) {
+        setMsg(regMsg, "Vui lòng nhập đầy đủ Họ tên, Email và Mật khẩu.", "error");
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          setMsg(regMsg, data.message || "Đăng ký thất bại.", "error");
+        } else {
+          setMsg(
+            regMsg,
+            "Đăng ký thành công! Bạn có thể kéo xuống phần Đăng nhập.",
+            "success"
+          );
+          // clear input
+          regForm.reset();
+        }
+      } catch (err) {
+        console.error(err);
+        setMsg(regMsg, "Lỗi kết nối tới server.", "error");
+      }
+    });
+
+    // ==== ĐĂNG NHẬP ====
+    const loginForm = document.getElementById("login-form");
+    const loginMsg = document.getElementById("login-msg");
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("login-email").value.trim();
+      const password = document.getElementById("login-password").value.trim();
+
+      if (!email || !password) {
+        setMsg(loginMsg, "Vui lòng nhập Email và Mật khẩu.", "error");
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          setMsg(loginMsg, data.message || "Đăng nhập thất bại.", "error");
+        } else {
+          setMsg(loginMsg, "Đăng nhập thành công!", "success");
+          // Lưu token để dùng cho comment / rating
+          if (data.token) {
+            localStorage.setItem("token", data.token);
+          }
+          // Lưu thông tin user (tuỳ chọn)
+          if (data.user) {
+            localStorage.setItem("user", JSON.stringify(data.user));
+          }
+          // Ví dụ: chuyển về trang chủ sau 1.2s
+          setTimeout(() => {
+            window.location.href = "/index.html";
+          }, 1200);
+        }
+      } catch (err) {
+        console.error(err);
+        setMsg(loginMsg, "Lỗi kết nối tới server.", "error");
+      }
+    });
+  </script>
+</body>
+</html>
