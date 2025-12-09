@@ -14,13 +14,13 @@
         <a href="index.html" class="nav-link active">Trang chủ</a>
         <a href="#" class="nav-link">Khoá học</a>
         <a href="#" class="nav-link">Giới thiệu</a>
+        <!-- Link quản trị: mặc định ẩn, chỉ admin mới thấy -->
+        <a href="admin.html" class="nav-link" id="admin-link" style="display: none;">
+          Quản trị
+        </a>
       </nav>
       <!-- Khu vực auth sẽ được JS fill -->
-      <div class="auth" id="auth-area">
-       <!-- JS có thể fill như trước, hoặc đơn giản: -->
-        <a href="login.html" class="btn btn-outline">Đăng nhập</a>
-        <a href="register.html" class="btn btn-primary">Đăng ký</a>
-      </div>
+      <div class="auth" id="auth-area"></div>
     </div>
   </header>
 
@@ -106,8 +106,6 @@
           <a href="video.html" class="btn btn-sm btn-primary video-detail-link">Xem chi tiết</a>
         </div>
       </article>
-
-      <!-- Thêm các video-card khác nếu muốn -->
     </div>
   </main>
 
@@ -118,7 +116,7 @@
     </div>
   </footer>
 
-  <!-- SCRIPT: xử lý trạng thái đăng nhập -->
+  <!-- SCRIPT: xử lý trạng thái đăng nhập + ẩn/hiện link Quản trị -->
   <script>
     function renderAuthArea() {
       const authArea = document.getElementById("auth-area");
@@ -126,10 +124,10 @@
 
       const userJson = localStorage.getItem("user");
       if (!userJson) {
-        // Chưa đăng nhập
+        // Chưa đăng nhập -> hiển thị nút login/register
         authArea.innerHTML = `
-          <a href="auth.html" class="btn btn-outline">Đăng nhập</a>
-          <a href="auth.html" class="btn btn-primary">Đăng ký</a>
+          <a href="login.html" class="btn btn-outline">Đăng nhập</a>
+          <a href="register.html" class="btn btn-primary">Đăng ký</a>
         `;
         return;
       }
@@ -159,10 +157,34 @@
       }
     }
 
+    // Ẩn/hiện menu Quản trị theo role
+    function renderAdminLink() {
+      const adminLink = document.getElementById("admin-link");
+      if (!adminLink) return;
+
+      const userJson = localStorage.getItem("user");
+      if (!userJson) {
+        adminLink.style.display = "none";
+        return;
+      }
+
+      try {
+        const user = JSON.parse(userJson);
+        if (user.role === "admin") {
+          adminLink.style.display = "inline-block";
+        } else {
+          adminLink.style.display = "none";
+        }
+      } catch {
+        adminLink.style.display = "none";
+      }
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
       renderAuthArea();
+      renderAdminLink();
 
-      // Bảo vệ nút "Xem chi tiết" – nếu chưa login thì chuyển sang auth.html
+      // Bảo vệ nút "Xem chi tiết" – nếu chưa login thì chuyển sang login.html
       const detailLinks = document.querySelectorAll(".video-detail-link");
       detailLinks.forEach((link) => {
         link.addEventListener("click", (e) => {
@@ -170,7 +192,7 @@
           if (!token) {
             e.preventDefault();
             alert("Vui lòng đăng nhập trước khi xem chi tiết video.");
-            window.location.href = "auth.html";
+            window.location.href = "login.html";
           }
         });
       });
