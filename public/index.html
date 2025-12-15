@@ -41,14 +41,7 @@
         </div>
       </div>
       <div class="hero-illustration">
-        <div class="hero-card">
-          <div class="hero-card-thumb"></div>
-          <div class="hero-card-info">
-            <h3>Bài 1: Làm quen HTML & CSS</h3>
-            <p>Thời lượng: 25 phút</p>
-            <p>Đánh giá: ★★★★☆ 4.5</p>
-          </div>
-        </div>
+        <div class="hero-card" id="hero-card"></div>
       </div>
     </div>
   </section>
@@ -56,69 +49,108 @@
   <!-- VIDEO LIST -->
   <main class="container" id="video-list">
     <div class="section-header">
-      <h2>Video mới nhất</h2>
-      <div class="section-actions">
-        <input type="text" class="input-search" placeholder="Tìm video, môn học..." />
-        <select class="select-filter">
-          <option value="">Tất cả môn</option>
-          <option>Lập trình</option>
-          <option>Toán</option>
-          <option>Khoa học</option>
-        </select>
-      </div>
+      <h2>Video nổi bật</h2>
+    </div>
+    <div class="featured-wrap">
+      <div class="featured-card" id="featured-card"></div>
     </div>
 
-    <div class="video-grid">
-      <article class="video-card">
-        <div class="video-thumb"></div>
-        <div class="video-body">
-          <h3 class="video-title">Bài 1: Giới thiệu HTML & CSS</h3>
-          <p class="video-meta">Môn: Lập trình Web • 25 phút</p>
-          <p class="video-rating">Đánh giá: ★★★★☆ (4.2)</p>
-          <p class="video-desc">
-            Nắm cấu trúc trang web, thẻ HTML, thuộc tính và cách phối màu cơ bản bằng CSS.
-          </p>
-          <a href="video.html" class="btn btn-sm btn-primary video-detail-link">Xem chi tiết</a>
-        </div>
-      </article>
-
-      <article class="video-card">
-        <div class="video-thumb"></div>
-        <div class="video-body">
-          <h3 class="video-title">Bài 2: Flexbox & layout hiện đại</h3>
-          <p class="video-meta">Môn: Lập trình Web • 30 phút</p>
-          <p class="video-rating">Đánh giá: ★★★★★ (4.8)</p>
-          <p class="video-desc">
-            Học cách căn chỉnh, tạo lưới linh hoạt và responsive chỉ với Flexbox.
-          </p>
-          <a href="video.html" class="btn btn-sm btn-primary video-detail-link">Xem chi tiết</a>
-        </div>
-      </article>
-
-      <article class="video-card">
-        <div class="video-thumb"></div>
-        <div class="video-body">
-          <h3 class="video-title">Bài 3: JavaScript cho người mới</h3>
-          <p class="video-meta">Môn: Lập trình Web • 35 phút</p>
-          <p class="video-rating">Đánh giá: ★★★★☆ (4.0)</p>
-          <p class="video-desc">
-            Làm quen biến, hàm, sự kiện và thao tác DOM để tạo trang web tương tác.
-          </p>
-          <a href="video.html" class="btn btn-sm btn-primary video-detail-link">Xem chi tiết</a>
-        </div>
-      </article>
+    <div class="section-header" style="margin-top:22px;">
+      <h2>Danh sách video</h2>
     </div>
+    <div class="filter-row">
+      <input type="text" class="input-search" id="home-search" placeholder="Tìm video, môn học..." />
+      <select class="select-filter" id="home-subject">
+        <option value="">Tất cả môn</option>
+      </select>
+      <select class="select-filter" id="home-sort">
+        <option value="newest">Mới nhất</option>
+        <option value="views">Xem nhiều</option>
+        <option value="rating">Đánh giá cao</option>
+      </select>
+    </div>
+
+    <div class="video-grid" id="home-video-grid"></div>
   </main>
 
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container footer-inner">
-      <p>© 2025 StudyVideo • Nền tảng video học tập minh hoạ (HTML/CSS)</p>
+      <p>© 2025 StudyVideo • Nền tảng video học tập demo</p>
     </div>
   </footer>
 
   <script src="app.js"></script>
   <script>
+    let allVideos = [];
+
+    function pickFeatured(videos) {
+      if (!videos.length) return null;
+      return [...videos].sort((a, b) => {
+        const viewA = a.totalViews || 0;
+        const viewB = b.totalViews || 0;
+        if (viewA !== viewB) return viewB - viewA;
+        const rateA = a.avgRating || 0;
+        const rateB = b.avgRating || 0;
+        if (rateA !== rateB) return rateB - rateA;
+        return (b.totalRatings || 0) - (a.totalRatings || 0);
+      })[0];
+    }
+
+    function renderFeaturedCard(targetId, video) {
+      const box = document.getElementById(targetId);
+      if (!box) return;
+      if (!video) {
+        box.innerHTML = `<div class="video-card">Chưa có video nổi bật.</div>`;
+        return;
+      }
+      const thumbStyle = video.thumbnailUrl
+        ? `style="background-image:url('${video.thumbnailUrl}');background-size:cover;background-position:center;"`
+        : "";
+      const rating =
+        typeof video.avgRating === "number" && video.totalRatings > 0
+          ? `${video.avgRating.toFixed(1)} (${video.totalRatings} đánh giá)`
+          : "Chưa có đánh giá";
+      const duration = video.durationMinutes ? `${video.durationMinutes} phút` : "N/A";
+      const link = `video.html?id=${video._id || ""}`;
+      const subject = video.subject || "Chưa phân loại";
+      box.innerHTML = `
+        <div class="${targetId === "hero-card" ? "hero-card-thumb" : "featured-thumb"}" ${thumbStyle}></div>
+        <div class="${targetId === "hero-card" ? "hero-card-info" : "featured-body"}">
+          <h3>${video.title || "Video"}</h3>
+          <p class="${targetId === "hero-card" ? "" : "featured-meta"}">Môn: ${subject} • Thời lượng: ${duration}</p>
+          <p class="${targetId === "hero-card" ? "" : "featured-meta"}">Đánh giá: ${rating}</p>
+          <a href="${link}" class="btn btn-primary btn-sm video-detail-link">Xem chi tiết</a>
+        </div>
+      `;
+      studyApp.guardLinks(".video-detail-link", {
+        message: "Vui lòng đăng nhập để xem chi tiết video.",
+      });
+    }
+
+    function filterAndRender() {
+      const keyword = document.getElementById("home-search").value.toLowerCase();
+      const subject = document.getElementById("home-subject").value;
+      const sort = document.getElementById("home-sort").value;
+      let list = allVideos;
+      if (subject) {
+        list = list.filter((v) => (v.subject || "").toLowerCase().includes(subject.toLowerCase()));
+      }
+      if (keyword) {
+        list = list.filter(
+          (v) =>
+            (v.title || "").toLowerCase().includes(keyword) ||
+            (v.description || "").toLowerCase().includes(keyword)
+        );
+      }
+      list = [...list].sort((a, b) => {
+        if (sort === "views") return (b.totalViews || 0) - (a.totalViews || 0);
+        if (sort === "rating") return (b.avgRating || 0) - (a.avgRating || 0);
+        return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+      });
+      studyApp.renderVideoList({ containerId: "home-video-grid", videos: list });
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
       if (window.studyApp) {
         studyApp.renderAuthArea();
@@ -126,6 +158,32 @@
         studyApp.guardLinks(".video-detail-link", {
           message: "Vui lòng đăng nhập để xem chi tiết video.",
         });
+        studyApp
+          .fetchVideos({ page: 1, limit: 100 })
+          .then((data) => {
+            allVideos = data.videos || [];
+            studyApp.populateSubjects("home-subject", allVideos);
+            const sorted = [...allVideos].sort((a, b) => {
+              const vdiff = (b.totalViews || 0) - (a.totalViews || 0);
+              if (vdiff !== 0) return vdiff;
+              const rdiff = (b.avgRating || 0) - (a.avgRating || 0);
+              if (rdiff !== 0) return rdiff;
+              return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+            });
+            const heroVideo = sorted[0];
+            const featuredVideo = sorted[1] || heroVideo;
+            renderFeaturedCard("hero-card", heroVideo);
+            renderFeaturedCard("featured-card", featuredVideo);
+            filterAndRender();
+          })
+          .catch((err) => {
+            console.error(err);
+            document.getElementById("home-video-grid").innerHTML =
+              '<div class="video-card">Lỗi tải video.</div>';
+          });
+        document.getElementById("home-search")?.addEventListener("input", filterAndRender);
+        document.getElementById("home-subject")?.addEventListener("change", filterAndRender);
+        document.getElementById("home-sort")?.addEventListener("change", filterAndRender);
       }
     });
   </script>

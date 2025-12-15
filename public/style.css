@@ -544,6 +544,58 @@ img {
   color: #374151;
 }
 
+.featured-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0 12px;
+}
+
+.featured-card {
+  width: 100%;
+  max-width: 520px;
+  background: linear-gradient(160deg, #0b1224, #0f172a);
+  border-radius: 24px;
+  padding: 18px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #f8fafc;
+}
+
+.featured-thumb {
+  background: linear-gradient(135deg, #22d3ee, #2563eb);
+  border-radius: 16px;
+  height: 200px;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.featured-body h3 {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.featured-meta {
+  font-size: 13px;
+  color: #cbd5e1;
+  margin-bottom: 4px;
+}
+
+.filter-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px 160px;
+  gap: 10px;
+  margin: 12px 0 20px;
+}
+
+.filter-row .input-search {
+  width: 100%;
+}
+
+.filter-row .select-filter {
+  width: 100%;
+}
+
 .video-sidebar h3 {
   font-size: 16px;
   margin-bottom: 8px;

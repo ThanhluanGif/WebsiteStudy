@@ -1,471 +1,4 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <title>StudyVideo - Quản trị</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      margin: 0;
-      background: radial-gradient(circle at 80% 0%, #e0f2fe 0, #f8fafc 60%), #f6f8fb;
-    }
-    .page-main {
-      padding: 24px 0 40px;
-      min-height: calc(100vh - 64px);
-    }
-    .admin-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.35fr);
-      gap: 24px;
-    }
-    @media (max-width: 960px) {
-      .admin-layout {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-    .panel {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 18px 20px;
-      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
-      border: 1px solid #e5e7eb;
-    }
-    .panel h1,
-    .panel h2 {
-      margin: 0 0 10px;
-      font-size: 20px;
-      letter-spacing: -0.2px;
-    }
-    .panel p.sub {
-      margin: 0 0 16px;
-      font-size: 13px;
-      color: #6b7280;
-    }
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px 16px;
-    }
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 13px;
-    }
-    .form-group.full {
-      grid-column: 1 / -1;
-    }
-    .form-group label {
-      font-weight: 600;
-      color: #374151;
-    }
-    .input-text,
-    .textarea {
-      border-radius: 12px;
-      border: 1px solid #d1d5db;
-      padding: 9px 11px;
-      font-size: 14px;
-      font-family: inherit;
-      outline: none;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-      background: #f9fafb;
-    }
-    .input-text:focus,
-    .textarea:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 1px #2563eb33;
-      background: #ffffff;
-    }
-    .textarea {
-      resize: vertical;
-      min-height: 90px;
-    }
-    .form-footer {
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-      margin-top: 12px;
-    }
-    .msg {
-      font-size: 13px;
-      margin-top: 6px;
-      min-height: 18px;
-      color: #6b7280;
-    }
-    .msg.error {
-      color: #dc2626;
-    }
-    .msg.success {
-      color: #16a34a;
-    }
-    .video-list-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .video-list-header h2 {
-      margin: 0;
-      font-size: 18px;
-    }
-    .video-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-    .video-table thead {
-      background: #f9fafb;
-    }
-    .video-table th,
-    .video-table td {
-      padding: 8px 10px;
-      border-bottom: 1px solid #e5e7eb;
-      text-align: left;
-      vertical-align: top;
-    }
-    .video-table th {
-      font-weight: 600;
-      color: #4b5563;
-      font-size: 12px;
-    }
-    .thumb-mini {
-      width: 64px;
-      height: 40px;
-      border-radius: 8px;
-      background: #e5e7eb;
-      background-size: cover;
-      background-position: center;
-    }
-    .btn-action {
-      font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      cursor: pointer;
-    }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 12px;
-      margin-top: 10px;
-    }
-    .stat-box {
-      padding: 12px;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      background: #f9fafb;
-      font-size: 13px;
-    }
-    .bar {
-      height: 8px;
-      border-radius: 999px;
-      background: linear-gradient(120deg, #2563eb, #22d3ee);
-    }
-  </style>
-</head>
-<body>
-  <!-- HEADER -->
-  <header class="header">
-    <div class="container header-inner">
-      <div class="logo">Study<span>Video</span></div>
-      <nav class="nav">
-        <a href="index.html" class="nav-link">Trang chủ</a>
-        <a href="khoahoc.html" class="nav-link">Khoá học</a>
-        <a href="gioithieu.html" class="nav-link">Giới thiệu</a>
-        <a href="admin.html" class="nav-link active">Quản trị</a>
-      </nav>
-      <div class="auth" id="auth-area"></div>
-    </div>
-  </header>
 
-  <!-- MAIN -->
-  <main class="page-main">
-    <div class="container admin-layout">
-      <!-- LEFT: FORM TẠO VIDEO -->
-      <section class="panel">
-        <h1>Thêm video mới</h1>
-        <p class="sub">
-          Chỉ tài khoản <strong>Admin</strong> mới truy cập trang này. Điền thông tin bài giảng, dán link YouTube
-          (tự chuẩn hóa embed) hoặc file mp4 rồi bấm <strong>Tạo video</strong>.
-        </p>
-
-        <form id="video-form">
-          <div class="form-grid">
-            <div class="form-group full">
-              <label for="title">Tiêu đề video *</label>
-              <input id="title" class="input-text" placeholder="VD: Bài 1 - Giới thiệu HTML & CSS" />
-            </div>
-
-            <div class="form-group">
-              <label for="subject">Môn học / Chủ đề</label>
-              <input id="subject" class="input-text" placeholder="VD: Lập trình Web" />
-            </div>
-
-            <div class="form-group">
-              <label for="duration">Thời lượng (phút)</label>
-              <input id="duration" type="number" min="0" class="input-text" placeholder="VD: 25" />
-            </div>
-
-            <div class="form-group full">
-              <label for="videoUrl">Link video *</label>
-              <input
-                id="videoUrl"
-                class="input-text"
-                placeholder="Link YouTube (watch/embed/share) hoặc /videos/bai1.mp4"
-              />
-            </div>
-
-            <div class="form-group full">
-              <label for="thumbnailUrl">Link thumbnail (tùy chọn)</label>
-              <input
-                id="thumbnailUrl"
-                class="input-text"
-                placeholder="VD: https://img.youtube.com/vi/ID/hqdefault.jpg"
-              />
-            </div>
-
-            <div class="form-group full">
-              <label for="description">Mô tả ngắn</label>
-              <textarea
-                id="description"
-                class="textarea"
-                placeholder="Tóm tắt nội dung chính của bài giảng..."
-              ></textarea>
-            </div>
-          </div>
-
-          <div class="form-footer">
-            <button type="reset" class="btn btn-outline btn-sm">Xóa form</button>
-            <button type="submit" class="btn btn-primary btn-sm">Tạo video</button>
-          </div>
-
-          <p id="form-msg" class="msg"></p>
-        </form>
-      </section>
-
-      <!-- RIGHT: DANH SÁCH VIDEO -->
-      <section class="panel">
-        <div class="video-list-header">
-          <h2>Danh sách video</h2>
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-            <input
-              id="filter-search"
-              class="input-text"
-              style="width:190px;font-size:12px;padding:6px 10px;"
-              placeholder="Tìm tiêu đề..."
-            />
-            <input
-              id="filter-subject"
-              class="input-text"
-              style="width:150px;font-size:12px;padding:6px 10px;"
-              placeholder="Môn (VD: Web)"
-            />
-            <select id="filter-status" class="select-filter" style="width:140px;font-size:12px;">
-              <option value="">Tất cả</option>
-              <option value="published">Đang hiển thị</option>
-              <option value="hidden">Đã ẩn</option>
-            </select>
-            <select id="filter-sort" class="select-filter" style="width:140px;font-size:12px;">
-              <option value="newest">Mới nhất</option>
-              <option value="views">Xem nhiều</option>
-              <option value="rating">Đánh giá cao</option>
-            </select>
-            <button id="btn-filter" class="btn btn-outline btn-sm">Lọc</button>
-            <span class="badge small" id="video-count">0 video</span>
-          </div>
-        </div>
-        <p class="sub" style="margin-bottom:8px;">
-          Dữ liệu lấy trực tiếp từ MongoDB qua API <code>/api/admin/videos</code>.
-        </p>
-
-        <div id="video-list-wrapper" style="overflow:auto; max-height: 460px;">
-          <table class="video-table" id="video-table">
-            <thead>
-              <tr>
-                <th>Video</th>
-                <th>Thông tin</th>
-                <th>Thống kê</th>
-                <th>Hành động</th>
-              </tr>
-            </thead>
-            <tbody id="video-tbody">
-              <!-- JS render -->
-            </tbody>
-          </table>
-        </div>
-
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:12px;color:#6b7280;">
-          <div id="paging-info">Trang 1 / 1</div>
-          <div style="display:flex;gap:6px;">
-            <button id="btn-prev" class="btn btn-outline btn-sm">Trang trước</button>
-            <button id="btn-next" class="btn btn-outline btn-sm">Trang sau</button>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <div class="container" style="margin-top:20px;">
-      <section class="panel">
-        <h2>Khách hàng / Tư vấn</h2>
-        <p class="sub" style="margin-bottom:8px;">
-          Thông tin gửi từ form tư vấn (trang Giới thiệu). Có thể lọc theo tên/điện thoại/email và đối tượng.
-        </p>
-
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
-          <input
-            id="lead-search"
-            class="input-text"
-            style="flex:1;min-width:220px;font-size:13px;"
-            placeholder="Tìm theo tên, số điện thoại, email..."
-          />
-          <select id="lead-role-filter" class="select-filter" style="width:160px;">
-            <option value="">Tất cả đối tượng</option>
-            <option value="ph">Phụ huynh</option>
-            <option value="hs">Học sinh / SV</option>
-          </select>
-          <button id="lead-reload" class="btn btn-outline btn-sm">Tải lại</button>
-        </div>
-
-        <div class="stats-grid" id="lead-summary" style="margin-bottom:10px;">
-          <div class="stat-box" id="lead-total-box">
-            <div style="font-weight:600;">Tổng số khách hàng</div>
-            <div id="lead-total" style="font-size:22px;font-weight:700;margin-top:4px;">—</div>
-            <div style="font-size:12px;color:#6b7280;">Gửi từ form tư vấn</div>
-          </div>
-          <div class="stat-box" id="lead-latest-box">
-            <div style="font-weight:600;">Gần nhất</div>
-            <div id="lead-latest" style="font-size:14px;font-weight:600;margin-top:4px;">—</div>
-            <div style="font-size:12px;color:#6b7280;">Ngày giờ nhận form mới nhất</div>
-          </div>
-          <div class="stat-box" id="lead-24h-box">
-            <div style="font-weight:600;">Lead 24h qua</div>
-            <div id="lead-24h" style="font-size:22px;font-weight:700;margin-top:4px;">—</div>
-            <div style="font-size:12px;color:#6b7280;">Số form mới trong 24h</div>
-          </div>
-          <div class="stat-box" id="lead-status-box">
-            <div style="font-weight:600;">Tỷ lệ trạng thái</div>
-            <div id="lead-status-dist" style="display:grid; gap:6px; margin-top:4px;"></div>
-          </div>
-        </div>
-
-        <div id="lead-table-wrapper" style="overflow:auto; max-height:360px; border:1px solid #e5e7eb; border-radius:12px;">
-          <table class="video-table" id="lead-table" style="min-width:720px; border:none; margin:0;">
-            <thead>
-              <tr>
-                <th>Họ tên</th>
-                <th>Liên hệ</th>
-                <th>Đối tượng</th>
-                <th>Trạng thái</th>
-                <th>Nhu cầu</th>
-                <th>Thời gian</th>
-              </tr>
-            </thead>
-            <tbody id="lead-list">
-              <tr><td colspan="6" style="text-align:center;">Chưa có dữ liệu.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div id="lead-paging" style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:12px;color:#6b7280;">
-          <div id="lead-page-info">Trang 1 / 1</div>
-          <div style="display:flex;gap:6px;">
-            <button id="lead-prev" class="btn btn-outline btn-sm">Trang trước</button>
-            <button id="lead-next" class="btn btn-outline btn-sm">Trang sau</button>
-            <button id="lead-export" class="btn btn-outline btn-sm">Xuất CSV</button>
-          </div>
-        </div>
-        <div class="stats-grid" style="margin-top:12px;">
-          <div class="stat-box">
-            <div style="font-weight:600;margin-bottom:6px;">Theo ngày (14 ngày gần nhất)</div>
-            <div id="lead-daily" style="display:grid; gap:6px;"></div>
-          </div>
-          <div class="stat-box">
-            <div style="font-weight:600;margin-bottom:6px;">Theo tuần (8 tuần gần nhất)</div>
-            <div id="lead-weekly" style="display:grid; gap:6px;"></div>
-          </div>
-          <div class="stat-box">
-            <div style="font-weight:600;margin-bottom:6px;">Chủ đề quan tâm nhiều</div>
-            <div id="lead-interest" style="display:grid; gap:6px;"></div>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <div class="container" style="margin-top:20px;">
-      <section class="panel">
-        <h2>Thống kê video</h2>
-        <p class="sub">Top lượt xem, đánh giá và lượt xem theo ngày/tuần (dựa trên log truy cập).</p>
-        <div class="stats-grid">
-          <div class="stat-box">
-            <div style="font-weight:600;margin-bottom:6px;">Top 5 lượt xem</div>
-            <div id="video-top-views" style="display:grid;gap:6px;"></div>
-          </div>
-          <div class="stat-box">
-            <div style="font-weight:600;margin-bottom:6px;">Top 5 đánh giá</div>
-            <div id="video-top-rating" style="display:grid;gap:6px;"></div>
-          </div>
-          <div class="stat-box">
-            <div style="font-weight:600;margin-bottom:6px;">Lượt xem 7 ngày</div>
-            <div id="video-views-daily" style="display:grid;gap:6px;"></div>
-          </div>
-          <div class="stat-box">
-            <div style="font-weight:600;margin-bottom:6px;">Lượt xem 8 tuần</div>
-            <div id="video-views-weekly" style="display:grid;gap:6px;"></div>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <div class="container" style="margin-top:20px;">
-      <section class="panel">
-        <h2>Nhật ký hoạt động</h2>
-        <p class="sub">Các thao tác admin: tạo/sửa/ẩn/xóa video, cập nhật trạng thái lead.</p>
-        <div id="activity-log" style="display:grid;gap:8px;"></div>
-      </section>
-    </div>
-  </main>
-
-  <!-- Modal sửa video -->
-  <div id="edit-modal" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.35);z-index:50;">
-    <div style="background:#fff;border-radius:14px;padding:16px;min-width:320px;max-width:520px;box-shadow:0 18px 40px rgba(0,0,0,0.25);">
-      <h3 style="margin:0 0 10px;">Sửa nhanh video</h3>
-      <div class="form-group">
-        <label for="edit-title">Tiêu đề</label>
-        <input id="edit-title" class="input-text" />
-      </div>
-      <div class="form-group">
-        <label for="edit-subject">Môn học / Chủ đề</label>
-        <input id="edit-subject" class="input-text" />
-      </div>
-      <div class="form-group">
-        <label for="edit-duration">Thời lượng (phút)</label>
-        <input id="edit-duration" type="number" min="0" class="input-text" />
-      </div>
-      <div class="form-group">
-        <label for="edit-thumbnail">Link thumbnail</label>
-        <input id="edit-thumbnail" class="input-text" />
-      </div>
-      <div class="form-group">
-        <label for="edit-desc">Mô tả</label>
-        <textarea id="edit-desc" class="textarea" style="min-height:80px;"></textarea>
-      </div>
-      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px;">
-        <button id="edit-cancel" class="btn btn-outline btn-sm">Hủy</button>
-        <button id="edit-save" class="btn btn-primary btn-sm">Lưu</button>
-      </div>
-      <div id="edit-msg" class="msg"></div>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container footer-inner">
-      <p>© 2025 StudyVideo • Trang quản trị</p>
-    </div>
-  </footer>
-
-  <script src="app.js"></script>
-  <script>
     let currentPage = 1;
     let totalPages = 1;
     let currentSubjectFilter = "";
@@ -624,6 +157,7 @@
       const statusEl = document.getElementById("lead-status-dist");
       if (!dailyEl || !interestEl) return;
 
+      // Theo ng?y 14 ng?y
       const today = new Date();
       const days = [];
       for (let i = 13; i >= 0; i--) {
@@ -637,14 +171,12 @@
         const created = new Date(l.createdAt);
         if (!created || Number.isNaN(created.getTime())) return;
         const key = created.toISOString().slice(0, 10);
-        if (dayMap.has(key)) {
-          dayMap.get(key).count += 1;
-        }
+        if (dayMap.has(key)) dayMap.get(key).count += 1;
       });
       const maxDay = Math.max(...days.map((d) => d.count), 1);
       dailyEl.innerHTML =
         allLeads.length === 0
-          ? '<div class="msg">Chưa có lượt đăng ký.</div>'
+          ? '<div class="msg">Ch?a c? l??t ??ng k?.</div>'
           : days
               .map(
                 (d) => `
@@ -659,8 +191,9 @@
               )
               .join("");
 
+      // Ch? ?? quan t?m
       const freq = {};
-      const stopWords = ["và", "cần", "muốn", "học", "web", "lập", "trình", "muon", "hoc", "lap", "trinh", "ve", "la", "thi"];
+      const stopWords = ["va", "và", "can", "cần", "muon", "muốn", "hoc", "học", "web", "lap", "trinh", "ve", "la", "thi"];
       allLeads.forEach((l) => {
         const msg = (l.message || "").toLowerCase();
         msg
@@ -676,7 +209,7 @@
         .slice(0, 5);
       interestEl.innerHTML =
         interests.length === 0
-          ? '<div class="msg">Chưa có ghi chú nhu cầu.</div>'
+          ? '<div class="msg">Ch?a c? ghi ch? nhu c?u.</div>'
           : interests
               .map(
                 ([w, c]) => `
@@ -688,12 +221,13 @@
               )
               .join("");
 
+      // Theo tu?n & tr?ng th?i
       if (window.leadAdvanced?.weekly && weeklyEl) {
         const list = window.leadAdvanced.weekly;
         const maxCount = Math.max(...list.map((i) => i.count), 1);
         weeklyEl.innerHTML =
           list.length === 0
-            ? '<div class="msg">Chưa có dữ liệu.</div>'
+            ? '<div class="msg">Ch?a c? d? li?u.</div>'
             : list
                 .map(
                   (i) => `
@@ -709,15 +243,15 @@
                 .join("");
       }
       if (window.leadAdvanced?.byStatus && statusEl) {
-        const mapLabel = { new: "Mới", contacted: "Liên hệ", closed: "Đóng" };
+        const mapLabel = { new: "M?i", contacted: "Li?n h?", closed: "??ng" };
         statusEl.innerHTML =
           window.leadAdvanced.byStatus.length === 0
-            ? '<div class="msg">Chưa có dữ liệu.</div>'
+            ? '<div class="msg">Ch?a c? d? li?u.</div>'
             : window.leadAdvanced.byStatus
                 .map(
                   (s) => `
                 <div style="display:flex;justify-content:space-between;">
-                  <span>${mapLabel[s._id] || s._id || "Khác"}</span>
+                  <span>${mapLabel[s._id] || s._id || "Kh?c"}</span>
                   <strong>${s.count}</strong>
                 </div>
               `
@@ -726,7 +260,8 @@
       }
     }
 
-    async function loadVideos() {
+
+async function loadVideos() {
       const tbody = document.getElementById("video-tbody");
       const countBadge = document.getElementById("video-count");
       const pagingInfo = document.getElementById("paging-info");
@@ -859,23 +394,26 @@
       setMsg(msgEl, "Đang gửi dữ liệu...");
 
       try {
-        const res = await fetch("/api/videos", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
+        const { res, data } = await fetchJson(
+          "/api/videos",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+              title,
+              subject,
+              durationMinutes: duration,
+              videoUrl,
+              thumbnailUrl,
+              description,
+            }),
           },
-          body: JSON.stringify({
-            title,
-            subject,
-            durationMinutes: duration,
-            videoUrl,
-            thumbnailUrl,
-            description,
-          }),
-        });
+          "Tạo video"
+        );
 
-        const data = await res.json();
         if (!res.ok) {
           setMsg(msgEl, data.message || "Lỗi khi tạo video.", "error");
           return;
@@ -884,9 +422,11 @@
         setMsg(msgEl, "Tạo video thành công!", "success");
         videoUrlEl.value = "";
         loadVideos();
+        loadVideoStats();
+        loadActivity();
       } catch (err) {
         console.error(err);
-        setMsg(msgEl, "Lỗi kết nối tới server.", "error");
+        setMsg(msgEl, err.message || "Lỗi kết nối tới server.", "error");
       }
     }
 
@@ -1255,6 +795,4 @@
       loadVideoStats();
       loadActivity();
     });
-  </script>
-</body>
-</html>
+  

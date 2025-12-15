@@ -22,111 +22,49 @@
   <!-- MAIN -->
   <main class="container video-detail-layout">
     <section class="video-main">
-      <div class="video-player">
-        <video controls poster="">
-          <source src="sample-video.mp4" type="video/mp4" />
-          Trình duyệt của bạn không hỗ trợ thẻ video.
-        </video>
-      </div>
+      <div class="video-player" id="video-player"></div>
 
       <div class="video-info">
-        <h1>Bài 1: Giới thiệu HTML & CSS</h1>
-        <p class="video-meta-large">
-          Môn: Lập trình Web • Thời lượng: 25 phút • Người đăng: Admin
-        </p>
-        <p class="video-rating-large">
-          Đánh giá trung bình: ★★★★☆ (4.2) • 120 lượt đánh giá • 1.500 lượt xem
-        </p>
-        <p class="video-description">
-          Làm quen khái niệm trang web, cấu trúc file HTML cơ bản và cách sử dụng thẻ, thuộc tính, màu sắc
-          bằng CSS. Đây là nền tảng quan trọng cho các bài lập trình web tiếp theo.
-        </p>
+        <h1 id="video-title"></h1>
+        <p class="video-meta-large" id="video-meta"></p>
+        <p class="video-rating-large" id="video-rating"></p>
+        <p class="video-description" id="video-desc"></p>
       </div>
 
       <section class="rating-section">
-        <h2>Đánh giá bài giảng</h2>
+        <h2>Danh gia bai giang</h2>
         <p class="rating-note">
-          (Demo tĩnh, phần gửi đánh giá sẽ được xử lý qua backend Node.js trong bản hoàn chỉnh)
+          Ban phai dang nhap de gui danh gia/binh luan.
         </p>
-        <form class="rating-form">
-          <label>Chọn số sao:</label>
+        <form class="rating-form" id="comment-form">
+          <label>Chon so sao:</label>
           <div class="rating-stars">
-            <input type="radio" name="rating" id="star5" />
+            <input type="radio" name="rating" id="star5" value="5" />
             <label for="star5">★</label>
-            <input type="radio" name="rating" id="star4" />
+            <input type="radio" name="rating" id="star4" value="4" />
             <label for="star4">★</label>
-            <input type="radio" name="rating" id="star3" />
+            <input type="radio" name="rating" id="star3" value="3" />
             <label for="star3">★</label>
-            <input type="radio" name="rating" id="star2" />
+            <input type="radio" name="rating" id="star2" value="2" />
             <label for="star2">★</label>
-            <input type="radio" name="rating" id="star1" />
+            <input type="radio" name="rating" id="star1" value="1" />
             <label for="star1">★</label>
           </div>
-          <button type="submit" class="btn btn-primary btn-sm">Gửi đánh giá</button>
+          <textarea id="comment-content" rows="3" placeholder="Viet nhan xet cua ban..."></textarea>
+          <button type="submit" class="btn btn-primary btn-sm">Gui binh luan</button>
+          <p class="auth-msg" id="comment-msg" style="margin-top:6px;"></p>
         </form>
       </section>
 
       <section class="comment-section">
-        <h2>Nhận xét của học viên</h2>
-
-        <form class="comment-form">
-          <textarea
-            rows="3"
-            placeholder="Viết nhận xét của bạn về bài giảng này..."
-          ></textarea>
-          <button type="submit" class="btn btn-primary btn-sm">Gửi bình luận</button>
-        </form>
-
-        <div class="comment-list">
-          <article class="comment-item">
-            <div class="comment-header">
-              <strong>Nguyễn Văn A</strong>
-              <span class="comment-time">2 giờ trước</span>
-            </div>
-            <p class="comment-content">
-              Bài giảng dễ hiểu, ví dụ rõ ràng. Mong có thêm phần thực hành ở cuối bài.
-            </p>
-          </article>
-
-          <article class="comment-item">
-            <div class="comment-header">
-              <strong>Trần Thị B</strong>
-              <span class="comment-time">Hôm qua</span>
-            </div>
-            <p class="comment-content">
-              Phần giới thiệu CSS hơi nhanh, thầy có thể nói chậm hơn chút ở phần màu sắc.
-            </p>
-          </article>
-        </div>
+        <h2>Nhan xet cua hoc vien</h2>
+        <div class="comment-list" id="comment-list"></div>
       </section>
     </section>
 
     <aside class="video-sidebar">
-      <h3>Video liên quan</h3>
-
-      <div class="sidebar-video-item">
-        <div class="sidebar-thumb"></div>
-        <div class="sidebar-info">
-          <p class="sidebar-title">Bài 2: Flexbox & Layout</p>
-          <p class="sidebar-meta">Lập trình Web • 30 phút</p>
-        </div>
-      </div>
-
-      <div class="sidebar-video-item">
-        <div class="sidebar-thumb"></div>
-        <div class="sidebar-info">
-          <p class="sidebar-title">Bài 3: JavaScript cơ bản</p>
-          <p class="sidebar-meta">Lập trình Web • 35 phút</p>
-        </div>
-      </div>
-
-      <div class="sidebar-video-item">
-        <div class="sidebar-thumb"></div>
-        <div class="sidebar-info">
-          <p class="sidebar-title">Bài 4: DOM & Sự kiện</p>
-          <p class="sidebar-meta">Lập trình Web • 40 phút</p>
-        </div>
-      </div>
+      <h3>Video lien quan</h3>
+      <div id="related-videos"></div>
     </aside>
   </main>
 
@@ -139,10 +77,205 @@
 
   <script src="app.js"></script>
   <script>
+    const qs = new URLSearchParams(window.location.search);
+    const videoId = qs.get("id");
+
+    const playerEl = document.getElementById("video-player");
+    const titleEl = document.getElementById("video-title");
+    const metaEl = document.getElementById("video-meta");
+    const ratingEl = document.getElementById("video-rating");
+    const descEl = document.getElementById("video-desc");
+    const commentList = document.getElementById("comment-list");
+    const commentMsg = document.getElementById("comment-msg");
+    const commentForm = document.getElementById("comment-form");
+    const relatedWrap = document.getElementById("related-videos");
+
+    function setMsg(text, type = "") {
+      if (!commentMsg) return;
+      commentMsg.textContent = text || "";
+      commentMsg.className = "auth-msg";
+      if (type) commentMsg.classList.add(type);
+    }
+
+    function toEmbedUrl(url) {
+      if (!url) return "";
+      if (url.endsWith(".mp4")) return url;
+      const yt = url.match(/(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/)([A-Za-z0-9_-]{5,})/i);
+      const short = url.match(/youtu\.be\/([A-Za-z0-9_-]{5,})/i);
+      const id = (yt && yt[1]) || (short && short[1]);
+      if (id) return `https://www.youtube.com/embed/${id}`;
+      return url;
+    }
+
+    function renderPlayer(video) {
+      if (!playerEl) return;
+      const url = video.videoUrl || "";
+      const embed = toEmbedUrl(url);
+      if (embed.endsWith(".mp4")) {
+        playerEl.innerHTML = `
+          <video controls poster="${video.thumbnailUrl || ""}">
+            <source src="${embed}" type="video/mp4" />
+            Trinh duyet cua ban khong ho tro the video.
+          </video>`;
+      } else {
+        playerEl.innerHTML = `
+          <div style="position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;background:#0f172a;">
+            <iframe src="${embed}" frameborder="0" allowfullscreen
+              style="position:absolute;inset:0;width:100%;height:100%;"></iframe>
+          </div>`;
+      }
+    }
+
+    function renderDetail(video) {
+      if (titleEl) titleEl.textContent = video.title || "Video";
+      const subject = video.subject || "Chua phan loai";
+      const duration = video.durationMinutes ? `${video.durationMinutes} phut` : "N/A";
+      if (metaEl) {
+        metaEl.textContent = `Mon: ${subject} • Thoi luong: ${duration}`;
+      }
+      if (ratingEl) {
+        const rating =
+          typeof video.avgRating === "number" && video.totalRatings > 0
+            ? `${video.avgRating.toFixed(1)} (${video.totalRatings} danh gia)`
+            : "Chua co danh gia";
+        ratingEl.textContent = `Danh gia: ${rating} • ${video.totalViews || 0} luot xem`;
+      }
+      if (descEl) descEl.textContent = video.description || "";
+      renderPlayer(video);
+    }
+
+    function renderComments(list) {
+      if (!commentList) return;
+      if (!list.length) {
+        commentList.innerHTML = `<div class="comment-item">Chua co binh luan nao.</div>`;
+        return;
+      }
+      commentList.innerHTML = list
+        .map((c) => {
+          const name = c.user?.name || "Nguoi dung";
+          const date = c.createdAt ? new Date(c.createdAt).toLocaleString("vi-VN") : "";
+          return `
+          <article class="comment-item">
+            <div class="comment-header">
+              <strong>${name}</strong>
+              <span class="comment-time">${date}</span>
+            </div>
+            <p class="comment-content">${c.content || ""}</p>
+          </article>`;
+        })
+        .join("");
+    }
+
+    async function loadDetail() {
+      if (!videoId) return;
+      try {
+        const res = await fetch(`/api/videos/${videoId}`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Loi tai video");
+        renderDetail(data.video);
+        loadComments();
+        loadRelated(data.video.subject, data.video._id);
+      } catch (err) {
+        console.error(err);
+        if (metaEl) metaEl.textContent = "Khong tim thay video.";
+      }
+    }
+
+    async function loadComments() {
+      if (!videoId) return;
+      try {
+        const res = await fetch(`/api/videos/${videoId}/comments`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Loi tai binh luan");
+        renderComments(data.comments || []);
+      } catch (err) {
+        console.error(err);
+        setMsg("Loi tai binh luan.", "error");
+      }
+    }
+
+    async function loadRelated(subject, currentId) {
+      if (!relatedWrap) return;
+      try {
+        const data = await studyApp.fetchVideos({ page: 1, limit: 3, subject });
+        const list = (data.videos || []).filter((v) => v._id !== currentId);
+        if (!list.length) {
+          relatedWrap.innerHTML = `<div class="sidebar-video-item">Chua co video lien quan.</div>`;
+          return;
+        }
+        relatedWrap.innerHTML = list
+          .map(
+            (v) => `
+          <div class="sidebar-video-item">
+            <div class="sidebar-thumb" style="background-image:url('${v.thumbnailUrl || ""}');background-size:cover;background-position:center;"></div>
+            <div class="sidebar-info">
+              <p class="sidebar-title">${v.title}</p>
+              <p class="sidebar-meta">${v.subject || ""} • ${v.durationMinutes || "N/A"} phut</p>
+            </div>
+          </div>`
+          )
+          .join("");
+      } catch (err) {
+        console.error(err);
+        relatedWrap.innerHTML = `<div class="sidebar-video-item">Loi tai video lien quan.</div>`;
+      }
+    }
+
+    function bindCommentForm() {
+      if (!commentForm) return;
+      commentForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const auth = studyApp.getAuth();
+        if (!auth) {
+          alert("Vui long dang nhap de binh luan.");
+          window.location.href = "login.html";
+          return;
+        }
+        const content = document.getElementById("comment-content").value.trim();
+        const rating = Number(
+          commentForm.querySelector('input[name="rating"]:checked')?.value || 0
+        );
+        if (!content) {
+          setMsg("Vui long nhap noi dung.", "error");
+          return;
+        }
+        if (!rating || rating < 1 || rating > 5) {
+          setMsg("Chon so sao (1-5).", "error");
+          return;
+        }
+        setMsg("Dang gui...", "");
+        try {
+          const res = await fetch(`/api/videos/${videoId}/comments`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + auth.token,
+            },
+            body: JSON.stringify({ content, rating }),
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.message || "Gui that bai");
+          setMsg("Da gui binh luan.", "success");
+          document.getElementById("comment-content").value = "";
+          commentForm.querySelectorAll('input[name="rating"]').forEach((i) => (i.checked = false));
+          loadDetail();
+        } catch (err) {
+          console.error(err);
+          setMsg(err.message || "Loi ket noi.", "error");
+        }
+      });
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
       if (window.studyApp) {
         studyApp.renderAuthArea();
       }
+      if (!videoId && metaEl) {
+        metaEl.textContent = "Khong co video.";
+        return;
+      }
+      bindCommentForm();
+      loadDetail();
     });
   </script>
 </body>
