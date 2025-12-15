@@ -6,28 +6,23 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- HEADER (giống index) -->
+  <!-- HEADER -->
   <header class="header">
     <div class="container header-inner">
       <div class="logo">Study<span>Video</span></div>
       <nav class="nav">
         <a href="index.html" class="nav-link">Trang chủ</a>
         <a href="#" class="nav-link active">Video</a>
-        <a href="#" class="nav-link">Giới thiệu</a>
+        <a href="gioithieu.html" class="nav-link">Giới thiệu</a>
       </nav>
-      <div class="auth">
-        <span class="user-name">Xin chào, Học viên</span>
-        <a href="#" class="btn btn-outline">Đăng xuất</a>
-      </div>
+      <div class="auth" id="auth-area"></div>
     </div>
   </header>
 
   <!-- MAIN -->
   <main class="container video-detail-layout">
-    <!-- CỘT TRÁI: VIDEO + THÔNG TIN -->
     <section class="video-main">
       <div class="video-player">
-        <!-- Ví dụ dùng thẻ video (khi triển backend thì đổi src) -->
         <video controls poster="">
           <source src="sample-video.mp4" type="video/mp4" />
           Trình duyệt của bạn không hỗ trợ thẻ video.
@@ -37,39 +32,33 @@
       <div class="video-info">
         <h1>Bài 1: Giới thiệu HTML & CSS</h1>
         <p class="video-meta-large">
-          Môn: Lập trình Web · Thời lượng: 25 phút · Người đăng: Admin
+          Môn: Lập trình Web • Thời lượng: 25 phút • Người đăng: Admin
         </p>
         <p class="video-rating-large">
-          Đánh giá trung bình: ★★★★☆ (4.2) · 120 lượt đánh giá · 1.500 lượt xem
+          Đánh giá trung bình: ★★★★☆ (4.2) • 120 lượt đánh giá • 1.500 lượt xem
         </p>
         <p class="video-description">
-          Trong bài học này, bạn sẽ làm quen với khái niệm trang web, cấu trúc file HTML
-          cơ bản, cách sử dụng thẻ, thuộc tính, cũng như áp dụng CSS để định dạng giao diện.
-          Đây là nền tảng quan trọng cho các bài lập trình web tiếp theo.
+          Làm quen khái niệm trang web, cấu trúc file HTML cơ bản và cách sử dụng thẻ, thuộc tính, màu sắc
+          bằng CSS. Đây là nền tảng quan trọng cho các bài lập trình web tiếp theo.
         </p>
       </div>
 
-      <!-- KHỐI ĐÁNH GIÁ (RATING) -->
       <section class="rating-section">
         <h2>Đánh giá bài giảng</h2>
         <p class="rating-note">
-          (Giả lập: phần này sẽ xử lý bằng Node.js + JavaScript ở backend – hiện tại chỉ là giao diện)
+          (Demo tĩnh, phần gửi đánh giá sẽ được xử lý qua backend Node.js trong bản hoàn chỉnh)
         </p>
         <form class="rating-form">
-          <label>Chọn số sao của bạn:</label>
+          <label>Chọn số sao:</label>
           <div class="rating-stars">
             <input type="radio" name="rating" id="star5" />
             <label for="star5">★</label>
-
             <input type="radio" name="rating" id="star4" />
             <label for="star4">★</label>
-
             <input type="radio" name="rating" id="star3" />
             <label for="star3">★</label>
-
             <input type="radio" name="rating" id="star2" />
             <label for="star2">★</label>
-
             <input type="radio" name="rating" id="star1" />
             <label for="star1">★</label>
           </div>
@@ -77,11 +66,9 @@
         </form>
       </section>
 
-      <!-- KHỐI BÌNH LUẬN -->
       <section class="comment-section">
         <h2>Nhận xét của học viên</h2>
 
-        <!-- Form thêm comment -->
         <form class="comment-form">
           <textarea
             rows="3"
@@ -90,7 +77,6 @@
           <button type="submit" class="btn btn-primary btn-sm">Gửi bình luận</button>
         </form>
 
-        <!-- Danh sách comment (demo tĩnh) -->
         <div class="comment-list">
           <article class="comment-item">
             <div class="comment-header">
@@ -108,24 +94,13 @@
               <span class="comment-time">Hôm qua</span>
             </div>
             <p class="comment-content">
-              Phần giải thích về CSS còn khá nhanh, thầy có thể nói chậm hơn chút ạ.
-            </p>
-          </article>
-
-          <article class="comment-item">
-            <div class="comment-header">
-              <strong>Admin</strong>
-              <span class="comment-time">1 ngày trước</span>
-            </div>
-            <p class="comment-content">
-              Cảm ơn các bạn đã góp ý, bài sau sẽ có thêm phần demo thực hành chi tiết hơn.
+              Phần giới thiệu CSS hơi nhanh, thầy có thể nói chậm hơn chút ở phần màu sắc.
             </p>
           </article>
         </div>
       </section>
     </section>
 
-    <!-- CỘT PHẢI: VIDEO LIÊN QUAN -->
     <aside class="video-sidebar">
       <h3>Video liên quan</h3>
 
@@ -133,7 +108,7 @@
         <div class="sidebar-thumb"></div>
         <div class="sidebar-info">
           <p class="sidebar-title">Bài 2: Flexbox & Layout</p>
-          <p class="sidebar-meta">Lập trình Web · 30 phút</p>
+          <p class="sidebar-meta">Lập trình Web • 30 phút</p>
         </div>
       </div>
 
@@ -141,15 +116,15 @@
         <div class="sidebar-thumb"></div>
         <div class="sidebar-info">
           <p class="sidebar-title">Bài 3: JavaScript cơ bản</p>
-          <p class="sidebar-meta">Lập trình Web · 35 phút</p>
+          <p class="sidebar-meta">Lập trình Web • 35 phút</p>
         </div>
       </div>
 
       <div class="sidebar-video-item">
         <div class="sidebar-thumb"></div>
         <div class="sidebar-info">
-          <p class="sidebar-title">Bài 4: DOM & sự kiện</p>
-          <p class="sidebar-meta">Lập trình Web · 40 phút</p>
+          <p class="sidebar-title">Bài 4: DOM & Sự kiện</p>
+          <p class="sidebar-meta">Lập trình Web • 40 phút</p>
         </div>
       </div>
     </aside>
@@ -158,8 +133,17 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container footer-inner">
-      <p>© 2025 StudyVideo · Trang chi tiết video (demo)</p>
+      <p>© 2025 StudyVideo • Trang chi tiết video (demo)</p>
     </div>
   </footer>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (window.studyApp) {
+        studyApp.renderAuthArea();
+      }
+    });
+  </script>
 </body>
 </html>

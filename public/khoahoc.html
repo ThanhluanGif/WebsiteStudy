@@ -14,30 +14,28 @@
         <a href="index.html" class="nav-link">Trang chủ</a>
         <a href="khoahoc.html" class="nav-link active">Khoá học</a>
         <a href="gioithieu.html" class="nav-link">Giới thiệu</a>
-        <!-- Link quản trị: chỉ admin mới thấy -->
-        <a href="admin.html" class="nav-link" id="admin-link" style="display: none;">
-          Quản trị
-        </a>
+        <a href="admin.html" class="nav-link" id="admin-link" style="display: none;">Quản trị</a>
       </nav>
       <div class="auth" id="auth-area"></div>
     </div>
   </header>
 
-  <!-- HERO / BANNER NHỎ -->
-  <section class="hero" style="min-height:220px;">
+  <!-- HERO -->
+  <section class="hero" style="min-height: 220px;">
     <div class="container hero-inner">
       <div class="hero-text">
-        <h1>Danh sách khoá học trên StudyVideo</h1>
+        <div class="hero-highlight">Lộ trình rõ ràng • Video súc tích</div>
+        <h1>Khoá học theo môn với video chuẩn bài giảng</h1>
         <p>
-          Các khoá học được thiết kế dành cho học sinh & sinh viên muốn học theo video, 
-          từ cơ bản đến nâng cao, có bài giảng, ví dụ và bài tập thực hành.
+          Học từ nền tảng đến nâng cao với các khoá Lập trình, Toán và Khoa học.
+          Mỗi khoá đều có video ngắn, bài tập gợi ý và phần bình luận trao đổi.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- DANH SÁCH KHOÁ HỌC -->
-  <main class="container" style="margin-top:24px; margin-bottom:40px;">
+  <!-- COURSE LIST -->
+  <main class="container" style="margin-top: 24px; margin-bottom: 40px;">
     <div class="section-header">
       <h2>Khoá học nổi bật</h2>
       <div class="section-actions">
@@ -52,62 +50,54 @@
     </div>
 
     <div class="video-grid">
-      <!-- Khoá học 1 -->
       <article class="video-card">
         <div class="video-thumb"></div>
         <div class="video-body">
           <h3 class="video-title">Lập trình Web cơ bản với HTML, CSS, JS</h3>
-          <p class="video-meta">Cấp độ: Cơ bản · 12 bài giảng</p>
+          <p class="video-meta">Cấp độ: Cơ bản • 12 bài giảng</p>
           <p class="video-rating">Đánh giá: ★★★★☆ (4.5)</p>
           <p class="video-desc">
-            Làm quen với HTML, CSS, JavaScript và cách xây dựng một website tĩnh đơn giản.
-            Phù hợp cho học sinh mới bắt đầu học lập trình Web.
+            Làm quen HTML, CSS, JavaScript và cách dựng một website tĩnh hiện đại.
           </p>
-          <a href="index.html#video-list" class="btn btn-sm btn-primary">Xem video trong khoá này</a>
+          <a href="index.html#video-list" class="btn btn-sm btn-primary">Xem video trong khoá</a>
         </div>
       </article>
 
-      <!-- Khoá học 2 -->
       <article class="video-card">
         <div class="video-thumb"></div>
         <div class="video-body">
           <h3 class="video-title">Python cho người mới bắt đầu</h3>
-          <p class="video-meta">Cấp độ: Cơ bản · 10 bài giảng</p>
+          <p class="video-meta">Cấp độ: Cơ bản • 10 bài giảng</p>
           <p class="video-rating">Đánh giá: ★★★★★ (4.8)</p>
           <p class="video-desc">
-            Học cú pháp Python, biến, điều kiện, vòng lặp và hàm; làm quen với bài tập nhỏ 
-            về Toán & Khoa học máy tính.
+            Học cú pháp Python, biến, điều kiện, vòng lặp, hàm và bài tập nhỏ về khoa học dữ liệu.
           </p>
           <a href="#" class="btn btn-sm btn-primary">Xem chi tiết (demo)</a>
         </div>
       </article>
 
-      <!-- Khoá học 3 -->
       <article class="video-card">
         <div class="video-thumb"></div>
         <div class="video-body">
-          <h3 class="video-title">Giải bài tập Toán THCS bằng tư duy lập trình</h3>
-          <p class="video-meta">Cấp độ: Trung bình · 8 bài giảng</p>
+          <h3 class="video-title">Giải bài tập Toán bằng tư duy lập trình</h3>
+          <p class="video-meta">Cấp độ: Trung bình • 8 bài giảng</p>
           <p class="video-rating">Đánh giá: ★★★★☆ (4.2)</p>
           <p class="video-desc">
-            Kết hợp kiến thức Toán với lập trình để giải các bài toán về số học, dãy số, 
-            hình học cơ bản, giúp tăng tư duy logic.
+            Kết hợp kiến thức Toán với tư duy thuật toán để luyện tập bài toán dãy số, hình học cơ bản.
           </p>
           <a href="#" class="btn btn-sm btn-primary">Xem chi tiết (demo)</a>
         </div>
       </article>
     </div>
 
-    <!-- GỢI Ý NHÓM KHOÁ HỌC -->
-    <section style="margin-top:32px;">
+    <section style="margin-top: 32px;">
       <h2>Nhóm khoá học theo chủ đề</h2>
-      <div class="video-grid">
+      <div class="video-grid" style="margin-top: 12px;">
         <article class="video-card">
           <div class="video-body">
             <h3 class="video-title">Nhóm: Lập trình & Công nghệ</h3>
             <p class="video-desc">
-              Bao gồm các khoá: Lập trình Web, Python, Cơ bản về Thuật toán, 
-              giúp học sinh xây nền tảng công nghệ vững chắc.
+              Gồm khoá Lập trình Web, Python, nền tảng thuật toán; giúp học sinh xây dựng tư duy công nghệ vững.
             </p>
           </div>
         </article>
@@ -115,17 +105,15 @@
           <div class="video-body">
             <h3 class="video-title">Nhóm: Toán & Khoa học</h3>
             <p class="video-desc">
-              Tập trung vào các bài giảng Toán THCS, THPT, Vật lý – Hóa học cơ bản,
-              kết hợp ví dụ trực quan qua video.
+              Tập trung vào Toán THCS/THPT, Vật lý, Hoá học cơ bản với ví dụ minh họa trực quan qua video.
             </p>
           </div>
         </article>
         <article class="video-card">
           <div class="video-body">
-            <h3 class="video-title">Nhóm: Kỹ năng mềm & định hướng</h3>
+            <h3 class="video-title">Nhóm: Kỹ năng & Định hướng</h3>
             <p class="video-desc">
-              Video chia sẻ về phương pháp học tập hiệu quả, quản lý thời gian, 
-              định hướng nghề nghiệp trong lĩnh vực công nghệ.
+              Chia sẻ cách học hiệu quả, quản lý thời gian và gợi ý định hướng nghề nghiệp trong lĩnh vực công nghệ.
             </p>
           </div>
         </article>
@@ -136,75 +124,17 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container footer-inner">
-      <p>© 2025 StudyVideo · Trang khoá học</p>
+      <p>© 2025 StudyVideo • Khoá học mẫu</p>
     </div>
   </footer>
 
-  <!-- SCRIPT: auth + ẩn/hiện Quản trị -->
+  <script src="app.js"></script>
   <script>
-    function renderAuthArea() {
-      const authArea = document.getElementById("auth-area");
-      if (!authArea) return;
-
-      const userJson = localStorage.getItem("user");
-      if (!userJson) {
-        authArea.innerHTML = `
-          <a href="login.html" class="btn btn-outline">Đăng nhập</a>
-          <a href="register.html" class="btn btn-primary">Đăng ký</a>
-        `;
-        return;
-      }
-
-      try {
-        const user = JSON.parse(userJson);
-        const displayName = user.name || user.email || "Người dùng";
-        authArea.innerHTML = `
-          <span class="user-name" style="margin-right:8px;font-size:14px;">
-            Xin chào, <strong>${displayName}</strong>
-          </span>
-          <button class="btn btn-outline btn-sm" id="logout-btn">Đăng xuất</button>
-        `;
-        const logoutBtn = document.getElementById("logout-btn");
-        if (logoutBtn) {
-          logoutBtn.addEventListener("click", () => {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            window.location.href = "index.html";
-          });
-        }
-      } catch (err) {
-        console.error("Lỗi parse user từ localStorage:", err);
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        renderAuthArea();
-      }
-    }
-
-    function renderAdminLink() {
-      const adminLink = document.getElementById("admin-link");
-      if (!adminLink) return;
-
-      const userJson = localStorage.getItem("user");
-      if (!userJson) {
-        adminLink.style.display = "none";
-        return;
-      }
-
-      try {
-        const user = JSON.parse(userJson);
-        if (user.role === "admin") {
-          adminLink.style.display = "inline-block";
-        } else {
-          adminLink.style.display = "none";
-        }
-      } catch {
-        adminLink.style.display = "none";
-      }
-    }
-
     document.addEventListener("DOMContentLoaded", () => {
-      renderAuthArea();
-      renderAdminLink();
+      if (window.studyApp) {
+        studyApp.renderAuthArea();
+        studyApp.toggleAdminLink();
+      }
     });
   </script>
 </body>

@@ -2,13 +2,13 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>Đăng ký - WebsiteStudy</title>
+  <title>Đăng ký - StudyVideo</title>
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #fef3c7 0, #fffbeb 40%, #f9fafb 100%);
+      font-family: "Inter", "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #fef3c7, #fffbeb 45%, #f8fafc);
     }
     .auth-shell {
       min-height: 100vh;
@@ -31,6 +31,7 @@
       font-size: 22px;
       margin-bottom: 4px;
       color: #111827;
+      font-family: "Space Grotesk", "Inter", sans-serif;
     }
     .auth-logo span {
       color: #f97316;
@@ -48,17 +49,18 @@
     .auth-input {
       width: 100%;
       margin: 6px 0 12px;
-      padding: 9px 11px;
-      border-radius: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
       border: 1px solid #d1d5db;
       font-size: 14px;
       transition: border-color 0.15s, box-shadow 0.15s;
+      background: #fffbeb;
     }
     .auth-input:focus {
       outline: none;
       border-color: #f97316;
       box-shadow: 0 0 0 1px #f9731633;
-      background: #fffbeb;
+      background: #ffffff;
     }
     .auth-msg {
       margin-top: 8px;
@@ -95,13 +97,6 @@
     .back-home a:hover {
       text-decoration: underline;
     }
-    .auth-link {
-      color: #f97316;
-      text-decoration: none;
-    }
-    .auth-link:hover {
-      text-decoration: underline;
-    }
   </style>
 </head>
 <body>
@@ -110,7 +105,7 @@
       <div class="auth-logo">Study<span>Video</span></div>
       <h1 class="auth-title">Tạo tài khoản học tập</h1>
       <p class="auth-sub">
-        Đăng ký tài khoản miễn phí để lưu lại tiến độ học, bình luận và đánh giá video.
+        Đăng ký miễn phí để lưu bài học, bình luận và đánh giá video.
       </p>
 
       <form id="register-form">
@@ -162,21 +157,20 @@
 
       <p style="font-size:13px;color:#4b5563;">
         Đã có tài khoản?
-        <a href="login.html" class="auth-link">Đăng nhập ngay</a>
+        <a href="login.html" style="color:#f97316;text-decoration:none;">Đăng nhập ngay</a>
       </p>
 
       <div class="back-home">
-        <span>←</span>
         <a href="index.html">Quay về trang chủ</a>
       </div>
     </div>
   </div>
 
+  <script src="app.js"></script>
   <script>
-    // Nếu đã đăng nhập rồi thì không cần vào trang đăng ký nữa
     document.addEventListener("DOMContentLoaded", () => {
-      const token = localStorage.getItem("token");
-      if (token) {
+      const auth = window.studyApp?.getAuth();
+      if (auth) {
         window.location.href = "index.html";
         return;
       }
@@ -204,7 +198,7 @@
         return;
       }
       if (password.length < 6) {
-        setRegMsg("Mật khẩu nên có ít nhất 6 ký tự.", "error");
+        setRegMsg("Mật khẩu cần tối thiểu 6 ký tự.", "error");
         return;
       }
       if (password !== password2) {
@@ -224,14 +218,11 @@
         if (!res.ok) {
           setRegMsg(data.message || "Đăng ký thất bại.", "error");
         } else {
-          setRegMsg(
-            "Đăng ký thành công! Đang chuyển sang trang đăng nhập...",
-            "success"
-          );
+          setRegMsg("Đăng ký thành công! Đang chuyển sang trang đăng nhập...", "success");
           regForm.reset();
           setTimeout(() => {
             window.location.href = "login.html";
-          }, 1200);
+          }, 1100);
         }
       } catch (err) {
         console.error(err);

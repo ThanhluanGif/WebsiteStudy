@@ -2,13 +2,12 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>StudyVideo - Trang quản trị video</title>
+  <title>StudyVideo - Quản trị video</title>
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f3f4f6;
+      background: radial-gradient(circle at 80% 0%, #e0f2fe 0, #f8fafc 60%), #f6f8fb;
     }
     .page-main {
       padding: 24px 0 40px;
@@ -16,7 +15,7 @@
     }
     .admin-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.5fr);
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
       gap: 24px;
     }
     @media (max-width: 960px) {
@@ -28,7 +27,7 @@
       background: #ffffff;
       border-radius: 16px;
       padding: 18px 20px;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
       border: 1px solid #e5e7eb;
     }
     .panel h1,
@@ -56,18 +55,18 @@
       grid-column: 1 / -1;
     }
     .form-group label {
-      font-weight: 500;
+      font-weight: 600;
       color: #374151;
     }
     .input-text,
     .textarea {
-      border-radius: 10px;
+      border-radius: 12px;
       border: 1px solid #d1d5db;
-      padding: 7px 10px;
+      padding: 9px 11px;
       font-size: 14px;
       font-family: inherit;
       outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
       background: #f9fafb;
     }
     .input-text:focus,
@@ -85,11 +84,6 @@
       justify-content: flex-end;
       gap: 8px;
       margin-top: 12px;
-    }
-    .btn-sm {
-      font-size: 13px;
-      padding: 6px 12px;
-      border-radius: 999px;
     }
     .msg {
       font-size: 13px;
@@ -134,25 +128,6 @@
       color: #4b5563;
       font-size: 12px;
     }
-    .badge {
-      display: inline-flex;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 11px;
-      background: #eff6ff;
-      color: #1d4ed8;
-    }
-    .badge.small {
-      font-size: 10px;
-    }
-    .badge.published {
-      background: #ecfdf5;
-      color: #15803d;
-    }
-    .badge.hidden {
-      background: #fef2f2;
-      color: #b91c1c;
-    }
     .thumb-mini {
       width: 64px;
       height: 40px;
@@ -160,14 +135,6 @@
       background: #e5e7eb;
       background-size: cover;
       background-position: center;
-    }
-    .pill-role {
-      font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: #fee2e2;
-      color: #b91c1c;
-      margin-left: 8px;
     }
     .btn-action {
       font-size: 11px;
@@ -198,8 +165,8 @@
       <section class="panel">
         <h1>Thêm video mới</h1>
         <p class="sub">
-          Chỉ tài khoản <strong>Admin</strong> mới truy cập được trang này. Điền thông
-          tin bài giảng, dán link video (YouTube hoặc file mp4) rồi bấm <strong>Tạo video</strong>.
+          Chỉ tài khoản <strong>Admin</strong> mới truy cập trang này. Điền thông tin bài giảng, dán link
+          YouTube (embed) hoặc file mp4 rồi bấm <strong>Tạo video</strong>.
         </p>
 
         <form id="video-form">
@@ -229,7 +196,7 @@
             </div>
 
             <div class="form-group full">
-              <label for="thumbnailUrl">Link thumbnail (tuỳ chọn)</label>
+              <label for="thumbnailUrl">Link thumbnail (tùy chọn)</label>
               <input
                 id="thumbnailUrl"
                 class="input-text"
@@ -256,7 +223,7 @@
         </form>
       </section>
 
-      <!-- RIGHT: DANH SÁCH VIDEO HIỆN CÓ -->
+      <!-- RIGHT: DANH SÁCH VIDEO -->
       <section class="panel">
         <div class="video-list-header">
           <h2>Danh sách video</h2>
@@ -264,7 +231,7 @@
             <input
               id="filter-subject"
               class="input-text"
-              style="width:160px;font-size:12px;padding:4px 8px;"
+              style="width:160px;font-size:12px;padding:6px 10px;"
               placeholder="Lọc theo môn (VD: Web)"
             />
             <button id="btn-filter" class="btn btn-outline btn-sm">Lọc</button>
@@ -305,95 +272,33 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container footer-inner">
-      <p>© 2025 StudyVideo · Trang quản trị video</p>
+      <p>© 2025 StudyVideo • Trang quản trị video</p>
     </div>
   </footer>
 
+  <script src="app.js"></script>
   <script>
-    // ===== RENDER KHU VỰC AUTH TRÊN HEADER =====
-    function renderAuthArea() {
-      const authArea = document.getElementById("auth-area");
-      if (!authArea) return;
-
-      const userJson = localStorage.getItem("user");
-      if (!userJson) {
-        authArea.innerHTML = `
-          <a href="login.html" class="btn btn-outline">Đăng nhập</a>
-          <a href="register.html" class="btn btn-primary">Đăng ký</a>
-        `;
-        return;
-      }
-
-      try {
-        const user = JSON.parse(userJson);
-        const displayName = user.name || user.email || "Người dùng";
-        const isAdmin = user.role === "admin";
-
-        authArea.innerHTML = `
-          <span class="user-name" style="margin-right:8px;font-size:14px;">
-            Xin chào, <strong>${displayName}</strong>
-            ${isAdmin ? '<span class="pill-role">Admin</span>' : ""}
-          </span>
-          <button class="btn btn-outline btn-sm" id="logout-btn">Đăng xuất</button>
-        `;
-        const logoutBtn = document.getElementById("logout-btn");
-        if (logoutBtn) {
-          logoutBtn.addEventListener("click", () => {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            window.location.href = "index.html";
-          });
-        }
-      } catch (err) {
-        console.error("Lỗi parse user:", err);
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        renderAuthArea();
-      }
-    }
-
-    // ===== BẢO VỆ TRANG: CHỈ ADMIN =====
-    function ensureAdmin() {
-      const userJson = localStorage.getItem("user");
-      if (!userJson) {
-        alert("Vui lòng đăng nhập bằng tài khoản admin.");
-        window.location.href = "login.html";
-        return false;
-      }
-      try {
-        const user = JSON.parse(userJson);
-        if (user.role !== "admin") {
-          alert("Trang này chỉ dành cho tài khoản Admin.");
-          window.location.href = "index.html";
-          return false;
-        }
-      } catch {
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        window.location.href = "login.html";
-        return false;
-      }
-      return true;
-    }
-
     let currentPage = 1;
     let totalPages = 1;
     let currentSubjectFilter = "";
 
-    // ===== GỌI API: LẤY VIDEO HIỆN CÓ (ADMIN, có paging + filter) =====
+    function getAuthToken() {
+      const auth = window.studyApp?.getAuth();
+      if (!auth) return null;
+      return auth.token;
+    }
+
     async function loadVideos() {
       const tbody = document.getElementById("video-tbody");
       const countBadge = document.getElementById("video-count");
       const pagingInfo = document.getElementById("paging-info");
       if (!tbody) return;
 
-      tbody.innerHTML = `
-        <tr><td colspan="4">Đang tải danh sách video...</td></tr>
-      `;
+      tbody.innerHTML = `<tr><td colspan="4">Đang tải danh sách video...</td></tr>`;
 
-      const token = localStorage.getItem("token");
+      const token = getAuthToken();
       if (!token) {
-        alert("Phiên đăng nhập đã hết hạn.");
+        alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
         window.location.href = "login.html";
         return;
       }
@@ -411,7 +316,7 @@
             Authorization: "Bearer " + token,
           },
         });
-        if (!res.ok) throw new Error("Lỗi tải video");
+        if (!res.ok) throw new Error("Load video failed");
         const data = await res.json();
         const { videos, total, page, pages } = data;
 
@@ -426,9 +331,7 @@
         }
 
         if (!videos.length) {
-          tbody.innerHTML = `
-            <tr><td colspan="4">Không có video nào (theo bộ lọc hiện tại).</td></tr>
-          `;
+          tbody.innerHTML = `<tr><td colspan="4">Không có video nào (theo bộ lọc hiện tại).</td></tr>`;
           return;
         }
 
@@ -438,17 +341,14 @@
             return `
             <tr>
               <td>
-                <div class="thumb-mini"
-                     style="background-image:url('${v.thumbnailUrl || ""}');"></div>
+                <div class="thumb-mini" style="background-image:url('${v.thumbnailUrl || ""}');"></div>
               </td>
               <td>
                 <div style="font-weight:600;color:#111827;">${v.title}</div>
                 <div style="font-size:12px;color:#6b7280;margin-top:2px;">
-                  Môn: ${v.subject || "Chưa phân loại"} · ${v.durationMinutes || "?"} phút
+                  Môn: ${v.subject || "Chưa phân loại"} • ${v.durationMinutes || "?"} phút
                 </div>
-                <div style="font-size:12px;color:#9ca3af;margin-top:2px;">
-                  ID: ${v._id}
-                </div>
+                <div style="font-size:12px;color:#9ca3af;margin-top:2px;">ID: ${v._id}</div>
                 <div style="margin-top:4px;">
                   <span class="badge ${published ? "published" : "hidden"}">
                     ${published ? "Đang hiển thị" : "Đã ẩn"}
@@ -456,7 +356,7 @@
                 </div>
               </td>
               <td style="font-size:12px;color:#4b5563;">
-                <div>👁 ${v.totalViews || 0} lượt xem</div>
+                <div>👁️ ${v.totalViews || 0} lượt xem</div>
                 <div>⭐ ${
                   v.totalRatings > 0
                     ? v.avgRating.toFixed(1) + " (" + v.totalRatings + " lượt)"
@@ -470,12 +370,9 @@
                   data-id="${v._id}"
                   data-published="${published ? "true" : "false"}"
                 >
-                  ${published ? "Ẩn video" : "Hiện video"}
+                  ${published ? "Ẩn video" : "Hiển thị"}
                 </button>
-                <button
-                  class="btn btn-outline btn-action btn-delete"
-                  data-id="${v._id}"
-                >
+                <button class="btn btn-outline btn-action btn-delete" data-id="${v._id}">
                   Xoá
                 </button>
               </td>
@@ -485,13 +382,10 @@
           .join("");
       } catch (err) {
         console.error(err);
-        tbody.innerHTML = `
-          <tr><td colspan="4">Lỗi khi tải danh sách video.</td></tr>
-        `;
+        tbody.innerHTML = `<tr><td colspan="4">Lỗi khi tải danh sách video.</td></tr>`;
       }
     }
 
-    // ===== GỬI FORM TẠO VIDEO =====
     async function handleVideoFormSubmit(e) {
       e.preventDefault();
       const titleEl = document.getElementById("title");
@@ -520,7 +414,7 @@
         return;
       }
 
-      const token = localStorage.getItem("token");
+      const token = getAuthToken();
       if (!token) {
         alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
         window.location.href = "login.html";
@@ -554,9 +448,7 @@
         }
 
         setMsg("Tạo video thành công!", "success");
-        // clear form nhẹ
         videoUrlEl.value = "";
-        // reload list
         loadVideos();
       } catch (err) {
         console.error(err);
@@ -565,15 +457,18 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      if (!ensureAdmin()) return; // chặn luôn nếu không phải admin
-      renderAuthArea();
+      const auth = window.studyApp?.requireAdmin({ redirect: "index.html" });
+      if (!auth) return;
+
+      if (window.studyApp) {
+        studyApp.renderAuthArea({ showRoleBadge: true, logoutRedirect: "index.html" });
+      }
 
       const form = document.getElementById("video-form");
       if (form) {
         form.addEventListener("submit", handleVideoFormSubmit);
       }
 
-      // Filter
       const filterInput = document.getElementById("filter-subject");
       const filterBtn = document.getElementById("btn-filter");
       if (filterBtn && filterInput) {
@@ -592,7 +487,6 @@
         });
       }
 
-      // Paging
       const btnPrev = document.getElementById("btn-prev");
       const btnNext = document.getElementById("btn-next");
       if (btnPrev) {
@@ -612,19 +506,17 @@
         });
       }
 
-      // Action buttons: Ẩn/Hiện/Xoá
       const tbody = document.getElementById("video-tbody");
       if (tbody) {
         tbody.addEventListener("click", async (e) => {
           const target = e.target;
-          const token = localStorage.getItem("token");
+          const token = getAuthToken();
           if (!token) {
             alert("Phiên đăng nhập đã hết hạn.");
             window.location.href = "login.html";
             return;
           }
 
-          // Ẩn / Hiện
           if (target.classList.contains("btn-toggle")) {
             const id = target.getAttribute("data-id");
             const published = target.getAttribute("data-published") === "true";
@@ -634,17 +526,14 @@
             if (!confirm(confirmMsg)) return;
 
             try {
-              const res = await fetch(
-                "/api/admin/videos/" + id + "/visibility",
-                {
-                  method: "PATCH",
-                  headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + token,
-                  },
-                  body: JSON.stringify({ isPublished: !published }),
-                }
-              );
+              const res = await fetch(`/api/admin/videos/${id}/visibility`, {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({ isPublished: !published }),
+              });
               const data = await res.json();
               if (!res.ok) {
                 alert(data.message || "Lỗi khi cập nhật trạng thái.");
@@ -657,13 +546,12 @@
             }
           }
 
-          // Xoá
           if (target.classList.contains("btn-delete")) {
             const id = target.getAttribute("data-id");
             if (!confirm("Bạn có chắc muốn XOÁ video này?")) return;
 
             try {
-              const res = await fetch("/api/admin/videos/" + id, {
+              const res = await fetch(`/api/admin/videos/${id}`, {
                 method: "DELETE",
                 headers: {
                   Authorization: "Bearer " + token,
