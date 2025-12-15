@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>StudyVideo - Giới thiệu</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .about-wrapper {
+      margin-top: 32px;
+      margin-bottom: 40px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 960px) {
+      .about-wrapper {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    .about-card,
+    .contact-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px 24px;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+      border: 1px solid #e5e7eb;
+    }
+    .about-card h2,
+    .contact-card h2 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+    .about-card p,
+    .about-card li {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #4b5563;
+    }
+    .about-card ul {
+      margin-top: 8px;
+      padding-left: 20px;
+    }
+    .pill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: #e0f2fe;
+      color: #1d4ed8;
+      margin-right: 6px;
+      margin-top: 4px;
+    }
+
+    .hero-inner.about-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: center;
+    }
+    @media (max-width: 960px) {
+      .hero-inner.about-hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    .about-hero-visual {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .about-hero-image-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 360px;
+    }
+    .about-hero-image-wrapper img {
+      width: 100%;
+      display: block;
+      border-radius: 20px;
+      object-fit: cover;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.35);
+    }
+    .about-hero-badge {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      color: #f9fafb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      backdrop-filter: blur(6px);
+    }
+    .about-hero-badge strong {
+      font-size: 13px;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    @media (max-width: 640px) {
+      .about-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    .about-stat-item {
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      padding: 10px 12px;
+      background: #f8fafc;
+      font-size: 12px;
+      color: #4b5563;
+    }
+    .about-stat-item strong {
+      display: block;
+      font-size: 14px;
+      color: #111827;
+    }
+
+    .contact-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+    .contact-header-text {
+      flex: 1;
+    }
+    .contact-header-text p {
+      margin: 0;
+      font-size: 13px;
+      color: #6b7280;
+    }
+    .contact-avatar {
+      flex-shrink: 0;
+      width: 64px;
+      height: 64px;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 2px solid #e0f2fe;
+      background: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 14px;
+    }
+    .contact-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 13px;
+    }
+    .contact-group.full {
+      grid-column: 1 / -1;
+    }
+    .contact-group label {
+      font-weight: 600;
+      color: #374151;
+    }
+    .contact-input,
+    .contact-select,
+    .contact-textarea {
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      padding: 9px 11px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      background: #f9fafb;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+    .contact-input:focus,
+    .contact-select:focus,
+    .contact-textarea:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 1px #2563eb33;
+      background: #ffffff;
+    }
+    .contact-textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+    .contact-footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
+    .contact-msg {
+      font-size: 13px;
+      margin-top: 6px;
+      min-height: 18px;
+      color: #6b7280;
+    }
+    .contact-msg.success {
+      color: #16a34a;
+    }
+    .contact-msg.error {
+      color: #dc2626;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container header-inner">
+      <div class="logo">Study<span>Video</span></div>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Trang chủ</a>
+        <a href="khoahoc.html" class="nav-link">Khoá học</a>
+        <a href="gioithieu.html" class="nav-link active">Giới thiệu</a>
+        <a href="admin.html" class="nav-link" id="admin-link" style="display: none;">Quản trị</a>
+      </nav>
+      <div class="auth" id="auth-area"></div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-inner about-hero">
+      <div class="hero-text">
+        <div class="hero-highlight">Đồng hành cùng học sinh & phụ huynh</div>
+        <h1>Video học tập trực quan, học lại mọi lúc bạn cần</h1>
+        <p>
+          StudyVideo giúp học sinh chủ động xem lại bài giảng, phụ huynh dễ dàng theo dõi tiến độ
+          và giáo viên kiểm soát chất lượng nội dung.
+        </p>
+
+        <div class="about-stats">
+          <div class="about-stat-item">
+            <strong>Học lại linh hoạt</strong>
+            Xem lại bài bao nhiêu lần tuỳ ý, tua nhanh/chậm theo nhịp học.
+          </div>
+          <div class="about-stat-item">
+            <strong>Đồng hành với phụ huynh</strong>
+            Minh bạch lộ trình, phụ huynh theo dõi dễ dàng.
+          </div>
+          <div class="about-stat-item">
+            <strong>Nội dung an toàn</strong>
+            Bài giảng được tuyển chọn, hướng tới kỹ năng STEM.
+          </div>
+        </div>
+      </div>
+
+      <div class="about-hero-visual">
+        <div class="about-hero-image-wrapper">
+          <img src="images/family-learning.jpg" alt="Phụ huynh cùng con học online trên StudyVideo" />
+          <div class="about-hero-badge">
+            <span>Video rõ ràng</span>
+            <span><strong>Phụ huynh & học sinh</strong> cùng theo dõi</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <main class="container about-wrapper">
+    <section class="about-card">
+      <h2>Sứ mệnh của StudyVideo</h2>
+      <p style="margin-top: 8px;">
+        StudyVideo được xây dựng như một thư viện video học tập, giúp học sinh xem lại bài giảng
+        bất cứ lúc nào và phụ huynh yên tâm đồng hành.
+      </p>
+      <ul>
+        <li>Video ngắn gọn, dễ hiểu, xem lại nhiều lần.</li>
+        <li>Đánh giá/bình luận để cải thiện chất lượng bài giảng.</li>
+        <li>Phân quyền rõ ràng: Admin quản lý nội dung, học viên tập trung học.</li>
+      </ul>
+
+      <h2 style="margin-top: 20px;">Công nghệ sử dụng</h2>
+      <ul>
+        <li><strong>Frontend:</strong> HTML, CSS, JavaScript thuần.</li>
+        <li><strong>Backend:</strong> Node.js + Express.</li>
+        <li><strong>CSDL:</strong> MongoDB Atlas, JWT cho đăng nhập.</li>
+      </ul>
+
+      <div style="margin-top: 12px;">
+        <span class="pill-tag">Học sinh THCS - THPT</span>
+        <span class="pill-tag">Phụ huynh đồng hành</span>
+        <span class="pill-tag">Lập trình & STEM</span>
+      </div>
+    </section>
+
+    <section class="contact-card">
+      <div class="contact-header">
+        <div class="contact-header-text">
+          <h2>Đăng ký tư vấn / học thử</h2>
+          <p>Để lại thông tin, trung tâm sẽ liên hệ với lộ trình phù hợp (demo).</p>
+        </div>
+        <div class="contact-avatar">
+          <img src="images/consult-teacher.jpg" alt="Tư vấn viên StudyVideo" />
+        </div>
+      </div>
+
+      <form id="consult-form">
+        <div class="contact-grid">
+          <div class="contact-group">
+            <label for="fullName">Họ tên *</label>
+            <input id="fullName" class="contact-input" placeholder="VD: Nguyễn Văn A" />
+          </div>
+
+          <div class="contact-group">
+            <label for="role">Bạn là *</label>
+            <select id="role" class="contact-select">
+              <option value="">-- Chọn --</option>
+              <option value="ph">Phụ huynh</option>
+              <option value="hs">Học sinh / Sinh viên</option>
+            </select>
+          </div>
+
+          <div class="contact-group">
+            <label for="grade">Khối lớp / Năm học</label>
+            <input id="grade" class="contact-input" placeholder="VD: Lớp 7, Lớp 10, Năm 1 ĐH..." />
+          </div>
+
+          <div class="contact-group">
+            <label for="phone">Số điện thoại *</label>
+            <input id="phone" class="contact-input" placeholder="VD: 09xx xxx xxx" />
+          </div>
+
+          <div class="contact-group full">
+            <label for="email">Email (nếu có)</label>
+            <input id="email" type="email" class="contact-input" placeholder="VD: phuhuynh@gmail.com" />
+          </div>
+
+          <div class="contact-group full">
+            <label for="message">Nhu cầu tư vấn</label>
+            <textarea
+              id="message"
+              class="contact-textarea"
+              placeholder="VD: Muốn học lại lập trình web cơ bản, cần thêm bài luyện tập..."
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="contact-footer">
+          <button type="submit" class="btn btn-primary btn-sm">Gửi thông tin tư vấn</button>
+        </div>
+
+        <p id="contact-msg" class="contact-msg"></p>
+      </form>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© 2025 StudyVideo • Trang giới thiệu</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    function setupConsultForm() {
+      const form = document.getElementById("consult-form");
+      const msgEl = document.getElementById("contact-msg");
+      if (!form || !msgEl) return;
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const fullName = document.getElementById("fullName").value.trim();
+        const role = document.getElementById("role").value;
+        const phone = document.getElementById("phone").value.trim();
+
+        msgEl.className = "contact-msg";
+
+        if (!fullName || !role || !phone) {
+          msgEl.textContent =
+            "Vui lòng nhập họ tên, chọn đối tượng và số điện thoại để chúng tôi liên hệ.";
+          msgEl.classList.add("error");
+          return;
+        }
+
+        msgEl.textContent =
+          "Cảm ơn bạn đã để lại thông tin. Trung tâm sẽ liên hệ sớm nhất (demo).";
+        msgEl.classList.add("success");
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (window.studyApp) {
+        studyApp.renderAuthArea();
+        studyApp.toggleAdminLink();
+      }
+      setupConsultForm();
+    });
+  </script>
+</body>
+</html>

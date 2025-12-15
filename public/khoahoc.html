@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>StudyVideo - Khoá học</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container header-inner">
+      <div class="logo">Study<span>Video</span></div>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Trang chủ</a>
+        <a href="khoahoc.html" class="nav-link active">Khoá học</a>
+        <a href="gioithieu.html" class="nav-link">Giới thiệu</a>
+        <a href="admin.html" class="nav-link" id="admin-link" style="display: none;">Quản trị</a>
+      </nav>
+      <div class="auth" id="auth-area"></div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" style="min-height: 220px;">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <div class="hero-highlight">Lộ trình rõ ràng • Video súc tích</div>
+        <h1>Khoá học theo môn với video chuẩn bài giảng</h1>
+        <p>
+          Học từ nền tảng đến nâng cao với các khoá Lập trình, Toán và Khoa học.
+          Mỗi khoá đều có video ngắn, bài tập gợi ý và phần bình luận trao đổi.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSE LIST -->
+  <main class="container" style="margin-top: 24px; margin-bottom: 40px;">
+    <div class="section-header">
+      <h2>Khoá học nổi bật</h2>
+      <div class="section-actions">
+        <input type="text" class="input-search" placeholder="Tìm theo tên khoá học..." />
+        <select class="select-filter">
+          <option value="">Tất cả chủ đề</option>
+          <option>Lập trình Web</option>
+          <option>Python</option>
+          <option>Toán & Khoa học</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="video-grid">
+      <article class="video-card">
+        <div class="video-thumb"></div>
+        <div class="video-body">
+          <h3 class="video-title">Lập trình Web cơ bản với HTML, CSS, JS</h3>
+          <p class="video-meta">Cấp độ: Cơ bản • 12 bài giảng</p>
+          <p class="video-rating">Đánh giá: ★★★★☆ (4.5)</p>
+          <p class="video-desc">
+            Làm quen HTML, CSS, JavaScript và cách dựng một website tĩnh hiện đại.
+          </p>
+          <a href="index.html#video-list" class="btn btn-sm btn-primary">Xem video trong khoá</a>
+        </div>
+      </article>
+
+      <article class="video-card">
+        <div class="video-thumb"></div>
+        <div class="video-body">
+          <h3 class="video-title">Python cho người mới bắt đầu</h3>
+          <p class="video-meta">Cấp độ: Cơ bản • 10 bài giảng</p>
+          <p class="video-rating">Đánh giá: ★★★★★ (4.8)</p>
+          <p class="video-desc">
+            Học cú pháp Python, biến, điều kiện, vòng lặp, hàm và bài tập nhỏ về khoa học dữ liệu.
+          </p>
+          <a href="#" class="btn btn-sm btn-primary">Xem chi tiết (demo)</a>
+        </div>
+      </article>
+
+      <article class="video-card">
+        <div class="video-thumb"></div>
+        <div class="video-body">
+          <h3 class="video-title">Giải bài tập Toán bằng tư duy lập trình</h3>
+          <p class="video-meta">Cấp độ: Trung bình • 8 bài giảng</p>
+          <p class="video-rating">Đánh giá: ★★★★☆ (4.2)</p>
+          <p class="video-desc">
+            Kết hợp kiến thức Toán với tư duy thuật toán để luyện tập bài toán dãy số, hình học cơ bản.
+          </p>
+          <a href="#" class="btn btn-sm btn-primary">Xem chi tiết (demo)</a>
+        </div>
+      </article>
+    </div>
+
+    <section style="margin-top: 32px;">
+      <h2>Nhóm khoá học theo chủ đề</h2>
+      <div class="video-grid" style="margin-top: 12px;">
+        <article class="video-card">
+          <div class="video-body">
+            <h3 class="video-title">Nhóm: Lập trình & Công nghệ</h3>
+            <p class="video-desc">
+              Gồm khoá Lập trình Web, Python, nền tảng thuật toán; giúp học sinh xây dựng tư duy công nghệ vững.
+            </p>
+          </div>
+        </article>
+        <article class="video-card">
+          <div class="video-body">
+            <h3 class="video-title">Nhóm: Toán & Khoa học</h3>
+            <p class="video-desc">
+              Tập trung vào Toán THCS/THPT, Vật lý, Hoá học cơ bản với ví dụ minh họa trực quan qua video.
+            </p>
+          </div>
+        </article>
+        <article class="video-card">
+          <div class="video-body">
+            <h3 class="video-title">Nhóm: Kỹ năng & Định hướng</h3>
+            <p class="video-desc">
+              Chia sẻ cách học hiệu quả, quản lý thời gian và gợi ý định hướng nghề nghiệp trong lĩnh vực công nghệ.
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© 2025 StudyVideo • Khoá học mẫu</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (window.studyApp) {
+        studyApp.renderAuthArea();
+        studyApp.toggleAdminLink();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>StudyVideo - Quản trị video</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 80% 0%, #e0f2fe 0, #f8fafc 60%), #f6f8fb;
+    }
+    .page-main {
+      padding: 24px 0 40px;
+      min-height: calc(100vh - 64px);
+    }
+    .admin-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
+      gap: 24px;
+    }
+    @media (max-width: 960px) {
+      .admin-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    .panel {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 18px 20px;
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+      border: 1px solid #e5e7eb;
+    }
+    .panel h1,
+    .panel h2 {
+      margin: 0 0 8px;
+      font-size: 20px;
+    }
+    .panel p.sub {
+      margin: 0 0 16px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px 16px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 13px;
+    }
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+    .form-group label {
+      font-weight: 600;
+      color: #374151;
+    }
+    .input-text,
+    .textarea {
+      border-radius: 12px;
+      border: 1px solid #d1d5db;
+      padding: 9px 11px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      background: #f9fafb;
+    }
+    .input-text:focus,
+    .textarea:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 1px #2563eb33;
+      background: #ffffff;
+    }
+    .textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+    .form-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .msg {
+      font-size: 13px;
+      margin-top: 6px;
+      min-height: 18px;
+      color: #6b7280;
+    }
+    .msg.error {
+      color: #dc2626;
+    }
+    .msg.success {
+      color: #16a34a;
+    }
+
+    .video-list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .video-list-header h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .video-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .video-table thead {
+      background: #f9fafb;
+    }
+    .video-table th,
+    .video-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+      vertical-align: top;
+    }
+    .video-table th {
+      font-weight: 600;
+      color: #4b5563;
+      font-size: 12px;
+    }
+    .thumb-mini {
+      width: 64px;
+      height: 40px;
+      border-radius: 8px;
+      background: #e5e7eb;
+      background-size: cover;
+      background-position: center;
+    }
+    .btn-action {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container header-inner">
+      <div class="logo">Study<span>Video</span></div>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Trang chủ</a>
+        <a href="admin.html" class="nav-link active">Quản trị</a>
+        <a href="khoahoc.html" class="nav-link">Khoá học</a>
+      </nav>
+      <div class="auth" id="auth-area"></div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="page-main">
+    <div class="container admin-layout">
+      <!-- LEFT: FORM TẠO VIDEO -->
+      <section class="panel">
+        <h1>Thêm video mới</h1>
+        <p class="sub">
+          Chỉ tài khoản <strong>Admin</strong> mới truy cập trang này. Điền thông tin bài giảng, dán link
+          YouTube (embed) hoặc file mp4 rồi bấm <strong>Tạo video</strong>.
+        </p>
+
+        <form id="video-form">
+          <div class="form-grid">
+            <div class="form-group full">
+              <label for="title">Tiêu đề video *</label>
+              <input id="title" class="input-text" placeholder="VD: Bài 1 - Giới thiệu HTML & CSS" />
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Môn học / Chủ đề</label>
+              <input id="subject" class="input-text" placeholder="VD: Lập trình Web" />
+            </div>
+
+            <div class="form-group">
+              <label for="duration">Thời lượng (phút)</label>
+              <input id="duration" type="number" min="0" class="input-text" placeholder="VD: 25" />
+            </div>
+
+            <div class="form-group full">
+              <label for="videoUrl">Link video *</label>
+              <input
+                id="videoUrl"
+                class="input-text"
+                placeholder="Link YouTube (embed) hoặc /videos/bai1.mp4"
+              />
+            </div>
+
+            <div class="form-group full">
+              <label for="thumbnailUrl">Link thumbnail (tùy chọn)</label>
+              <input
+                id="thumbnailUrl"
+                class="input-text"
+                placeholder="VD: https://img.youtube.com/vi/ID/hqdefault.jpg"
+              />
+            </div>
+
+            <div class="form-group full">
+              <label for="description">Mô tả ngắn</label>
+              <textarea
+                id="description"
+                class="textarea"
+                placeholder="Tóm tắt nội dung chính của bài giảng..."
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-footer">
+            <button type="reset" class="btn btn-outline btn-sm">Xoá form</button>
+            <button type="submit" class="btn btn-primary btn-sm">Tạo video</button>
+          </div>
+
+          <p id="form-msg" class="msg"></p>
+        </form>
+      </section>
+
+      <!-- RIGHT: DANH SÁCH VIDEO -->
+      <section class="panel">
+        <div class="video-list-header">
+          <h2>Danh sách video</h2>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <input
+              id="filter-subject"
+              class="input-text"
+              style="width:160px;font-size:12px;padding:6px 10px;"
+              placeholder="Lọc theo môn (VD: Web)"
+            />
+            <button id="btn-filter" class="btn btn-outline btn-sm">Lọc</button>
+            <span class="badge small" id="video-count">0 video</span>
+          </div>
+        </div>
+        <p class="sub" style="margin-bottom:8px;">
+          Dữ liệu lấy trực tiếp từ MongoDB thông qua API <code>/api/admin/videos</code>.
+        </p>
+
+        <div id="video-list-wrapper" style="overflow:auto; max-height: 460px;">
+          <table class="video-table" id="video-table">
+            <thead>
+              <tr>
+                <th>Video</th>
+                <th>Thông tin</th>
+                <th>Thống kê</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="video-tbody">
+              <!-- JS render -->
+            </tbody>
+          </table>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:12px;color:#6b7280;">
+          <div id="paging-info">Trang 1 / 1</div>
+          <div style="display:flex;gap:6px;">
+            <button id="btn-prev" class="btn btn-outline btn-sm">Trang trước</button>
+            <button id="btn-next" class="btn btn-outline btn-sm">Trang sau</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© 2025 StudyVideo • Trang quản trị video</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    let currentPage = 1;
+    let totalPages = 1;
+    let currentSubjectFilter = "";
+
+    function getAuthToken() {
+      const auth = window.studyApp?.getAuth();
+      if (!auth) return null;
+      return auth.token;
+    }
+
+    async function loadVideos() {
+      const tbody = document.getElementById("video-tbody");
+      const countBadge = document.getElementById("video-count");
+      const pagingInfo = document.getElementById("paging-info");
+      if (!tbody) return;
+
+      tbody.innerHTML = `<tr><td colspan="4">Đang tải danh sách video...</td></tr>`;
+
+      const token = getAuthToken();
+      if (!token) {
+        alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      const params = new URLSearchParams();
+      params.set("page", String(currentPage));
+      params.set("limit", "5");
+      if (currentSubjectFilter.trim()) {
+        params.set("subject", currentSubjectFilter.trim());
+      }
+
+      try {
+        const res = await fetch("/api/admin/videos?" + params.toString(), {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        if (!res.ok) throw new Error("Load video failed");
+        const data = await res.json();
+        const { videos, total, page, pages } = data;
+
+        currentPage = page;
+        totalPages = pages || 1;
+
+        if (countBadge) {
+          countBadge.textContent = total + " video";
+        }
+        if (pagingInfo) {
+          pagingInfo.textContent = `Trang ${currentPage} / ${totalPages || 1}`;
+        }
+
+        if (!videos.length) {
+          tbody.innerHTML = `<tr><td colspan="4">Không có video nào (theo bộ lọc hiện tại).</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = videos
+          .map((v) => {
+            const published = v.isPublished !== false;
+            return `
+            <tr>
+              <td>
+                <div class="thumb-mini" style="background-image:url('${v.thumbnailUrl || ""}');"></div>
+              </td>
+              <td>
+                <div style="font-weight:600;color:#111827;">${v.title}</div>
+                <div style="font-size:12px;color:#6b7280;margin-top:2px;">
+                  Môn: ${v.subject || "Chưa phân loại"} • ${v.durationMinutes || "?"} phút
+                </div>
+                <div style="font-size:12px;color:#9ca3af;margin-top:2px;">ID: ${v._id}</div>
+                <div style="margin-top:4px;">
+                  <span class="badge ${published ? "published" : "hidden"}">
+                    ${published ? "Đang hiển thị" : "Đã ẩn"}
+                  </span>
+                </div>
+              </td>
+              <td style="font-size:12px;color:#4b5563;">
+                <div>👁️ ${v.totalViews || 0} lượt xem</div>
+                <div>⭐ ${
+                  v.totalRatings > 0
+                    ? v.avgRating.toFixed(1) + " (" + v.totalRatings + " lượt)"
+                    : "Chưa có đánh giá"
+                }</div>
+                <div>${new Date(v.createdAt).toLocaleDateString("vi-VN")}</div>
+              </td>
+              <td style="font-size:11px;">
+                <button
+                  class="btn btn-outline btn-action btn-toggle"
+                  data-id="${v._id}"
+                  data-published="${published ? "true" : "false"}"
+                >
+                  ${published ? "Ẩn video" : "Hiển thị"}
+                </button>
+                <button class="btn btn-outline btn-action btn-delete" data-id="${v._id}">
+                  Xoá
+                </button>
+              </td>
+            </tr>
+          `;
+          })
+          .join("");
+      } catch (err) {
+        console.error(err);
+        tbody.innerHTML = `<tr><td colspan="4">Lỗi khi tải danh sách video.</td></tr>`;
+      }
+    }
+
+    async function handleVideoFormSubmit(e) {
+      e.preventDefault();
+      const titleEl = document.getElementById("title");
+      const subjectEl = document.getElementById("subject");
+      const durationEl = document.getElementById("duration");
+      const videoUrlEl = document.getElementById("videoUrl");
+      const thumbnailUrlEl = document.getElementById("thumbnailUrl");
+      const descriptionEl = document.getElementById("description");
+      const msgEl = document.getElementById("form-msg");
+
+      const title = titleEl.value.trim();
+      const subject = subjectEl.value.trim();
+      const duration = durationEl.value ? Number(durationEl.value) : undefined;
+      const videoUrl = videoUrlEl.value.trim();
+      const thumbnailUrl = thumbnailUrlEl.value.trim();
+      const description = descriptionEl.value.trim();
+
+      function setMsg(text, type) {
+        msgEl.textContent = text || "";
+        msgEl.className = "msg";
+        if (type) msgEl.classList.add(type);
+      }
+
+      if (!title || !videoUrl) {
+        setMsg("Vui lòng nhập ít nhất Tiêu đề và Link video.", "error");
+        return;
+      }
+
+      const token = getAuthToken();
+      if (!token) {
+        alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      setMsg("Đang gửi dữ liệu...", null);
+
+      try {
+        const res = await fetch("/api/videos", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({
+            title,
+            subject,
+            durationMinutes: duration,
+            videoUrl,
+            thumbnailUrl,
+            description,
+          }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          setMsg(data.message || "Lỗi khi tạo video.", "error");
+          return;
+        }
+
+        setMsg("Tạo video thành công!", "success");
+        videoUrlEl.value = "";
+        loadVideos();
+      } catch (err) {
+        console.error(err);
+        setMsg("Lỗi kết nối đến server.", "error");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const auth = window.studyApp?.requireAdmin({ redirect: "index.html" });
+      if (!auth) return;
+
+      if (window.studyApp) {
+        studyApp.renderAuthArea({ showRoleBadge: true, logoutRedirect: "index.html" });
+      }
+
+      const form = document.getElementById("video-form");
+      if (form) {
+        form.addEventListener("submit", handleVideoFormSubmit);
+      }
+
+      const filterInput = document.getElementById("filter-subject");
+      const filterBtn = document.getElementById("btn-filter");
+      if (filterBtn && filterInput) {
+        filterBtn.addEventListener("click", () => {
+          currentSubjectFilter = filterInput.value || "";
+          currentPage = 1;
+          loadVideos();
+        });
+        filterInput.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            currentSubjectFilter = filterInput.value || "";
+            currentPage = 1;
+            loadVideos();
+          }
+        });
+      }
+
+      const btnPrev = document.getElementById("btn-prev");
+      const btnNext = document.getElementById("btn-next");
+      if (btnPrev) {
+        btnPrev.addEventListener("click", () => {
+          if (currentPage > 1) {
+            currentPage--;
+            loadVideos();
+          }
+        });
+      }
+      if (btnNext) {
+        btnNext.addEventListener("click", () => {
+          if (currentPage < totalPages) {
+            currentPage++;
+            loadVideos();
+          }
+        });
+      }
+
+      const tbody = document.getElementById("video-tbody");
+      if (tbody) {
+        tbody.addEventListener("click", async (e) => {
+          const target = e.target;
+          const token = getAuthToken();
+          if (!token) {
+            alert("Phiên đăng nhập đã hết hạn.");
+            window.location.href = "login.html";
+            return;
+          }
+
+          if (target.classList.contains("btn-toggle")) {
+            const id = target.getAttribute("data-id");
+            const published = target.getAttribute("data-published") === "true";
+            const confirmMsg = published
+              ? "Bạn có chắc muốn ẨN video này?"
+              : "Bạn có chắc muốn HIỂN THỊ lại video này?";
+            if (!confirm(confirmMsg)) return;
+
+            try {
+              const res = await fetch(`/api/admin/videos/${id}/visibility`, {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({ isPublished: !published }),
+              });
+              const data = await res.json();
+              if (!res.ok) {
+                alert(data.message || "Lỗi khi cập nhật trạng thái.");
+                return;
+              }
+              loadVideos();
+            } catch (err) {
+              console.error(err);
+              alert("Lỗi kết nối khi cập nhật trạng thái.");
+            }
+          }
+
+          if (target.classList.contains("btn-delete")) {
+            const id = target.getAttribute("data-id");
+            if (!confirm("Bạn có chắc muốn XOÁ video này?")) return;
+
+            try {
+              const res = await fetch(`/api/admin/videos/${id}`, {
+                method: "DELETE",
+                headers: {
+                  Authorization: "Bearer " + token,
+                },
+              });
+              const data = await res.json();
+              if (!res.ok) {
+                alert(data.message || "Lỗi khi xoá video.");
+                return;
+              }
+              loadVideos();
+            } catch (err) {
+              console.error(err);
+              alert("Lỗi kết nối khi xoá video.");
+            }
+          }
+        });
+      }
+
+      loadVideos();
+    });
+  </script>
+</body>
+</html>

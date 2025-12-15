@@ -1,0 +1,304 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dang ky - StudyVideo</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: "Inter", "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 18% 18%, #e0f2fe 0, #f1f5f9 26%, transparent 58%),
+        radial-gradient(circle at 82% 10%, #ede9fe 0, #f8fafc 36%, #ffffff 70%);
+    }
+    .auth-shell {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .auth-shell::before {
+      content: "";
+      position: absolute;
+      inset: 8% auto auto 6%;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, #2563eb1f, transparent 65%);
+      filter: blur(18px);
+    }
+    .auth-shell::after {
+      content: "";
+      position: absolute;
+      inset: auto 4% 6% auto;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, #22d3ee24, transparent 65%);
+      filter: blur(20px);
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 440px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 30px 34px;
+      box-shadow: 0 26px 60px rgba(15, 23, 42, 0.18);
+      border: 1px solid #dbeafe;
+      position: relative;
+      overflow: hidden;
+    }
+    .auth-card::after {
+      content: "";
+      position: absolute;
+      inset: -32% auto auto 62%;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, #2563eb24, transparent 70%);
+      transform: rotate(-10deg);
+      pointer-events: none;
+    }
+    .auth-logo {
+      font-weight: 700;
+      font-size: 22px;
+      margin-bottom: 4px;
+      color: #111827;
+      font-family: "Space Grotesk", "Inter", sans-serif;
+    }
+    .auth-logo span {
+      color: #2563eb;
+    }
+    .auth-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 12px 0 6px;
+    }
+    .auth-sub {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 16px;
+    }
+    .auth-input {
+      width: 100%;
+      margin: 6px 0 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      background: #f8fafc;
+    }
+    .auth-input:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 1px #2563eb33;
+      background: #ffffff;
+    }
+    .auth-msg {
+      margin-top: 8px;
+      font-size: 13px;
+      min-height: 18px;
+      color: #6b7280;
+    }
+    .auth-msg.error { color: #dc2626; }
+    .auth-msg.success { color: #16a34a; }
+    .btn-full { width: 100%; text-align: center; }
+    .row-2col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .back-home {
+      margin-top: 16px;
+      font-size: 13px;
+      text-align: center;
+      color: #6b7280;
+    }
+    .back-home a { color: #2563eb; text-decoration: none; }
+    .back-home a:hover { text-decoration: underline; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: #e0f2fe;
+      color: #1d4ed8;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 12px 0 6px;
+    }
+    .benefit-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+      align-items: center;
+      background: linear-gradient(135deg, #f8fafc, #eef2ff);
+      border: 1px dashed #cbd5e1;
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-size: 12px;
+      color: #0f172a;
+    }
+    .benefit-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: #e0f2fe;
+      color: #1d4ed8;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .benefit-text strong { display: block; font-size: 13px; color: #0f172a; }
+    .benefit-text span { display: block; color: #475569; margin-top: 2px; }
+  </style>
+</head>
+<body>
+  <div class="auth-shell">
+    <div class="auth-card">
+            <div class="auth-logo">Study<span>Video</span></div>
+      <span class="pill">Tai khoan mien phi - Mo toan bo thu vien demo</span>
+      <h1 class="auth-title">Tao tai khoan hoc tap</h1>
+      <p class="auth-sub">
+        Luu tien do hoc, danh gia bai giang va tham gia trao doi. Hoan tat trong 30 giay.
+      </p>
+
+      <div class="benefits">
+        <div class="benefit-item">
+          <div class="benefit-icon">*</div>
+          <div class="benefit-text">
+            <strong>Hoc moi luc</strong>
+            <span>Video ngan gon, xem lai tuy y.</span>
+          </div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-icon">+</div>
+          <div class="benefit-text">
+            <strong>Theo doi tien trinh</strong>
+            <span>Danh gia va luu lo trinh hoc.</span>
+          </div>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-icon">#</div>
+          <div class="benefit-text">
+            <strong>Noi dung an toan</strong>
+            <span>Da chon loc, phu hop hoc sinh.</span>
+          </div>
+        </div>
+      </div>
+
+      <form id="register-form">
+        <label style="font-size:13px;color:#4b5563;">Ho va ten</label>
+        <input type="text" id="reg-name" class="auth-input" placeholder="VD: Nguyen Van A" />
+
+        <label style="font-size:13px;color:#4b5563;">Email</label>
+        <input type="email" id="reg-email" class="auth-input" placeholder="Nhap email cua ban" />
+
+        <div class="row-2col">
+          <div>
+            <label style="font-size:13px;color:#4b5563;">Mat khau</label>
+            <input type="password" id="reg-password" class="auth-input" placeholder="Toi thieu 6 ky tu" />
+          </div>
+          <div>
+            <label style="font-size:13px;color:#4b5563;">Nhap lai</label>
+            <input type="password" id="reg-password2" class="auth-input" placeholder="Nhap lai mat khau" />
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full" style="margin-top:8px;">Dang ky</button>
+      </form>
+
+      <p id="register-msg" class="auth-msg"></p>
+
+      <div style="border-top:1px dashed #dbeafe;margin:14px 0 10px;"></div>
+
+      <p style="font-size:13px;color:#4b5563;">
+        Da co tai khoan?
+        <a href="login.html" style="color:#2563eb;text-decoration:none;">Dang nhap ngay</a>
+      </p>
+
+      <div class="back-home">
+        <a href="index.html">Quay ve trang chu</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const auth = window.studyApp?.getAuth();
+      if (auth) {
+        window.location.href = "index.html";
+        return;
+      }
+    });
+
+    const regForm = document.getElementById("register-form");
+    const regMsg = document.getElementById("register-msg");
+
+    function setRegMsg(text, type = "") {
+      regMsg.textContent = text || "";
+      regMsg.className = "auth-msg";
+      if (type) regMsg.classList.add(type);
+    }
+
+    regForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("reg-name").value.trim();
+      const email = document.getElementById("reg-email").value.trim();
+      const password = document.getElementById("reg-password").value.trim();
+      const password2 = document.getElementById("reg-password2").value.trim();
+
+      if (!name || !email || !password || !password2) {
+        setRegMsg("Vui long nhap day du Ho ten, Email va Mat khau.", "error");
+        return;
+      }
+      if (password.length < 6) {
+        setRegMsg("Mat khau can toi thieu 6 ky tu.", "error");
+        return;
+      }
+      if (password !== password2) {
+        setRegMsg("Mat khau nhap lai khong khop.", "error");
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          setRegMsg(data.message || "Dang ky that bai.", "error");
+        } else {
+          setRegMsg("Dang ky thanh cong! Dang chuyen sang trang dang nhap...", "success");
+          regForm.reset();
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 1100);
+        }
+      } catch (err) {
+        console.error(err);
+        setRegMsg("Loi ket noi toi server.", "error");
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+

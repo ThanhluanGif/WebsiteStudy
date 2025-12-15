@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Đăng nhập - StudyVideo</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: "Inter", "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #e0f2fe, #f8fafc 50%, #fff);
+    }
+    .auth-shell {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 420px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 28px 32px;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+      border: 1px solid #e5e7eb;
+    }
+    .auth-logo {
+      font-weight: 700;
+      font-size: 22px;
+      margin-bottom: 4px;
+      color: #111827;
+      font-family: "Space Grotesk", "Inter", sans-serif;
+    }
+    .auth-logo span {
+      color: #2563eb;
+    }
+    .auth-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 12px 0 6px;
+    }
+    .auth-sub {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 18px;
+    }
+    .auth-input {
+      width: 100%;
+      margin: 6px 0 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      background: #f9fafb;
+    }
+    .auth-input:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 1px #2563eb33;
+      background: #ffffff;
+    }
+    .auth-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 4px;
+    }
+    .auth-msg {
+      margin-top: 8px;
+      font-size: 13px;
+      min-height: 18px;
+      color: #6b7280;
+    }
+    .auth-msg.error {
+      color: #dc2626;
+    }
+    .auth-msg.success {
+      color: #16a34a;
+    }
+    .btn-full {
+      width: 100%;
+      display: inline-block;
+      text-align: center;
+    }
+    .back-home {
+      margin-top: 16px;
+      font-size: 13px;
+      text-align: center;
+      color: #6b7280;
+    }
+    .back-home a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+    .back-home a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-shell">
+    <div class="auth-card">
+      <div class="auth-logo">Study<span>Video</span></div>
+      <h1 class="auth-title">Đăng nhập tài khoản</h1>
+      <p class="auth-sub">
+        Đăng nhập để xem video, lưu tiến độ học và bình luận mỗi bài giảng.
+      </p>
+
+      <form id="login-form">
+        <label for="login-email" style="font-size:13px;color:#4b5563;">Email</label>
+        <input
+          type="email"
+          id="login-email"
+          class="auth-input"
+          placeholder="Nhập email đã đăng ký"
+        />
+
+        <label for="login-password" style="font-size:13px;color:#4b5563;">Mật khẩu</label>
+        <input
+          type="password"
+          id="login-password"
+          class="auth-input"
+          placeholder="Nhập mật khẩu"
+        />
+
+        <div class="auth-row">
+          <span style="font-size:12px;color:#9ca3af;">
+            Demo: admin@websitestudy.com / 123456
+          </span>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full" style="margin-top:10px;">
+          Đăng nhập
+        </button>
+      </form>
+
+      <p id="login-msg" class="auth-msg"></p>
+
+      <div style="border-top:1px dashed #e5e7eb;margin:14px 0 10px;"></div>
+
+      <p style="font-size:13px;color:#4b5563;">
+        Chưa có tài khoản?
+        <a href="register.html" style="color:#2563eb;text-decoration:none;">Đăng ký ngay</a>
+      </p>
+
+      <div class="back-home">
+        <a href="index.html">Quay về trang chủ</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const auth = window.studyApp?.getAuth();
+      if (auth) {
+        window.location.href = "index.html";
+        return;
+      }
+    });
+
+    const loginForm = document.getElementById("login-form");
+    const loginMsg = document.getElementById("login-msg");
+
+    function setLoginMsg(text, type = "") {
+      loginMsg.textContent = text || "";
+      loginMsg.className = "auth-msg";
+      if (type) loginMsg.classList.add(type);
+    }
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("login-email").value.trim();
+      const password = document.getElementById("login-password").value.trim();
+
+      if (!email || !password) {
+        setLoginMsg("Vui lòng nhập đầy đủ Email và Mật khẩu.", "error");
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          setLoginMsg(data.message || "Đăng nhập thất bại.", "error");
+        } else {
+          setLoginMsg("Đăng nhập thành công. Đang chuyển hướng...", "success");
+          if (window.studyApp) {
+            studyApp.saveAuth(data.token, data.user);
+          } else {
+            if (data.token) localStorage.setItem("token", data.token);
+            if (data.user) localStorage.setItem("user", JSON.stringify(data.user));
+          }
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 900);
+        }
+      } catch (err) {
+        console.error(err);
+        setLoginMsg("Lỗi kết nối tới server.", "error");
+      }
+    });
+  </script>
+</body>
+</html>
