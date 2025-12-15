@@ -129,93 +129,37 @@
       font-weight: 600;
       margin-bottom: 10px;
     }
-    .benefits {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
-      margin: 12px 0 6px;
-    }
-    .benefit-item {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 10px;
-      align-items: center;
-      background: linear-gradient(135deg, #f8fafc, #eef2ff);
-      border: 1px dashed #cbd5e1;
-      border-radius: 14px;
-      padding: 10px 12px;
-      font-size: 12px;
-      color: #0f172a;
-    }
-    .benefit-icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      background: #e0f2fe;
-      color: #1d4ed8;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      font-weight: 700;
-    }
-    .benefit-text strong { display: block; font-size: 13px; color: #0f172a; }
-    .benefit-text span { display: block; color: #475569; margin-top: 2px; }
   </style>
 </head>
 <body>
   <div class="auth-shell">
     <div class="auth-card">
             <div class="auth-logo">Study<span>Video</span></div>
-      <span class="pill">Tai khoan mien phi - Mo toan bo thu vien demo</span>
-      <h1 class="auth-title">Tao tai khoan hoc tap</h1>
+      <span class="pill">Tài khoản miễn phí - Mở toàn bộ thư viện demo</span>
+      <h1 class="auth-title">Tạo tài khoản học tập</h1>
       <p class="auth-sub">
-        Luu tien do hoc, danh gia bai giang va tham gia trao doi. Hoan tat trong 30 giay.
+        Ưu tiến độ học, đánh giá bài giảng và tham gia trao đổi. Hoàn tất trong 30 giây.
       </p>
 
-      <div class="benefits">
-        <div class="benefit-item">
-          <div class="benefit-icon">*</div>
-          <div class="benefit-text">
-            <strong>Hoc moi luc</strong>
-            <span>Video ngan gon, xem lai tuy y.</span>
-          </div>
-        </div>
-        <div class="benefit-item">
-          <div class="benefit-icon">+</div>
-          <div class="benefit-text">
-            <strong>Theo doi tien trinh</strong>
-            <span>Danh gia va luu lo trinh hoc.</span>
-          </div>
-        </div>
-        <div class="benefit-item">
-          <div class="benefit-icon">#</div>
-          <div class="benefit-text">
-            <strong>Noi dung an toan</strong>
-            <span>Da chon loc, phu hop hoc sinh.</span>
-          </div>
-        </div>
-      </div>
-
       <form id="register-form">
-        <label style="font-size:13px;color:#4b5563;">Ho va ten</label>
-        <input type="text" id="reg-name" class="auth-input" placeholder="VD: Nguyen Van A" />
+        <label style="font-size:13px;color:#4b5563;">Họ và tên</label>
+        <input type="text" id="reg-name" class="auth-input" placeholder="VD: Nguyễn Văn A" />
 
         <label style="font-size:13px;color:#4b5563;">Email</label>
-        <input type="email" id="reg-email" class="auth-input" placeholder="Nhap email cua ban" />
+        <input type="email" id="reg-email" class="auth-input" placeholder="Nhập email của bạn" />
 
         <div class="row-2col">
           <div>
-            <label style="font-size:13px;color:#4b5563;">Mat khau</label>
-            <input type="password" id="reg-password" class="auth-input" placeholder="Toi thieu 6 ky tu" />
+            <label style="font-size:13px;color:#4b5563;">Mật khẩu</label>
+            <input type="password" id="reg-password" class="auth-input" placeholder="Tối thiểu 6 ký tự" />
           </div>
           <div>
-            <label style="font-size:13px;color:#4b5563;">Nhap lai</label>
-            <input type="password" id="reg-password2" class="auth-input" placeholder="Nhap lai mat khau" />
+            <label style="font-size:13px;color:#4b5563;">Nhập lại</label>
+            <input type="password" id="reg-password2" class="auth-input" placeholder="Nhập lại mật khẩu" />
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-full" style="margin-top:8px;">Dang ky</button>
+        <button type="submit" class="btn btn-primary btn-full" style="margin-top:8px;">Đăng ký</button>
       </form>
 
       <p id="register-msg" class="auth-msg"></p>
@@ -223,12 +167,12 @@
       <div style="border-top:1px dashed #dbeafe;margin:14px 0 10px;"></div>
 
       <p style="font-size:13px;color:#4b5563;">
-        Da co tai khoan?
-        <a href="login.html" style="color:#2563eb;text-decoration:none;">Dang nhap ngay</a>
+        Đã có tài khoản?
+        <a href="login.html" style="color:#2563eb;text-decoration:none;">Đăng nhập ngay</a>
       </p>
 
       <div class="back-home">
-        <a href="index.html">Quay ve trang chu</a>
+        <a href="index.html">Quay về trang chủ</a>
       </div>
     </div>
   </div>

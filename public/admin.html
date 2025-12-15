@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>StudyVideo - Quản trị video</title>
+  <title>StudyVideo - Quản trị</title>
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
@@ -15,7 +15,7 @@
     }
     .admin-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.35fr);
       gap: 24px;
     }
     @media (max-width: 960px) {
@@ -32,8 +32,9 @@
     }
     .panel h1,
     .panel h2 {
-      margin: 0 0 8px;
+      margin: 0 0 10px;
       font-size: 20px;
+      letter-spacing: -0.2px;
     }
     .panel p.sub {
       margin: 0 0 16px;
@@ -97,12 +98,13 @@
     .msg.success {
       color: #16a34a;
     }
-
     .video-list-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 12px;
+      gap: 10px;
+      flex-wrap: wrap;
     }
     .video-list-header h2 {
       margin: 0;
@@ -142,6 +144,24 @@
       border-radius: 999px;
       cursor: pointer;
     }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .stat-box {
+      padding: 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      background: #f9fafb;
+      font-size: 13px;
+    }
+    .bar {
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(120deg, #2563eb, #22d3ee);
+    }
   </style>
 </head>
 <body>
@@ -151,8 +171,9 @@
       <div class="logo">Study<span>Video</span></div>
       <nav class="nav">
         <a href="index.html" class="nav-link">Trang chủ</a>
-        <a href="admin.html" class="nav-link active">Quản trị</a>
         <a href="khoahoc.html" class="nav-link">Khoá học</a>
+        <a href="gioithieu.html" class="nav-link">Giới thiệu</a>
+        <a href="admin.html" class="nav-link active">Quản trị</a>
       </nav>
       <div class="auth" id="auth-area"></div>
     </div>
@@ -165,8 +186,8 @@
       <section class="panel">
         <h1>Thêm video mới</h1>
         <p class="sub">
-          Chỉ tài khoản <strong>Admin</strong> mới truy cập trang này. Điền thông tin bài giảng, dán link
-          YouTube (embed) hoặc file mp4 rồi bấm <strong>Tạo video</strong>.
+          Chỉ tài khoản <strong>Admin</strong> mới truy cập trang này. Điền thông tin bài giảng, dán link YouTube
+          (tự chuẩn hóa embed) hoặc file mp4 rồi bấm <strong>Tạo video</strong>.
         </p>
 
         <form id="video-form">
@@ -191,7 +212,7 @@
               <input
                 id="videoUrl"
                 class="input-text"
-                placeholder="Link YouTube (embed) hoặc /videos/bai1.mp4"
+                placeholder="Link YouTube (watch/embed/share) hoặc /videos/bai1.mp4"
               />
             </div>
 
@@ -215,7 +236,7 @@
           </div>
 
           <div class="form-footer">
-            <button type="reset" class="btn btn-outline btn-sm">Xoá form</button>
+            <button type="reset" class="btn btn-outline btn-sm">Xóa form</button>
             <button type="submit" class="btn btn-primary btn-sm">Tạo video</button>
           </div>
 
@@ -227,19 +248,35 @@
       <section class="panel">
         <div class="video-list-header">
           <h2>Danh sách video</h2>
-          <div style="display:flex;align-items:center;gap:8px;">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <input
+              id="filter-search"
+              class="input-text"
+              style="width:190px;font-size:12px;padding:6px 10px;"
+              placeholder="Tìm tiêu đề..."
+            />
             <input
               id="filter-subject"
               class="input-text"
-              style="width:160px;font-size:12px;padding:6px 10px;"
-              placeholder="Lọc theo môn (VD: Web)"
+              style="width:150px;font-size:12px;padding:6px 10px;"
+              placeholder="Môn (VD: Web)"
             />
+            <select id="filter-status" class="select-filter" style="width:140px;font-size:12px;">
+              <option value="">Tất cả</option>
+              <option value="published">Đang hiển thị</option>
+              <option value="hidden">Đã ẩn</option>
+            </select>
+            <select id="filter-sort" class="select-filter" style="width:140px;font-size:12px;">
+              <option value="newest">Mới nhất</option>
+              <option value="views">Xem nhiều</option>
+              <option value="rating">Đánh giá cao</option>
+            </select>
             <button id="btn-filter" class="btn btn-outline btn-sm">Lọc</button>
             <span class="badge small" id="video-count">0 video</span>
           </div>
         </div>
         <p class="sub" style="margin-bottom:8px;">
-          Dữ liệu lấy trực tiếp từ MongoDB thông qua API <code>/api/admin/videos</code>.
+          Dữ liệu lấy trực tiếp từ MongoDB qua API <code>/api/admin/videos</code>.
         </p>
 
         <div id="video-list-wrapper" style="overflow:auto; max-height: 460px;">
@@ -267,12 +304,163 @@
         </div>
       </section>
     </div>
+
+    <div class="container" style="margin-top:20px;">
+      <section class="panel">
+        <h2>Khách hàng / Tư vấn</h2>
+        <p class="sub" style="margin-bottom:8px;">
+          Thông tin gửi từ form tư vấn (trang Giới thiệu). Có thể lọc theo tên/điện thoại/email và đối tượng.
+        </p>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+          <input
+            id="lead-search"
+            class="input-text"
+            style="flex:1;min-width:220px;font-size:13px;"
+            placeholder="Tìm theo tên, số điện thoại, email..."
+          />
+          <select id="lead-role-filter" class="select-filter" style="width:160px;">
+            <option value="">Tất cả đối tượng</option>
+            <option value="ph">Phụ huynh</option>
+            <option value="hs">Học sinh / SV</option>
+          </select>
+          <button id="lead-reload" class="btn btn-outline btn-sm">Tải lại</button>
+        </div>
+
+        <div class="stats-grid" id="lead-summary" style="margin-bottom:10px;">
+          <div class="stat-box" id="lead-total-box">
+            <div style="font-weight:600;">Tổng số khách hàng</div>
+            <div id="lead-total" style="font-size:22px;font-weight:700;margin-top:4px;">—</div>
+            <div style="font-size:12px;color:#6b7280;">Gửi từ form tư vấn</div>
+          </div>
+          <div class="stat-box" id="lead-latest-box">
+            <div style="font-weight:600;">Gần nhất</div>
+            <div id="lead-latest" style="font-size:14px;font-weight:600;margin-top:4px;">—</div>
+            <div style="font-size:12px;color:#6b7280;">Ngày giờ nhận form mới nhất</div>
+          </div>
+          <div class="stat-box" id="lead-24h-box">
+            <div style="font-weight:600;">Lead 24h qua</div>
+            <div id="lead-24h" style="font-size:22px;font-weight:700;margin-top:4px;">—</div>
+            <div style="font-size:12px;color:#6b7280;">Số form mới trong 24h</div>
+          </div>
+          <div class="stat-box" id="lead-status-box">
+            <div style="font-weight:600;">Tỷ lệ trạng thái</div>
+            <div id="lead-status-dist" style="display:grid; gap:6px; margin-top:4px;"></div>
+          </div>
+        </div>
+
+        <div id="lead-table-wrapper" style="overflow:auto; max-height:360px; border:1px solid #e5e7eb; border-radius:12px;">
+          <table class="video-table" id="lead-table" style="min-width:720px; border:none; margin:0;">
+            <thead>
+              <tr>
+                <th>Họ tên</th>
+                <th>Liên hệ</th>
+                <th>Đối tượng</th>
+                <th>Trạng thái</th>
+                <th>Nhu cầu</th>
+                <th>Thời gian</th>
+              </tr>
+            </thead>
+            <tbody id="lead-list">
+              <tr><td colspan="6" style="text-align:center;">Chưa có dữ liệu.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="lead-paging" style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:12px;color:#6b7280;">
+          <div id="lead-page-info">Trang 1 / 1</div>
+          <div style="display:flex;gap:6px;">
+            <button id="lead-prev" class="btn btn-outline btn-sm">Trang trước</button>
+            <button id="lead-next" class="btn btn-outline btn-sm">Trang sau</button>
+            <button id="lead-export" class="btn btn-outline btn-sm">Xuất CSV</button>
+          </div>
+        </div>
+        <div class="stats-grid" style="margin-top:12px;">
+          <div class="stat-box">
+            <div style="font-weight:600;margin-bottom:6px;">Theo ngày (14 ngày gần nhất)</div>
+            <div id="lead-daily" style="display:grid; gap:6px;"></div>
+          </div>
+          <div class="stat-box">
+            <div style="font-weight:600;margin-bottom:6px;">Theo tuần (8 tuần gần nhất)</div>
+            <div id="lead-weekly" style="display:grid; gap:6px;"></div>
+          </div>
+          <div class="stat-box">
+            <div style="font-weight:600;margin-bottom:6px;">Chủ đề quan tâm nhiều</div>
+            <div id="lead-interest" style="display:grid; gap:6px;"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="container" style="margin-top:20px;">
+      <section class="panel">
+        <h2>Thống kê video</h2>
+        <p class="sub">Top lượt xem, đánh giá và lượt xem theo ngày/tuần (dựa trên log truy cập).</p>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div style="font-weight:600;margin-bottom:6px;">Top 5 lượt xem</div>
+            <div id="video-top-views" style="display:grid;gap:6px;"></div>
+          </div>
+          <div class="stat-box">
+            <div style="font-weight:600;margin-bottom:6px;">Top 5 đánh giá</div>
+            <div id="video-top-rating" style="display:grid;gap:6px;"></div>
+          </div>
+          <div class="stat-box">
+            <div style="font-weight:600;margin-bottom:6px;">Lượt xem 7 ngày</div>
+            <div id="video-views-daily" style="display:grid;gap:6px;"></div>
+          </div>
+          <div class="stat-box">
+            <div style="font-weight:600;margin-bottom:6px;">Lượt xem 8 tuần</div>
+            <div id="video-views-weekly" style="display:grid;gap:6px;"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="container" style="margin-top:20px;">
+      <section class="panel">
+        <h2>Nhật ký hoạt động</h2>
+        <p class="sub">Các thao tác admin: tạo/sửa/ẩn/xóa video, cập nhật trạng thái lead.</p>
+        <div id="activity-log" style="display:grid;gap:8px;"></div>
+      </section>
+    </div>
   </main>
+
+  <!-- Modal sửa video -->
+  <div id="edit-modal" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.35);z-index:50;">
+    <div style="background:#fff;border-radius:14px;padding:16px;min-width:320px;max-width:520px;box-shadow:0 18px 40px rgba(0,0,0,0.25);">
+      <h3 style="margin:0 0 10px;">Sửa nhanh video</h3>
+      <div class="form-group">
+        <label for="edit-title">Tiêu đề</label>
+        <input id="edit-title" class="input-text" />
+      </div>
+      <div class="form-group">
+        <label for="edit-subject">Môn học / Chủ đề</label>
+        <input id="edit-subject" class="input-text" />
+      </div>
+      <div class="form-group">
+        <label for="edit-duration">Thời lượng (phút)</label>
+        <input id="edit-duration" type="number" min="0" class="input-text" />
+      </div>
+      <div class="form-group">
+        <label for="edit-thumbnail">Link thumbnail</label>
+        <input id="edit-thumbnail" class="input-text" />
+      </div>
+      <div class="form-group">
+        <label for="edit-desc">Mô tả</label>
+        <textarea id="edit-desc" class="textarea" style="min-height:80px;"></textarea>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px;">
+        <button id="edit-cancel" class="btn btn-outline btn-sm">Hủy</button>
+        <button id="edit-save" class="btn btn-primary btn-sm">Lưu</button>
+      </div>
+      <div id="edit-msg" class="msg"></div>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container footer-inner">
-      <p>© 2025 StudyVideo • Trang quản trị video</p>
+      <p>© 2025 StudyVideo • Trang quản trị</p>
     </div>
   </footer>
 
@@ -281,11 +469,261 @@
     let currentPage = 1;
     let totalPages = 1;
     let currentSubjectFilter = "";
+    let currentStatusFilter = "";
+    let currentSort = "newest";
+    let currentSearch = "";
+    let allLeads = [];
+    let lastLeadTime = "";
+    let leadPage = 1;
+    const LEAD_PAGE_SIZE = 10;
+    let editingVideoId = null;
+    window.leadAdvanced = window.leadAdvanced || { weekly: [], byStatus: [], last24h: 0 };
 
     function getAuthToken() {
       const auth = window.studyApp?.getAuth();
-      if (!auth) return null;
-      return auth.token;
+      return auth?.token || null;
+    }
+
+    async function fetchJson(url, options = {}, label = "API") {
+      const res = await fetch(url, options);
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (err) {
+        throw new Error(`${label}: phản hồi không phải JSON (${text.slice(0, 80)})`);
+      }
+      return { res, data };
+    }
+
+    function setMsg(el, text, type) {
+      if (!el) return;
+      el.textContent = text || "";
+      el.className = "msg";
+      if (type) el.classList.add(type);
+    }
+
+    function renderLeads() {
+      const wrap = document.getElementById("lead-list");
+      if (!wrap) return;
+      const keyword = (document.getElementById("lead-search")?.value || "").toLowerCase();
+      const role = document.getElementById("lead-role-filter")?.value || "";
+
+      let list = allLeads;
+      if (role) list = list.filter((l) => (l.role || "") === role);
+      if (keyword) {
+        list = list.filter((l) => {
+          const haystack = [l.fullName, l.phone, l.email, l.grade, l.message]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+          return haystack.includes(keyword);
+        });
+      }
+
+      if (!list.length) {
+        wrap.innerHTML =
+          `<tr><td colspan="6" style="text-align:center;color:#6b7280;">Chưa có dữ liệu. Hãy gửi thử form tư vấn ở trang Giới thiệu để kiểm tra.</td></tr>`;
+        const pageInfo = document.getElementById("lead-page-info");
+        if (pageInfo) pageInfo.textContent = "Trang 0 / 0";
+        return;
+      }
+
+      const totalPages = Math.max(Math.ceil(list.length / LEAD_PAGE_SIZE), 1);
+      leadPage = Math.min(Math.max(leadPage, 1), totalPages);
+      const start = (leadPage - 1) * LEAD_PAGE_SIZE;
+      const end = start + LEAD_PAGE_SIZE;
+      const pageList = list.slice(start, end);
+
+      const roleLabel = { ph: "Phụ huynh", hs: "Học sinh / SV" };
+      wrap.innerHTML = pageList
+        .map((l) => {
+          const time = l.createdAt ? new Date(l.createdAt).toLocaleString("vi-VN") : "";
+          return `
+            <tr>
+              <td>
+                <div style="font-weight:600;">${l.fullName || "Không tên"}</div>
+                <div style="font-size:12px;color:#6b7280;">Lớp/Năm: ${l.grade || "Chưa rõ"}</div>
+              </td>
+              <td style="font-size:12px;color:#374151;">
+                <div>SĐT: ${l.phone || "Chưa có"}</div>
+                <div>Email: ${l.email || "Chưa có"}</div>
+              </td>
+              <td style="font-size:12px;">${roleLabel[l.role] || "Khác"}</td>
+              <td style="font-size:12px;">
+                <span class="badge">${l.status === "contacted" ? "Đã liên hệ" : l.status === "closed" ? "Đã đóng" : "Mới"}</span>
+                <div style="margin-top:4px; display:flex; gap:4px; flex-wrap:wrap;">
+                  <button class="btn btn-outline btn-action btn-lead-status" data-id="${l._id}" data-status="new">Mới</button>
+                  <button class="btn btn-outline btn-action btn-lead-status" data-id="${l._id}" data-status="contacted">Liên hệ</button>
+                  <button class="btn btn-outline btn-action btn-lead-status" data-id="${l._id}" data-status="closed">Đóng</button>
+                </div>
+              </td>
+              <td style="font-size:12px;color:#111827;">${l.message || "Không ghi chú"}</td>
+              <td style="font-size:12px;color:#6b7280;white-space:nowrap;">${time}</td>
+            </tr>
+          `;
+        })
+        .join("");
+    }
+
+    async function loadLeads() {
+      const wrap = document.getElementById("lead-list");
+      if (wrap) wrap.innerHTML = `<tr><td colspan="6" style="text-align:center;">Đang tải...</td></tr>`;
+      const token = getAuthToken();
+      if (!token) {
+        if (wrap) wrap.textContent = "Cần đăng nhập lại.";
+        return;
+      }
+      try {
+        const res = await fetch("/api/admin/leads", {
+          headers: { Authorization: "Bearer " + token },
+        });
+        const raw = await res.text();
+        let data = {};
+        try {
+          data = JSON.parse(raw);
+        } catch {
+          console.error("Lead API trả về không phải JSON:", raw.slice(0, 200));
+          throw new Error("Server không trả JSON (hãy chạy qua npm start): " + raw.slice(0, 60));
+        }
+        if (!res.ok) throw new Error(data.message || "Lỗi tải danh sách");
+        allLeads = data.leads || [];
+        leadPage = 1; // reset trang khi tải lại dữ liệu
+        const totalEl = document.getElementById("lead-total");
+        const latestEl = document.getElementById("lead-latest");
+        if (totalEl) totalEl.textContent = allLeads.length.toString();
+        if (latestEl) {
+          if (allLeads.length) {
+            const newest = allLeads[0]?.createdAt;
+            lastLeadTime = newest ? new Date(newest).toLocaleString("vi-VN") : "";
+            latestEl.textContent = lastLeadTime || "—";
+          } else {
+            latestEl.textContent = "Chưa có";
+          }
+        }
+        renderLeads();
+        renderLeadStats();
+      } catch (err) {
+        console.error(err);
+        if (wrap) {
+          wrap.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#b91c1c;">Lỗi khi tải khách hàng: ${
+            err.message || "Không rõ lỗi"
+          }</td></tr>`;
+        }
+        const totalEl = document.getElementById("lead-total");
+        const latestEl = document.getElementById("lead-latest");
+        if (totalEl) totalEl.textContent = "—";
+        if (latestEl) latestEl.textContent = "—";
+      }
+    }
+
+    function renderLeadStats() {
+      const dailyEl = document.getElementById("lead-daily");
+      const interestEl = document.getElementById("lead-interest");
+      const weeklyEl = document.getElementById("lead-weekly");
+      const statusEl = document.getElementById("lead-status-dist");
+      if (!dailyEl || !interestEl) return;
+
+      const today = new Date();
+      const days = [];
+      for (let i = 13; i >= 0; i--) {
+        const d = new Date(today);
+        d.setDate(d.getDate() - i);
+        const key = d.toISOString().slice(0, 10);
+        days.push({ key, label: d.toLocaleDateString("vi-VN"), count: 0 });
+      }
+      const dayMap = new Map(days.map((d) => [d.key, d]));
+      allLeads.forEach((l) => {
+        const created = new Date(l.createdAt);
+        if (!created || Number.isNaN(created.getTime())) return;
+        const key = created.toISOString().slice(0, 10);
+        if (dayMap.has(key)) {
+          dayMap.get(key).count += 1;
+        }
+      });
+      const maxDay = Math.max(...days.map((d) => d.count), 1);
+      dailyEl.innerHTML =
+        allLeads.length === 0
+          ? '<div class="msg">Chưa có lượt đăng ký.</div>'
+          : days
+              .map(
+                (d) => `
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="width:82px;">${d.label}</span>
+                    <div style="flex:1; background:#e5e7eb; border-radius:999px; height:8px; overflow:hidden;">
+                      <div class="bar" style="width:${((d.count / maxDay) * 100).toFixed(1)}%;"></div>
+                    </div>
+                    <span style="width:24px;text-align:right;">${d.count}</span>
+                  </div>
+                `
+              )
+              .join("");
+
+      const freq = {};
+      const stopWords = ["và", "cần", "muốn", "học", "web", "lập", "trình", "muon", "hoc", "lap", "trinh", "ve", "la", "thi"];
+      allLeads.forEach((l) => {
+        const msg = (l.message || "").toLowerCase();
+        msg
+          .replace(/[^a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ0-9\s]/g, " ")
+          .split(/\s+/)
+          .filter((w) => w.length >= 3 && !stopWords.includes(w))
+          .forEach((w) => {
+            freq[w] = (freq[w] || 0) + 1;
+          });
+      });
+      const interests = Object.entries(freq)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5);
+      interestEl.innerHTML =
+        interests.length === 0
+          ? '<div class="msg">Chưa có ghi chú nhu cầu.</div>'
+          : interests
+              .map(
+                ([w, c]) => `
+                  <div style="display:flex;justify-content:space-between;">
+                    <span>${w}</span>
+                    <strong>${c}</strong>
+                  </div>
+                `
+              )
+              .join("");
+
+      if (window.leadAdvanced?.weekly && weeklyEl) {
+        const list = window.leadAdvanced.weekly;
+        const maxCount = Math.max(...list.map((i) => i.count), 1);
+        weeklyEl.innerHTML =
+          list.length === 0
+            ? '<div class="msg">Chưa có dữ liệu.</div>'
+            : list
+                .map(
+                  (i) => `
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="width:110px;">${i.label}</span>
+                    <div style="flex:1; background:#e5e7eb; border-radius:999px; height:8px; overflow:hidden;">
+                      <div class="bar" style="width:${((i.count / maxCount) * 100).toFixed(1)}%;"></div>
+                    </div>
+                    <span style="width:28px;text-align:right;">${i.count}</span>
+                  </div>
+                `
+                )
+                .join("");
+      }
+      if (window.leadAdvanced?.byStatus && statusEl) {
+        const mapLabel = { new: "Mới", contacted: "Liên hệ", closed: "Đóng" };
+        statusEl.innerHTML =
+          window.leadAdvanced.byStatus.length === 0
+            ? '<div class="msg">Chưa có dữ liệu.</div>'
+            : window.leadAdvanced.byStatus
+                .map(
+                  (s) => `
+                <div style="display:flex;justify-content:space-between;">
+                  <span>${mapLabel[s._id] || s._id || "Khác"}</span>
+                  <strong>${s.count}</strong>
+                </div>
+              `
+                )
+                .join("");
+      }
     }
 
     async function loadVideos() {
@@ -306,29 +744,23 @@
       const params = new URLSearchParams();
       params.set("page", String(currentPage));
       params.set("limit", "5");
-      if (currentSubjectFilter.trim()) {
-        params.set("subject", currentSubjectFilter.trim());
-      }
+      if (currentSubjectFilter.trim()) params.set("subject", currentSubjectFilter.trim());
+      if (currentStatusFilter) params.set("status", currentStatusFilter);
+      if (currentSort) params.set("sort", currentSort);
+      if (currentSearch) params.set("search", currentSearch);
 
       try {
-        const res = await fetch("/api/admin/videos?" + params.toString(), {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
-        if (!res.ok) throw new Error("Load video failed");
-        const data = await res.json();
-        const { videos, total, page, pages } = data;
+        const { res, data } = await fetchJson("/api/admin/videos?" + params.toString(), {
+          headers: { Authorization: "Bearer " + token },
+        }, "Tải video");
+        if (!res.ok) throw new Error(data.message || "Load video failed");
 
+        const { videos = [], total = 0, page = 1, pages = 1 } = data;
         currentPage = page;
         totalPages = pages || 1;
 
-        if (countBadge) {
-          countBadge.textContent = total + " video";
-        }
-        if (pagingInfo) {
-          pagingInfo.textContent = `Trang ${currentPage} / ${totalPages || 1}`;
-        }
+        if (countBadge) countBadge.textContent = total + " video";
+        if (pagingInfo) pagingInfo.textContent = `Trang ${currentPage} / ${totalPages || 1}`;
 
         if (!videos.length) {
           tbody.innerHTML = `<tr><td colspan="4">Không có video nào (theo bộ lọc hiện tại).</td></tr>`;
@@ -339,45 +771,54 @@
           .map((v) => {
             const published = v.isPublished !== false;
             return `
-            <tr>
-              <td>
-                <div class="thumb-mini" style="background-image:url('${v.thumbnailUrl || ""}');"></div>
-              </td>
-              <td>
-                <div style="font-weight:600;color:#111827;">${v.title}</div>
-                <div style="font-size:12px;color:#6b7280;margin-top:2px;">
-                  Môn: ${v.subject || "Chưa phân loại"} • ${v.durationMinutes || "?"} phút
-                </div>
-                <div style="font-size:12px;color:#9ca3af;margin-top:2px;">ID: ${v._id}</div>
-                <div style="margin-top:4px;">
-                  <span class="badge ${published ? "published" : "hidden"}">
-                    ${published ? "Đang hiển thị" : "Đã ẩn"}
-                  </span>
-                </div>
-              </td>
-              <td style="font-size:12px;color:#4b5563;">
-                <div>👁️ ${v.totalViews || 0} lượt xem</div>
-                <div>⭐ ${
-                  v.totalRatings > 0
-                    ? v.avgRating.toFixed(1) + " (" + v.totalRatings + " lượt)"
-                    : "Chưa có đánh giá"
-                }</div>
-                <div>${new Date(v.createdAt).toLocaleDateString("vi-VN")}</div>
-              </td>
-              <td style="font-size:11px;">
-                <button
-                  class="btn btn-outline btn-action btn-toggle"
-                  data-id="${v._id}"
-                  data-published="${published ? "true" : "false"}"
-                >
-                  ${published ? "Ẩn video" : "Hiển thị"}
-                </button>
-                <button class="btn btn-outline btn-action btn-delete" data-id="${v._id}">
-                  Xoá
-                </button>
-              </td>
-            </tr>
-          `;
+              <tr>
+                <td>
+                  <div class="thumb-mini" style="background-image:url('${v.thumbnailUrl || ""}');"></div>
+                </td>
+                <td>
+                  <div style="font-weight:600;color:#111827;">${v.title || "Video"}</div>
+                  <div style="font-size:12px;color:#6b7280;margin-top:2px;">
+                    Môn: ${v.subject || "Chưa phân loại"} • ${v.durationMinutes || "?"} phút
+                  </div>
+                  <div style="font-size:12px;color:#9ca3af;margin-top:2px;">ID: ${v._id}</div>
+                  <div style="margin-top:4px;">
+                    <span class="badge ${published ? "published" : "hidden"}">
+                      ${published ? "Đang hiển thị" : "Đã ẩn"}
+                    </span>
+                  </div>
+                </td>
+                <td style="font-size:12px;color:#4b5563;">
+                  <div>👁️ ${v.totalViews || 0} lượt xem</div>
+                  <div>⭐ ${
+                    v.totalRatings > 0
+                      ? (v.avgRating || 0).toFixed(1) + " (" + v.totalRatings + " lượt)"
+                      : "Chưa có đánh giá"
+                  }</div>
+                  <div>${new Date(v.createdAt).toLocaleDateString("vi-VN")}</div>
+                </td>
+                <td style="font-size:11px;display:flex;flex-direction:column;gap:6px;">
+                  <button
+                    class="btn btn-outline btn-action btn-toggle"
+                    data-id="${v._id}"
+                    data-published="${published ? "true" : "false"}"
+                  >
+                    ${published ? "Ẩn video" : "Hiển thị"}
+                  </button>
+                  <button class="btn btn-outline btn-action btn-delete" data-id="${v._id}">
+                    Xóa
+                  </button>
+                  <button class="btn btn-outline btn-action btn-edit" data-id="${v._id}"
+                    data-title="${(v.title || "").replace(/"/g, "&quot;")}"
+                    data-subject="${(v.subject || "").replace(/"/g, "&quot;")}"
+                    data-duration="${v.durationMinutes || 0}"
+                    data-thumbnail="${(v.thumbnailUrl || "").replace(/"/g, "&quot;")}"
+                    data-desc="${(v.description || "").replace(/"/g, "&quot;")}"
+                  >
+                    Sửa
+                  </button>
+                </td>
+              </tr>
+            `;
           })
           .join("");
       } catch (err) {
@@ -403,14 +844,8 @@
       const thumbnailUrl = thumbnailUrlEl.value.trim();
       const description = descriptionEl.value.trim();
 
-      function setMsg(text, type) {
-        msgEl.textContent = text || "";
-        msgEl.className = "msg";
-        if (type) msgEl.classList.add(type);
-      }
-
       if (!title || !videoUrl) {
-        setMsg("Vui lòng nhập ít nhất Tiêu đề và Link video.", "error");
+        setMsg(msgEl, "Vui lòng nhập tối thiểu Tiêu đề và Link video.", "error");
         return;
       }
 
@@ -421,7 +856,7 @@
         return;
       }
 
-      setMsg("Đang gửi dữ liệu...", null);
+      setMsg(msgEl, "Đang gửi dữ liệu...");
 
       try {
         const res = await fetch("/api/videos", {
@@ -441,18 +876,126 @@
         });
 
         const data = await res.json();
-
         if (!res.ok) {
-          setMsg(data.message || "Lỗi khi tạo video.", "error");
+          setMsg(msgEl, data.message || "Lỗi khi tạo video.", "error");
           return;
         }
 
-        setMsg("Tạo video thành công!", "success");
+        setMsg(msgEl, "Tạo video thành công!", "success");
         videoUrlEl.value = "";
         loadVideos();
       } catch (err) {
         console.error(err);
-        setMsg("Lỗi kết nối đến server.", "error");
+        setMsg(msgEl, "Lỗi kết nối tới server.", "error");
+      }
+    }
+
+    async function loadLeadAdvancedStats() {
+      const token = getAuthToken();
+      const lead24hEl = document.getElementById("lead-24h");
+      if (!token || !lead24hEl) return;
+      try {
+        const { res, data } = await fetchJson("/api/admin/leads/stats/advanced", {
+          headers: { Authorization: "Bearer " + token },
+        }, "Thống kê lead nâng cao");
+        if (!res.ok) throw new Error(data.message || "Lỗi thống kê lead nâng cao");
+        window.leadAdvanced = data;
+        lead24hEl.textContent = data.last24h ?? 0;
+        renderLeadStats();
+      } catch (err) {
+        console.error(err);
+        if (lead24hEl) lead24hEl.textContent = "—";
+      }
+    }
+
+    async function loadVideoStats() {
+      const token = getAuthToken();
+      if (!token) return;
+      try {
+        const { res, data } = await fetchJson("/api/admin/videos/stats", {
+          headers: { Authorization: "Bearer " + token },
+        }, "Thống kê video");
+        if (!res.ok) throw new Error(data.message || "Lỗi thống kê video");
+        const topViewsEl = document.getElementById("video-top-views");
+        const topRatingEl = document.getElementById("video-top-rating");
+        const dailyEl = document.getElementById("video-views-daily");
+        const weeklyEl = document.getElementById("video-views-weekly");
+        const renderList = (el, list, labelFn) => {
+          if (!el) return;
+          el.innerHTML =
+            !list || !list.length
+              ? '<div class="msg">Chưa có dữ liệu.</div>'
+              : list
+                  .map(
+                    (v, idx) => `
+                <div style="display:flex;justify-content:space-between;font-size:13px;">
+                  <span>${idx + 1}. ${labelFn(v)}</span>
+                  <strong>${labelFn === viewLabel ? v.totalViews || 0 : v.avgRating?.toFixed(1) || 0}</strong>
+                </div>
+              `
+                  )
+                  .join("");
+        };
+        const viewLabel = (v) => v.title || "Video";
+        const ratingLabel = (v) => v.title || "Video";
+        renderList(topViewsEl, data.topViews, viewLabel);
+        renderList(topRatingEl, data.topRating, ratingLabel);
+        const renderBars = (el, list) => {
+          if (!el) return;
+          if (!list || !list.length) {
+            el.innerHTML = '<div class="msg">Chưa có dữ liệu.</div>';
+            return;
+          }
+          const max = Math.max(...list.map((i) => i.count), 1);
+          el.innerHTML = list
+            .map(
+              (i) => `
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="width:110px;">${i.label}</span>
+              <div style="flex:1; background:#e5e7eb; border-radius:999px; height:8px; overflow:hidden;">
+                <div class="bar" style="width:${((i.count / max) * 100).toFixed(1)}%;"></div>
+              </div>
+              <span style="width:28px;text-align:right;">${i.count}</span>
+            </div>
+          `
+            )
+            .join("");
+        };
+        renderBars(dailyEl, data.dailyViews);
+        renderBars(weeklyEl, data.weeklyViews);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function loadActivity() {
+      const token = getAuthToken();
+      const box = document.getElementById("activity-log");
+      if (!token || !box) return;
+      box.innerHTML = "Đang tải...";
+      try {
+        const { res, data } = await fetchJson("/api/admin/activity", {
+          headers: { Authorization: "Bearer " + token },
+        }, "Nhật ký");
+        if (!res.ok) throw new Error(data.message || "Lỗi tải nhật ký");
+        const logs = data.logs || [];
+        box.innerHTML =
+          logs.length === 0
+            ? '<div class="msg">Chưa có nhật ký.</div>'
+            : logs
+                .map(
+                  (l) => `
+              <div style="border:1px solid #e5e7eb;border-radius:10px;padding:8px 10px;font-size:12px;">
+                <div style="font-weight:600;">${l.type}</div>
+                <div style="color:#4b5563;">${l.detail || ""}</div>
+                <div style="color:#9ca3af;">${new Date(l.createdAt).toLocaleString("vi-VN")}</div>
+              </div>
+            `
+                )
+                .join("");
+      } catch (err) {
+        console.error(err);
+        box.innerHTML = "Lỗi khi tải nhật ký.";
       }
     }
 
@@ -464,114 +1007,253 @@
         studyApp.renderAuthArea({ showRoleBadge: true, logoutRedirect: "index.html" });
       }
 
-      const form = document.getElementById("video-form");
-      if (form) {
-        form.addEventListener("submit", handleVideoFormSubmit);
-      }
+      document.getElementById("video-form")?.addEventListener("submit", handleVideoFormSubmit);
 
-      const filterInput = document.getElementById("filter-subject");
+      const filterSubject = document.getElementById("filter-subject");
       const filterBtn = document.getElementById("btn-filter");
-      if (filterBtn && filterInput) {
-        filterBtn.addEventListener("click", () => {
-          currentSubjectFilter = filterInput.value || "";
-          currentPage = 1;
+      const filterStatus = document.getElementById("filter-status");
+      const filterSort = document.getElementById("filter-sort");
+      const filterSearch = document.getElementById("filter-search");
+      const applyFilter = () => {
+        currentSubjectFilter = filterSubject?.value || "";
+        currentStatusFilter = filterStatus?.value || "";
+        currentSort = filterSort?.value || "newest";
+        currentSearch = filterSearch?.value || "";
+        currentPage = 1;
+        loadVideos();
+      };
+      filterBtn?.addEventListener("click", applyFilter);
+      [filterSubject, filterStatus, filterSort].forEach((el) => {
+        el?.addEventListener("change", applyFilter);
+      });
+      filterSearch?.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          applyFilter();
+        }
+      });
+
+      document.getElementById("btn-prev")?.addEventListener("click", () => {
+        if (currentPage > 1) {
+          currentPage--;
           loadVideos();
-        });
-        filterInput.addEventListener("keypress", (e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            currentSubjectFilter = filterInput.value || "";
-            currentPage = 1;
-            loadVideos();
-          }
-        });
-      }
+        }
+      });
+      document.getElementById("btn-next")?.addEventListener("click", () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          loadVideos();
+        }
+      });
 
-      const btnPrev = document.getElementById("btn-prev");
-      const btnNext = document.getElementById("btn-next");
-      if (btnPrev) {
-        btnPrev.addEventListener("click", () => {
-          if (currentPage > 1) {
-            currentPage--;
-            loadVideos();
-          }
-        });
-      }
-      if (btnNext) {
-        btnNext.addEventListener("click", () => {
-          if (currentPage < totalPages) {
-            currentPage++;
-            loadVideos();
-          }
-        });
-      }
+      document.getElementById("video-tbody")?.addEventListener("click", async (e) => {
+        const target = e.target;
+        if (!(target instanceof HTMLElement)) return;
+        const token = getAuthToken();
+        if (!token) {
+          alert("Phiên đăng nhập đã hết hạn.");
+          window.location.href = "login.html";
+          return;
+        }
 
-      const tbody = document.getElementById("video-tbody");
-      if (tbody) {
-        tbody.addEventListener("click", async (e) => {
-          const target = e.target;
-          const token = getAuthToken();
-          if (!token) {
-            alert("Phiên đăng nhập đã hết hạn.");
-            window.location.href = "login.html";
-            return;
-          }
+        if (target.classList.contains("btn-toggle")) {
+          const id = target.getAttribute("data-id");
+          const published = target.getAttribute("data-published") === "true";
+          const confirmMsg = published
+            ? "Bạn chắc muốn ẩn video này?"
+            : "Bạn chắc muốn hiển thị lại video này?";
+          if (!confirm(confirmMsg)) return;
 
-          if (target.classList.contains("btn-toggle")) {
-            const id = target.getAttribute("data-id");
-            const published = target.getAttribute("data-published") === "true";
-            const confirmMsg = published
-              ? "Bạn có chắc muốn ẨN video này?"
-              : "Bạn có chắc muốn HIỂN THỊ lại video này?";
-            if (!confirm(confirmMsg)) return;
-
-            try {
-              const res = await fetch(`/api/admin/videos/${id}/visibility`, {
-                method: "PATCH",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: "Bearer " + token,
-                },
-                body: JSON.stringify({ isPublished: !published }),
-              });
-              const data = await res.json();
-              if (!res.ok) {
-                alert(data.message || "Lỗi khi cập nhật trạng thái.");
-                return;
-              }
-              loadVideos();
-            } catch (err) {
-              console.error(err);
-              alert("Lỗi kết nối khi cập nhật trạng thái.");
+          try {
+            const res = await fetch(`/api/admin/videos/${id}/visibility`, {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+              },
+              body: JSON.stringify({ isPublished: !published }),
+            });
+            const data = await res.json();
+            if (!res.ok) {
+              alert(data.message || "Lỗi khi cập nhật trạng thái.");
+              return;
             }
+            loadVideos();
+            loadVideoStats();
+            loadActivity();
+          } catch (err) {
+            console.error(err);
+            alert("Lỗi kết nối khi cập nhật trạng thái.");
           }
+        }
 
-          if (target.classList.contains("btn-delete")) {
-            const id = target.getAttribute("data-id");
-            if (!confirm("Bạn có chắc muốn XOÁ video này?")) return;
+        if (target.classList.contains("btn-delete")) {
+          const id = target.getAttribute("data-id");
+          if (!confirm("Bạn chắc muốn xóa video này?")) return;
 
-            try {
-              const res = await fetch(`/api/admin/videos/${id}`, {
-                method: "DELETE",
-                headers: {
-                  Authorization: "Bearer " + token,
-                },
-              });
-              const data = await res.json();
-              if (!res.ok) {
-                alert(data.message || "Lỗi khi xoá video.");
-                return;
-              }
-              loadVideos();
-            } catch (err) {
-              console.error(err);
-              alert("Lỗi kết nối khi xoá video.");
+          try {
+            const res = await fetch(`/api/admin/videos/${id}`, {
+              method: "DELETE",
+              headers: { Authorization: "Bearer " + token },
+            });
+            const data = await res.json();
+            if (!res.ok) {
+              alert(data.message || "Lỗi khi xóa video.");
+              return;
             }
+            loadVideos();
+            loadVideoStats();
+            loadActivity();
+          } catch (err) {
+            console.error(err);
+            alert("Lỗi kết nối khi xóa video.");
           }
-        });
-      }
+        }
+
+        if (target.classList.contains("btn-edit")) {
+          const id = target.getAttribute("data-id");
+          editingVideoId = id;
+          document.getElementById("edit-title").value = target.getAttribute("data-title") || "";
+          document.getElementById("edit-subject").value = target.getAttribute("data-subject") || "";
+          document.getElementById("edit-duration").value = target.getAttribute("data-duration") || "";
+          document.getElementById("edit-thumbnail").value = target.getAttribute("data-thumbnail") || "";
+          document.getElementById("edit-desc").value = target.getAttribute("data-desc") || "";
+          document.getElementById("edit-msg").textContent = "";
+          document.getElementById("edit-modal").style.display = "flex";
+        }
+      });
+
+      document.getElementById("lead-search")?.addEventListener("input", () => {
+        leadPage = 1;
+        renderLeads();
+      });
+      document.getElementById("lead-role-filter")?.addEventListener("change", () => {
+        leadPage = 1;
+        renderLeads();
+      });
+      document.getElementById("lead-prev")?.addEventListener("click", () => {
+        if (leadPage > 1) {
+          leadPage -= 1;
+          renderLeads();
+        }
+      });
+      document.getElementById("lead-next")?.addEventListener("click", () => {
+        leadPage += 1;
+        renderLeads();
+      });
+      document.getElementById("lead-reload")?.addEventListener("click", () => {
+        loadLeads();
+      });
+      document.getElementById("lead-export")?.addEventListener("click", () => {
+        if (!allLeads.length) {
+          alert("Chưa có dữ liệu để xuất.");
+          return;
+        }
+        const header = ["fullName", "role", "grade", "phone", "email", "status", "message", "createdAt"];
+        const rows = allLeads.map((l) =>
+          header
+            .map((h) => {
+              const val = l[h] || "";
+              const safe = String(val).replace(/"/g, '""');
+              return `"${safe}"`;
+            })
+            .join(",")
+        );
+        const csv = [header.join(","), ...rows].join("\n");
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "leads.csv";
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      document.getElementById("lead-list")?.addEventListener("click", async (e) => {
+        const target = e.target;
+        if (!(target instanceof HTMLElement)) return;
+        if (!target.classList.contains("btn-lead-status")) return;
+        const id = target.getAttribute("data-id");
+        const status = target.getAttribute("data-status");
+        const token = getAuthToken();
+        if (!token) {
+          alert("Phiên đăng nhập hết hạn.");
+          window.location.href = "login.html";
+          return;
+        }
+        try {
+          const res = await fetch(`/api/admin/leads/${id}/status`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({ status }),
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.message || "Cập nhật trạng thái thất bại");
+          // update local
+          allLeads = allLeads.map((l) => (l._id === id ? { ...l, status } : l));
+          renderLeads();
+          loadLeadAdvancedStats();
+          loadActivity();
+        } catch (err) {
+          console.error(err);
+          alert(err.message || "Lỗi khi cập nhật trạng thái lead.");
+        }
+      });
+
+      const closeEdit = () => {
+        document.getElementById("edit-modal").style.display = "none";
+        editingVideoId = null;
+      };
+      document.getElementById("edit-cancel")?.addEventListener("click", () => {
+        closeEdit();
+      });
+      document.getElementById("edit-save")?.addEventListener("click", async () => {
+        if (!editingVideoId) return;
+        const token = getAuthToken();
+        if (!token) {
+          alert("Phiên đăng nhập đã hết hạn.");
+          window.location.href = "login.html";
+          return;
+        }
+        const msg = document.getElementById("edit-msg");
+        msg.textContent = "Đang lưu...";
+        try {
+          const payload = {
+            title: document.getElementById("edit-title").value.trim(),
+            subject: document.getElementById("edit-subject").value.trim(),
+            durationMinutes: Number(document.getElementById("edit-duration").value) || 0,
+            thumbnailUrl: document.getElementById("edit-thumbnail").value.trim(),
+            description: document.getElementById("edit-desc").value.trim(),
+          };
+          const res = await fetch(`/api/admin/videos/${editingVideoId}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.message || "Lưu thất bại");
+          msg.textContent = "Đã lưu.";
+          closeEdit();
+          loadVideos();
+          loadVideoStats();
+          loadActivity();
+        } catch (err) {
+          console.error(err);
+          msg.textContent = err.message || "Lỗi khi lưu.";
+        }
+      });
 
       loadVideos();
+      loadLeads();
+      loadLeadAdvancedStats();
+      loadVideoStats();
+      loadActivity();
     });
   </script>
 </body>

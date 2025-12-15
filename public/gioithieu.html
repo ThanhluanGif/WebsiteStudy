@@ -52,7 +52,6 @@
       margin-right: 6px;
       margin-top: 4px;
     }
-
     .hero-inner.about-hero {
       display: grid;
       grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
@@ -98,7 +97,6 @@
     .about-hero-badge strong {
       font-size: 13px;
     }
-
     .about-stats {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -123,7 +121,6 @@
       font-size: 14px;
       color: #111827;
     }
-
     .contact-header {
       display: flex;
       align-items: center;
@@ -234,8 +231,8 @@
         <div class="hero-highlight">Đồng hành cùng học sinh & phụ huynh</div>
         <h1>Video học tập trực quan, học lại mọi lúc bạn cần</h1>
         <p>
-          StudyVideo giúp học sinh chủ động xem lại bài giảng, phụ huynh dễ dàng theo dõi tiến độ
-          và giáo viên kiểm soát chất lượng nội dung.
+          StudyVideo giúp học sinh xem lại bài giảng bất cứ lúc nào, phụ huynh dễ theo dõi tiến độ và giáo viên
+          kiểm soát chất lượng nội dung.
         </p>
 
         <div class="about-stats">
@@ -271,8 +268,8 @@
     <section class="about-card">
       <h2>Sứ mệnh của StudyVideo</h2>
       <p style="margin-top: 8px;">
-        StudyVideo được xây dựng như một thư viện video học tập, giúp học sinh xem lại bài giảng
-        bất cứ lúc nào và phụ huynh yên tâm đồng hành.
+        StudyVideo được xây dựng như một thư viện video học tập, giúp học sinh xem lại bài giảng bất cứ lúc nào
+        và phụ huynh yên tâm đồng hành.
       </p>
       <ul>
         <li>Video ngắn gọn, dễ hiểu, xem lại nhiều lần.</li>
@@ -369,24 +366,50 @@
       const msgEl = document.getElementById("contact-msg");
       if (!form || !msgEl) return;
 
-      form.addEventListener("submit", (e) => {
+      form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const fullName = document.getElementById("fullName").value.trim();
         const role = document.getElementById("role").value;
         const phone = document.getElementById("phone").value.trim();
+        const grade = document.getElementById("grade").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const message = document.getElementById("message").value.trim();
 
         msgEl.className = "contact-msg";
 
         if (!fullName || !role || !phone) {
           msgEl.textContent =
-            "Vui lòng nhập họ tên, chọn đối tượng và số điện thoại để chúng tôi liên hệ.";
+            "Vui lòng nhập Họ tên, chọn đối tượng và Số điện thoại để chúng tôi liên hệ.";
           msgEl.classList.add("error");
           return;
         }
 
-        msgEl.textContent =
-          "Cảm ơn bạn đã để lại thông tin. Trung tâm sẽ liên hệ sớm nhất (demo).";
-        msgEl.classList.add("success");
+        msgEl.textContent = "Đang gửi thông tin...";
+        try {
+          const res = await fetch("/api/leads", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ fullName, role, phone, grade, email, message }),
+          });
+
+          // Nếu server trả HTML (ví dụ chạy file://) thì parse sẽ lỗi -> báo rõ
+          const text = await res.text();
+          let data = {};
+          try {
+            data = JSON.parse(text);
+          } catch {
+            throw new Error("Không nhận được phản hồi JSON. Hãy chạy qua server (npm start).");
+          }
+
+          if (!res.ok) throw new Error(data.message || "Gửi thất bại");
+          msgEl.textContent = "Đã gửi thông tin tư vấn. Trung tâm sẽ liên hệ sớm (demo).";
+          msgEl.classList.add("success");
+          form.reset();
+        } catch (err) {
+          console.error(err);
+          msgEl.textContent = err.message || "Lỗi kết nối.";
+          msgEl.classList.add("error");
+        }
       });
     }
 

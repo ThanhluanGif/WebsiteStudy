@@ -49,46 +49,7 @@
       </div>
     </div>
 
-    <div class="video-grid">
-      <article class="video-card">
-        <div class="video-thumb"></div>
-        <div class="video-body">
-          <h3 class="video-title">Lập trình Web cơ bản với HTML, CSS, JS</h3>
-          <p class="video-meta">Cấp độ: Cơ bản • 12 bài giảng</p>
-          <p class="video-rating">Đánh giá: ★★★★☆ (4.5)</p>
-          <p class="video-desc">
-            Làm quen HTML, CSS, JavaScript và cách dựng một website tĩnh hiện đại.
-          </p>
-          <a href="index.html#video-list" class="btn btn-sm btn-primary">Xem video trong khoá</a>
-        </div>
-      </article>
-
-      <article class="video-card">
-        <div class="video-thumb"></div>
-        <div class="video-body">
-          <h3 class="video-title">Python cho người mới bắt đầu</h3>
-          <p class="video-meta">Cấp độ: Cơ bản • 10 bài giảng</p>
-          <p class="video-rating">Đánh giá: ★★★★★ (4.8)</p>
-          <p class="video-desc">
-            Học cú pháp Python, biến, điều kiện, vòng lặp, hàm và bài tập nhỏ về khoa học dữ liệu.
-          </p>
-          <a href="#" class="btn btn-sm btn-primary">Xem chi tiết (demo)</a>
-        </div>
-      </article>
-
-      <article class="video-card">
-        <div class="video-thumb"></div>
-        <div class="video-body">
-          <h3 class="video-title">Giải bài tập Toán bằng tư duy lập trình</h3>
-          <p class="video-meta">Cấp độ: Trung bình • 8 bài giảng</p>
-          <p class="video-rating">Đánh giá: ★★★★☆ (4.2)</p>
-          <p class="video-desc">
-            Kết hợp kiến thức Toán với tư duy thuật toán để luyện tập bài toán dãy số, hình học cơ bản.
-          </p>
-          <a href="#" class="btn btn-sm btn-primary">Xem chi tiết (demo)</a>
-        </div>
-      </article>
-    </div>
+    <div class="video-grid" id="course-video-grid"></div>
 
     <section style="margin-top: 32px;">
       <h2>Nhóm khoá học theo chủ đề</h2>
@@ -134,6 +95,10 @@
       if (window.studyApp) {
         studyApp.renderAuthArea();
         studyApp.toggleAdminLink();
+        studyApp.guardLinks(".video-detail-link", {
+          message: "Vui lòng đăng nhập để xem chi tiết video.",
+        });
+        studyApp.loadVideosIntoGrid({ containerId: "course-video-grid", limit: 12 });
       }
     });
   </script>
