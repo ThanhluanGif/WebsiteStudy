@@ -25,19 +25,24 @@
     <div class="container hero-inner">
       <div class="hero-text">
         <div class="hero-highlight">Video học tập • Tự học chủ động</div>
-        <h1>Nền tảng video học tập trực quan cho học sinh & sinh viên</h1>
+        <h1>Học lại bài giảng mọi lúc, theo dõi tiến trình và đánh giá nội dung rõ ràng</h1>
         <p>
-          Học lại bài giảng, lưu tiến trình, bình luận và đánh giá chất lượng từng video.
-          Phù hợp cho các môn Lập trình, Toán, Khoa học và kỹ năng công nghệ.
+          Video ngắn gọn, dễ hiểu, có tua nhanh/chậm và mốc nội dung. Ghi nhận lượt xem, đánh giá, bình luận
+          để học sinh - sinh viên - phụ huynh cùng theo dõi chất lượng.
         </p>
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
           <a href="#video-list" class="btn btn-primary">Bắt đầu học ngay</a>
           <a href="gioithieu.html" class="btn btn-outline">Xem cách hoạt động</a>
         </div>
         <div style="display:flex; gap:12px; margin-top:16px; flex-wrap:wrap;">
-          <span class="pill pill-muted">Học mọi lúc</span>
+          <span class="pill pill-muted">Video ngắn gọn</span>
           <span class="pill pill-muted">Theo dõi tiến độ</span>
-          <span class="pill pill-muted">Video chuẩn bài giảng</span>
+          <span class="pill pill-muted">Nội dung chọn lọc</span>
+        </div>
+        <div class="hero-search">
+          <input id="hero-search" type="text" placeholder="Tìm video, môn học, tiêu đề..." list="title-suggestions" />
+          <datalist id="title-suggestions"></datalist>
+          <button class="btn btn-primary btn-sm" id="hero-search-btn">Tìm kiếm</button>
         </div>
       </div>
       <div class="hero-illustration">
@@ -46,17 +51,126 @@
     </div>
   </section>
 
-  <!-- VIDEO LIST -->
-  <main class="container" id="video-list">
-    <div class="section-header">
-      <h2>Video nổi bật</h2>
+  <!-- TRUST & QUICK STATS -->
+  <section class="container stats-section">
+    <div class="trust-banner">
+      <div>
+        <strong>Nội dung đã kiểm duyệt • An toàn cho lứa tuổi</strong>
+        <p>Video chọn lọc, có log hoạt động và đánh giá minh bạch.</p>
+      </div>
+      <a class="btn btn-outline btn-sm" href="gioithieu.html#consult">Phụ huynh cần tư vấn</a>
     </div>
-    <div class="featured-wrap">
-      <div class="featured-card" id="featured-card"></div>
+    <div class="quick-stats">
+      <div class="stat-card">
+        <p class="stat-label">Tổng số video/khoá</p>
+        <p class="stat-value" id="stat-total">—</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Lượt xem (ước tính)</p>
+        <p class="stat-value" id="stat-views">—</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Đánh giá trung bình</p>
+        <p class="stat-value" id="stat-rating">—</p>
+      </div>
     </div>
+  </section>
 
-    <div class="section-header" style="margin-top:22px;">
-      <h2>Danh sách video</h2>
+  <!-- TOP SUBJECTS -->
+  <section class="container section-block">
+    <div class="section-header">
+      <div>
+        <h2>Top danh mục / môn học</h2>
+        <p class="section-note">Chọn nhanh các môn đang được xem nhiều.</p>
+      </div>
+    </div>
+    <div class="subject-tags" id="subject-tags"></div>
+  </section>
+
+  <!-- VIDEO NEWEST -->
+  <section class="container section-block">
+    <div class="section-header">
+      <div>
+        <h2>Video mới nhất</h2>
+        <p class="section-note">Các video vừa được thêm, cập nhật nội dung mới.</p>
+      </div>
+    </div>
+    <div class="video-grid" id="latest-grid"></div>
+  </section>
+
+  <!-- VIDEO TOP -->
+  <section class="container section-block">
+    <div class="section-header">
+      <div>
+        <h2>Video xem nhiều / đánh giá cao</h2>
+        <p class="section-note">Ưu tiên lượt xem và điểm đánh giá.</p>
+      </div>
+    </div>
+    <div class="video-grid" id="top-grid"></div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="container section-block">
+    <div class="section-header">
+      <div>
+        <h2>Học như thế nào?</h2>
+        <p class="section-note">3 bước đơn giản để bắt đầu.</p>
+      </div>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <strong>01. Chọn môn / chủ đề</strong>
+        <p>Lọc theo môn, chủ đề, độ khó. Xem gợi ý mốc nội dung.</p>
+      </div>
+      <div class="step-card">
+        <strong>02. Xem video</strong>
+        <p>Tua nhanh/chậm, xem lại nhiều lần, lưu lịch sử học.</p>
+      </div>
+      <div class="step-card">
+        <strong>03. Đánh giá & bình luận</strong>
+        <p>Đánh giá chất lượng, bình luận để cải thiện nội dung.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA PARENTS -->
+  <section class="container section-block">
+    <div class="parent-cta">
+      <div>
+        <h3>Phụ huynh cần tư vấn lộ trình?</h3>
+        <p>Đăng ký tư vấn để được đề xuất nội dung phù hợp, an toàn cho học sinh.</p>
+      </div>
+      <a class="btn btn-primary" href="gioithieu.html#consult">Đăng ký tư vấn</a>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="container section-block">
+    <div class="section-header">
+      <div>
+        <h2>Học viên nói gì?</h2>
+        <p class="section-note">Phản hồi demo để tăng độ tin cậy.</p>
+      </div>
+    </div>
+    <div class="testimonials">
+      <div class="testimonial-card">
+        <p class="quote">“Video ngắn gọn, dễ hiểu. Em xem lại bài giảng rất nhanh.”</p>
+        <p class="author">— Minh Anh, lớp 10</p>
+      </div>
+      <div class="testimonial-card">
+        <p class="quote">“Phụ huynh theo dõi được tiến độ, nội dung an toàn và đã kiểm duyệt.”</p>
+        <p class="author">— Chị Hương, phụ huynh</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALL VIDEOS -->
+  <main class="container section-block" id="video-list">
+    <div class="section-header">
+      <div>
+        <h2>Tất cả video</h2>
+        <p class="section-note">Tìm kiếm, lọc và sắp xếp.</p>
+      </div>
     </div>
     <div class="filter-row">
       <input type="text" class="input-search" id="home-search" placeholder="Tìm video, môn học..." />
@@ -69,14 +183,18 @@
         <option value="rating">Đánh giá cao</option>
       </select>
     </div>
-
     <div class="video-grid" id="home-video-grid"></div>
   </main>
 
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container footer-inner">
-      <p>© 2025 StudyVideo • Nền tảng video học tập minh hoạ (HTML/CSS)</p>
+      <p>© 2025 StudyVideo • Nền tảng video học tập (demo)</p>
+      <div class="footer-links">
+        <a href="gioithieu.html">Giới thiệu</a>
+        <a href="mailto:support@studyvideo.vn">Hỗ trợ</a>
+        <a href="#">Chính sách</a>
+      </div>
     </div>
   </footer>
 
@@ -105,7 +223,7 @@
         return;
       }
       const thumbStyle = video.thumbnailUrl
-        ? `style="background-image:url('${video.thumbnailUrl}');background-size:cover;background-position:center;"`
+        ? `style="background-image:url('${video.thumbnailUrl}');background-size:cover;background-position:center;" `
         : "";
       const rating =
         typeof video.avgRating === "number" && video.totalRatings > 0
@@ -151,40 +269,163 @@
       studyApp.renderVideoList({ containerId: "home-video-grid", videos: list });
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-      if (window.studyApp) {
-        studyApp.renderAuthArea();
-        studyApp.toggleAdminLink();
-        studyApp.guardLinks(".video-detail-link", {
-          message: "Vui lòng đăng nhập để xem chi tiết video.",
-        });
-        studyApp
-          .fetchVideos({ page: 1, limit: 100 })
-          .then((data) => {
-            allVideos = data.videos || [];
-            studyApp.populateSubjects("home-subject", allVideos);
-            const sorted = [...allVideos].sort((a, b) => {
-              const vdiff = (b.totalViews || 0) - (a.totalViews || 0);
-              if (vdiff !== 0) return vdiff;
-              const rdiff = (b.avgRating || 0) - (a.avgRating || 0);
-              if (rdiff !== 0) return rdiff;
-              return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
-            });
-            const heroVideo = sorted[0];
-            const featuredVideo = sorted[1] || heroVideo;
-            renderFeaturedCard("hero-card", heroVideo);
-            renderFeaturedCard("featured-card", featuredVideo);
-            filterAndRender();
-          })
-          .catch((err) => {
-            console.error(err);
-            document.getElementById("home-video-grid").innerHTML =
-              '<div class="video-card">Lỗi tải video.</div>';
-          });
-        document.getElementById("home-search")?.addEventListener("input", filterAndRender);
-        document.getElementById("home-subject")?.addEventListener("change", filterAndRender);
-        document.getElementById("home-sort")?.addEventListener("change", filterAndRender);
+    function renderQuickStats(videos) {
+      const total = videos.length;
+      const totalViews = videos.reduce((s, v) => s + (v.totalViews || 0), 0);
+      const rated = videos.filter((v) => typeof v.avgRating === "number" && v.totalRatings > 0);
+      const avg = rated.length
+        ? (rated.reduce((s, v) => s + (v.avgRating || 0), 0) / rated.length).toFixed(1)
+        : "—";
+      const statTotal = document.getElementById("stat-total");
+      const statViews = document.getElementById("stat-views");
+      const statRating = document.getElementById("stat-rating");
+      if (statTotal) statTotal.textContent = total;
+      if (statViews) statViews.textContent = totalViews.toLocaleString("vi-VN");
+      if (statRating) statRating.textContent = avg;
+    }
+
+    function renderTopSubjects(videos) {
+      const wrap = document.getElementById("subject-tags");
+      if (!wrap) return;
+      const map = new Map();
+      videos.forEach((v) => {
+        const key = (v.subject || "Khác").trim() || "Khác";
+        const current = map.get(key) || { subject: key, views: 0, count: 0 };
+        current.views += v.totalViews || 0;
+        current.count += 1;
+        map.set(key, current);
+      });
+      const top = [...map.values()]
+        .sort((a, b) => {
+          const vdiff = b.views - a.views;
+          if (vdiff !== 0) return vdiff;
+          return b.count - a.count;
+        })
+        .slice(0, 5);
+      if (!top.length) {
+        wrap.innerHTML = `<div class="empty">Chưa có dữ liệu môn học.</div>`;
+        return;
       }
+      wrap.innerHTML = top
+        .map((s) => {
+          const safe = (s.subject || "").replace(/"/g, "&quot;");
+          return `
+            <button class="subject-pill" data-subject="${safe}">
+              <span>${s.subject}</span>
+              <span class="subject-meta">${s.count} video • ${s.views.toLocaleString("vi-VN")} lượt xem</span>
+            </button>
+          `;
+        })
+        .join("");
+      wrap.querySelectorAll(".subject-pill").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const value = btn.getAttribute("data-subject") || "";
+          const select = document.getElementById("home-subject");
+          if (select) {
+            select.value = value;
+            filterAndRender();
+            window.scrollTo({ top: document.getElementById("video-list").offsetTop - 80, behavior: "smooth" });
+          }
+        });
+      });
+    }
+
+    function setTitleSuggestions(videos) {
+      const dl = document.getElementById("title-suggestions");
+      if (!dl) return;
+      const titles = Array.from(new Set(videos.map((v) => v.title).filter(Boolean))).slice(0, 40);
+      dl.innerHTML = titles.map((t) => `<option value="${t}">`).join("");
+    }
+
+    function renderLatest(videos) {
+      const latest = [...videos]
+        .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+        .slice(0, 6);
+      studyApp.renderVideoList({ containerId: "latest-grid", videos: latest });
+    }
+
+    function renderTopVideos(videos) {
+      const top = [...videos]
+        .sort((a, b) => {
+          const vdiff = (b.totalViews || 0) - (a.totalViews || 0);
+          if (vdiff !== 0) return vdiff;
+          const rdiff = (b.avgRating || 0) - (a.avgRating || 0);
+          if (rdiff !== 0) return rdiff;
+          return (b.totalRatings || 0) - (a.totalRatings || 0);
+        })
+        .slice(0, 6);
+      studyApp.renderVideoList({ containerId: "top-grid", videos: top });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (!window.studyApp) return;
+      studyApp.renderAuthArea();
+      studyApp.toggleAdminLink();
+      studyApp.guardLinks(".video-detail-link", {
+        message: "Vui lòng đăng nhập để xem chi tiết video.",
+      });
+
+      const heroSearch = document.getElementById("hero-search");
+      const heroSearchBtn = document.getElementById("hero-search-btn");
+      if (heroSearch) {
+        heroSearch.addEventListener("input", () => {
+          const mainSearch = document.getElementById("home-search");
+          if (mainSearch) {
+            mainSearch.value = heroSearch.value;
+            filterAndRender();
+          }
+        });
+      }
+      if (heroSearchBtn) {
+        heroSearchBtn.addEventListener("click", () => {
+          const mainSearch = document.getElementById("home-search");
+          if (mainSearch && heroSearch) {
+            mainSearch.value = heroSearch.value;
+            filterAndRender();
+            window.scrollTo({ top: document.getElementById("video-list").offsetTop - 80, behavior: "smooth" });
+          }
+        });
+      }
+
+      studyApp
+        .fetchVideos({ page: 1, limit: 200 })
+        .then((data) => {
+          allVideos = data.videos || [];
+          studyApp.populateSubjects("home-subject", allVideos);
+          // chỉnh lại option đầu
+          const select = document.getElementById("home-subject");
+          if (select && select.options.length) select.options[0].textContent = "Tất cả môn";
+
+          const sorted = [...allVideos].sort((a, b) => {
+            const vdiff = (b.totalViews || 0) - (a.totalViews || 0);
+            if (vdiff !== 0) return vdiff;
+            const rdiff = (b.avgRating || 0) - (a.avgRating || 0);
+            if (rdiff !== 0) return rdiff;
+            return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+          });
+          const heroVideo = sorted[0];
+          const featuredVideo = sorted[1] || heroVideo;
+          renderFeaturedCard("hero-card", heroVideo);
+          renderFeaturedCard("featured-card", featuredVideo);
+          renderQuickStats(allVideos);
+          renderTopSubjects(allVideos);
+          renderLatest(allVideos);
+          renderTopVideos(allVideos);
+          setTitleSuggestions(allVideos);
+          filterAndRender();
+        })
+        .catch((err) => {
+          console.error(err);
+          document.getElementById("home-video-grid").innerHTML =
+            '<div class="video-card">Lỗi tải video.</div>';
+          document.getElementById("latest-grid").innerHTML =
+            '<div class="video-card">Lỗi tải video.</div>';
+          document.getElementById("top-grid").innerHTML =
+            '<div class="video-card">Lỗi tải video.</div>';
+        });
+      document.getElementById("home-search")?.addEventListener("input", filterAndRender);
+      document.getElementById("home-subject")?.addEventListener("change", filterAndRender);
+      document.getElementById("home-sort")?.addEventListener("change", filterAndRender);
     });
   </script>
 </body>

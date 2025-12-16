@@ -1,211 +1,298 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>StudyVideo - Giới thiệu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Giới thiệu - StudyVideo</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .about-wrapper {
-      margin-top: 32px;
-      margin-bottom: 40px;
+    :root {
+      --brand: #2563eb;
+      --brand-2: #22d3ee;
+      --deep: #0f172a;
+      --muted: #6b7280;
+      --surface: #ffffff;
+      --border: #e5e7eb;
+    }
+    .about-hero {
+      padding: 56px 0 44px;
+      background: radial-gradient(circle at 16% 18%, #e0f2fe 0, #eef2ff 32%, #f8fafc 60%),
+        radial-gradient(circle at 80% 10%, #ffe4e6 0, #f8fafc 40%);
+    }
+    .about-hero-inner {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-      gap: 24px;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 28px;
+      align-items: center;
     }
     @media (max-width: 960px) {
-      .about-wrapper {
-        grid-template-columns: minmax(0, 1fr);
+      .about-hero-inner {
+        grid-template-columns: 1fr;
       }
     }
-    .about-card,
-    .contact-card {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 20px 24px;
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
-      border: 1px solid #e5e7eb;
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #0f172a;
+      color: #e0f2fe;
+      font-size: 13px;
+      letter-spacing: 0.1px;
     }
-    .about-card h2,
-    .contact-card h2 {
-      margin: 0 0 8px;
-      font-size: 20px;
+    .hero-title {
+      font-size: 36px;
+      line-height: 1.22;
+      margin: 12px 0 10px;
+      letter-spacing: -0.5px;
     }
-    .about-card p,
-    .about-card li {
-      font-size: 14px;
-      line-height: 1.7;
+    .hero-desc {
+      font-size: 15px;
       color: #4b5563;
+      max-width: 640px;
+      margin-bottom: 16px;
     }
-    .about-card ul {
-      margin-top: 8px;
-      padding-left: 20px;
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
     }
-    .pill-tag {
+    .pill-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .pill-strong {
+      padding: 9px 12px;
+      border-radius: 12px;
+      background: #0f172a;
+      color: #e0f2fe;
+      font-size: 13px;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      background: #e0f2fe;
-      color: #1d4ed8;
-      margin-right: 6px;
-      margin-top: 4px;
     }
-    .hero-inner.about-hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-      gap: 24px;
-      align-items: center;
-    }
-    @media (max-width: 960px) {
-      .hero-inner.about-hero {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-    .about-hero-visual {
-      display: flex;
-      justify-content: flex-end;
-    }
-    .about-hero-image-wrapper {
+    .hero-visual {
       position: relative;
-      width: 100%;
-      max-width: 360px;
-    }
-    .about-hero-image-wrapper img {
-      width: 100%;
-      display: block;
+      background: linear-gradient(135deg, #2563eb, #22d3ee);
       border-radius: 20px;
-      object-fit: cover;
-      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.35);
+      min-height: 320px;
+      overflow: hidden;
+      box-shadow: 0 22px 50px rgba(37, 99, 235, 0.28);
     }
-    .about-hero-badge {
+    .hero-visual::after {
+      content: "";
       position: absolute;
-      bottom: 12px;
-      left: 12px;
-      right: 12px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.85);
-      color: #f9fafb;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 12px;
-      backdrop-filter: blur(6px);
+      inset: 16% 12% auto auto;
+      width: 160px;
+      height: 160px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.2);
     }
-    .about-hero-badge strong {
+    .hero-visual .overlay {
+      position: absolute;
+      inset: auto 18px 18px 18px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.74);
+      color: #e5e7eb;
       font-size: 13px;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
     }
-    .about-stats {
+    .intro-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 16px;
-    }
-    @media (max-width: 640px) {
-      .about-stats {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-    .about-stat-item {
-      border-radius: 12px;
-      border: 1px solid #e5e7eb;
-      padding: 10px 12px;
-      background: #f8fafc;
-      font-size: 12px;
-      color: #4b5563;
-    }
-    .about-stat-item strong {
-      display: block;
-      font-size: 14px;
-      color: #111827;
-    }
-    .contact-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 14px;
-      margin-bottom: 12px;
+      margin-top: 18px;
     }
-    .contact-header-text {
-      flex: 1;
+    .intro-card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 14px 16px;
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.1);
     }
-    .contact-header-text p {
+    .intro-card h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      letter-spacing: -0.2px;
+    }
+    .intro-card p {
       margin: 0;
       font-size: 13px;
-      color: #6b7280;
+      color: #4b5563;
+      line-height: 1.6;
     }
-    .contact-avatar {
-      flex-shrink: 0;
-      width: 64px;
-      height: 64px;
-      border-radius: 999px;
-      overflow: hidden;
-      border: 2px solid #e0f2fe;
-      background: #e5e7eb;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 26px;
+    .section-title {
+      font-size: 20px;
+      margin: 28px 0 10px;
+      letter-spacing: -0.2px;
     }
-    .contact-grid {
+    .feature-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px 14px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin-top: 10px;
     }
-    .contact-group {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+    .feature-card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 14px 16px;
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+    }
+    .feature-card h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+    }
+    .feature-card p {
+      margin: 0;
       font-size: 13px;
+      color: #4b5563;
+      line-height: 1.6;
     }
-    .contact-group.full {
-      grid-column: 1 / -1;
+    .tech-list {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 12px 0;
     }
-    .contact-group label {
-      font-weight: 600;
-      color: #374151;
+    .tech-pill {
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: #eef2ff;
+      color: #1d4ed8;
+      font-size: 13px;
+      border: 1px solid #e0e7ff;
     }
-    .contact-input,
-    .contact-select,
-    .contact-textarea {
-      border-radius: 10px;
-      border: 1px solid #d1d5db;
-      padding: 9px 11px;
-      font-size: 14px;
-      font-family: inherit;
-      outline: none;
-      background: #f9fafb;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin: 12px 0 4px;
     }
-    .contact-input:focus,
-    .contact-select:focus,
-    .contact-textarea:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 1px #2563eb33;
+    .stat-card {
+      background: linear-gradient(135deg, #2563eb, #22d3ee);
+      color: #f8fafc;
+      padding: 12px 14px;
+      border-radius: 14px;
+      box-shadow: 0 18px 32px rgba(37, 99, 235, 0.2);
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .step {
+      border: 1px dashed #cbd5e1;
+      border-radius: 14px;
+      padding: 12px 14px;
       background: #ffffff;
     }
-    .contact-textarea {
-      resize: vertical;
-      min-height: 90px;
+    .cta-box {
+      margin-top: 22px;
+      padding: 18px 16px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #0f172a, #111827);
+      color: #e5e7eb;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1.1fr auto;
+      align-items: center;
     }
-    .contact-footer {
+    .cta-box .btn {
+      justify-self: start;
+    }
+    @media (max-width: 780px) {
+      .cta-box {
+        grid-template-columns: 1fr;
+      }
+    }
+    .consult-section {
+      margin: 40px auto 28px;
+      display: flex;
+      justify-content: center;
+    }
+    .consult-card {
+      width: 100%;
+      max-width: 960px;
+      background: linear-gradient(135deg, #e0f2fe, #ecfeff);
+      border: 1px solid #dbeafe;
+      border-radius: 18px;
+      padding: 22px 20px;
+      box-shadow: 0 20px 40px rgba(59, 130, 246, 0.16);
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px 14px;
+      margin-top: 10px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 13px;
+    }
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+    .light-input,
+    .light-select,
+    .light-textarea {
+      border-radius: 12px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #0f172a;
+      padding: 10px 12px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .light-input:focus,
+    .light-select:focus,
+    .light-textarea:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 1px #2563eb33;
+    }
+    .light-textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    .form-footer {
       display: flex;
       justify-content: flex-end;
-      margin-top: 10px;
+      margin-top: 12px;
     }
     .contact-msg {
       font-size: 13px;
-      margin-top: 6px;
+      margin-top: 8px;
       min-height: 18px;
-      color: #6b7280;
+      color: #0f172a;
     }
     .contact-msg.success {
-      color: #16a34a;
+      color: #15803d;
     }
     .contact-msg.error {
-      color: #dc2626;
+      color: #be123c;
+    }
+    .pro-footer {
+      margin-top: 32px;
+      padding: 18px 0;
+      border-top: 1px solid #e5e7eb;
+      font-size: 13px;
+      color: #475569;
+      background: #f8fafc;
+    }
+    .pro-footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
     }
   </style>
 </head>
@@ -225,137 +312,184 @@
   </header>
 
   <!-- HERO -->
-  <section class="hero">
-    <div class="container hero-inner about-hero">
-      <div class="hero-text">
-        <div class="hero-highlight">Đồng hành cùng học sinh & phụ huynh</div>
-        <h1>Video học tập trực quan, học lại mọi lúc bạn cần</h1>
-        <p>
-          StudyVideo giúp học sinh xem lại bài giảng bất cứ lúc nào, phụ huynh dễ theo dõi tiến độ và giáo viên
-          kiểm soát chất lượng nội dung.
+  <section class="about-hero">
+    <div class="container about-hero-inner">
+      <div>
+        <div class="hero-badge">Video học tập • Tự học chủ động</div>
+        <h1 class="hero-title">Nền tảng video học tập trực quan cho học sinh & phụ huynh</h1>
+        <p class="hero-desc">
+          Giá trị cốt lõi: Học lại bài giảng mọi lúc, theo dõi tiến trình, đánh giá chất lượng nội dung. Phù hợp cho các nhu cầu ôn tập, bổ sung kiến thức, luyện bài.
         </p>
-
-        <div class="about-stats">
-          <div class="about-stat-item">
-            <strong>Học lại linh hoạt</strong>
-            Xem lại bài bao nhiêu lần tuỳ ý, tua nhanh/chậm theo nhịp học.
-          </div>
-          <div class="about-stat-item">
-            <strong>Đồng hành với phụ huynh</strong>
-            Minh bạch lộ trình, phụ huynh theo dõi dễ dàng.
-          </div>
-          <div class="about-stat-item">
-            <strong>Nội dung an toàn</strong>
-            Bài giảng được tuyển chọn, hướng tới kỹ năng STEM.
-          </div>
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-sm" href="khoahoc.html">Xem khoá học</a>
+          <a class="btn btn-outline btn-sm" href="#consult">Đăng ký tư vấn</a>
+        </div>
+        <div class="pill-row">
+          <span class="pill-strong">Học lại mọi lúc</span>
+          <span class="pill-strong">Theo dõi tiến độ</span>
+          <span class="pill-strong">Nội dung chọn lọc</span>
         </div>
       </div>
-
-      <div class="about-hero-visual">
-        <div class="about-hero-image-wrapper">
-          <img src="images/family-learning.jpg" alt="Phụ huynh cùng con học online trên StudyVideo" />
-          <div class="about-hero-badge">
-            <span>Video rõ ràng</span>
-            <span><strong>Phụ huynh & học sinh</strong> cùng theo dõi</span>
-          </div>
+      <div class="hero-visual">
+        <div class="overlay">
+          <strong>Video ngắn gọn, dễ hiểu</strong>
+          <div>Hỗ trợ tua nhanh/chậm, mốc nội dung, đánh giá và bình luận.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CONTENT -->
-  <main class="container about-wrapper">
-    <section class="about-card">
-      <h2>Sứ mệnh của StudyVideo</h2>
-      <p style="margin-top: 8px;">
-        StudyVideo được xây dựng như một thư viện video học tập, giúp học sinh xem lại bài giảng bất cứ lúc nào
-        và phụ huynh yên tâm đồng hành.
-      </p>
-      <ul>
-        <li>Video ngắn gọn, dễ hiểu, xem lại nhiều lần.</li>
-        <li>Đánh giá/bình luận để cải thiện chất lượng bài giảng.</li>
-        <li>Phân quyền rõ ràng: Admin quản lý nội dung, học viên tập trung học.</li>
-      </ul>
-
-      <h2 style="margin-top: 20px;">Công nghệ sử dụng</h2>
-      <ul>
-        <li><strong>Frontend:</strong> HTML, CSS, JavaScript thuần.</li>
-        <li><strong>Backend:</strong> Node.js + Express.</li>
-        <li><strong>CSDL:</strong> MongoDB Atlas, JWT cho đăng nhập.</li>
-      </ul>
-
-      <div style="margin-top: 12px;">
-        <span class="pill-tag">Học sinh THCS - THPT</span>
-        <span class="pill-tag">Phụ huynh đồng hành</span>
-        <span class="pill-tag">Lập trình & STEM</span>
+  <section class="container" id="features" style="margin:28px auto 10px;">
+    <h2 class="section-title">Lợi ích & đối tượng</h2>
+    <div class="intro-grid">
+      <div class="intro-card">
+        <h3>Học sinh / sinh viên</h3>
+        <p>Ôn tập, bổ sung kiến thức, luyện bài theo chủ đề; theo dõi tiến trình và lịch sử học.</p>
       </div>
-    </section>
+      <div class="intro-card">
+        <h3>Phụ huynh</h3>
+        <p>Quan sát tiến độ, chất lượng nội dung, đồng hành qua đánh giá và bình luận.</p>
+      </div>
+      <div class="intro-card">
+        <h3>Giá trị cốt lõi</h3>
+        <p>Học lại bài giảng mọi lúc; video rõ ràng, an toàn, có gợi ý học tiếp tục.</p>
+      </div>
+    </div>
 
-    <section class="contact-card">
-      <div class="contact-header">
-        <div class="contact-header-text">
-          <h2>Đăng ký tư vấn / học thử</h2>
-          <p>Để lại thông tin, trung tâm sẽ liên hệ với lộ trình phù hợp (demo).</p>
+    <h2 class="section-title">Tính năng nổi bật</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>Video ngắn gọn, dễ hiểu</h3>
+        <p>Tua nhanh/chậm, mốc nội dung rõ ràng, chia chủ đề để học tập trung.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Theo dõi tiến trình</h3>
+        <p>Lưu lịch sử, gợi ý học tiếp, thống kê thời gian học theo ngày/tuần.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Đánh giá & bình luận</h3>
+        <p>Học viên phản hồi, xếp hạng; admin kiểm duyệt giúp nội dung sạch và hữu ích.</p>
+      </div>
+      <div class="feature-card">
+        <h3>An toàn & phân quyền</h3>
+        <p>Video được kiểm duyệt; học viên xem/đánh giá, admin tạo/ẩn/xoá và xem log.</p>
+      </div>
+    </div>
+
+    <h2 class="section-title">Công nghệ & vận hành</h2>
+    <div class="tech-list">
+      <span class="tech-pill">Frontend: HTML, CSS, JS thuần</span>
+      <span class="tech-pill">Backend: Node.js + Express</span>
+      <span class="tech-pill">CSDL: MongoDB Atlas</span>
+      <span class="tech-pill">Auth: JWT</span>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <strong>Cam kết kiểm duyệt</strong>
+        <div>Nội dung an toàn, có log hoạt động và thống kê.</div>
+      </div>
+      <div class="stat-card">
+        <strong>Ổn định & bảo mật</strong>
+        <div>Stack rõ ràng, phân tách frontend/backend, JWT cho đăng nhập.</div>
+      </div>
+    </div>
+
+    <h2 class="section-title">Quy trình sử dụng (3 bước)</h2>
+    <div class="steps">
+      <div class="step">
+        <strong>01. Đăng ký / đăng nhập</strong>
+        <p>Đăng ký tài khoản hoặc dùng tài khoản có sẵn để vào kho video.</p>
+      </div>
+      <div class="step">
+        <strong>02. Chọn môn / video</strong>
+        <p>Lọc theo chủ đề, độ khó, xem mốc nội dung để học tập trung.</p>
+      </div>
+      <div class="step">
+        <strong>03. Học & đánh giá</strong>
+        <p>Xem video, tua nhanh/chậm, lưu lịch sử, đánh giá và bình luận.</p>
+      </div>
+    </div>
+
+    <div class="cta-box">
+      <div>
+        <strong>Đủ rõ để ra quyết định</strong>
+        <div>Nhận tư vấn lộ trình, xem demo khoá học, kiểm thử bình luận/đánh giá.</div>
+      </div>
+      <a class="btn btn-primary btn-sm" href="#consult">Đăng ký tư vấn</a>
+    </div>
+  </section>
+
+  <!-- CONSULT FORM AT BOTTOM -->
+  <section class="container consult-section" id="consult">
+    <div class="consult-card">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;">
+        <div>
+          <h2 style="margin:0 0 6px;">Đăng ký tư vấn / học thử</h2>
+          <p style="margin:0;color:#334155;font-size:13px;">
+            Để lại thông tin, chúng tôi sẽ liên hệ với lộ trình phù hợp (demo).
+          </p>
         </div>
-        <div class="contact-avatar">
-          <img src="images/consult-teacher.jpg" alt="Tư vấn viên StudyVideo" />
+        <div style="text-align:right;font-size:13px;color:#475569;">
+          <div>Thời gian phản hồi: 24-48h</div>
+          <div>Miễn phí tư vấn</div>
         </div>
       </div>
 
-      <form id="consult-form">
-        <div class="contact-grid">
-          <div class="contact-group">
+      <form id="consult-form" style="margin-top:12px;">
+        <div class="form-grid">
+          <div class="form-group">
             <label for="fullName">Họ tên *</label>
-            <input id="fullName" class="contact-input" placeholder="VD: Nguyễn Văn A" />
+            <input id="fullName" class="light-input" placeholder="VD: Nguyễn Văn A" />
           </div>
 
-          <div class="contact-group">
+          <div class="form-group">
             <label for="role">Bạn là *</label>
-            <select id="role" class="contact-select">
+            <select id="role" class="light-select">
               <option value="">-- Chọn --</option>
               <option value="ph">Phụ huynh</option>
               <option value="hs">Học sinh / Sinh viên</option>
             </select>
           </div>
 
-          <div class="contact-group">
+          <div class="form-group">
             <label for="grade">Khối lớp / Năm học</label>
-            <input id="grade" class="contact-input" placeholder="VD: Lớp 7, Lớp 10, Năm 1 ĐH..." />
+            <input id="grade" class="light-input" placeholder="VD: Lớp 7, Lớp 10, Năm 1 ĐH..." />
           </div>
 
-          <div class="contact-group">
+          <div class="form-group">
             <label for="phone">Số điện thoại *</label>
-            <input id="phone" class="contact-input" placeholder="VD: 09xx xxx xxx" />
+            <input id="phone" class="light-input" placeholder="VD: 09xx xxx xxx" />
           </div>
 
-          <div class="contact-group full">
+          <div class="form-group full">
             <label for="email">Email (nếu có)</label>
-            <input id="email" type="email" class="contact-input" placeholder="VD: phuhuynh@gmail.com" />
+            <input id="email" type="email" class="light-input" placeholder="VD: phuhuynh@gmail.com" />
           </div>
 
-          <div class="contact-group full">
+          <div class="form-group full">
             <label for="message">Nhu cầu tư vấn</label>
             <textarea
               id="message"
-              class="contact-textarea"
+              class="light-textarea"
               placeholder="VD: Muốn học lại lập trình web cơ bản, cần thêm bài luyện tập..."
             ></textarea>
           </div>
         </div>
 
-        <div class="contact-footer">
+        <div class="form-footer">
           <button type="submit" class="btn btn-primary btn-sm">Gửi thông tin tư vấn</button>
         </div>
-
         <p id="contact-msg" class="contact-msg"></p>
       </form>
-    </section>
-  </main>
+    </div>
+  </section>
 
   <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container footer-inner">
-      <p>© 2025 StudyVideo • Trang giới thiệu</p>
+  <footer class="pro-footer">
+    <div class="container pro-footer-inner">
+      <div>© 2025 StudyVideo • Giới thiệu & tư vấn</div>
+      <div>Liên hệ: support@studyvideo.vn • 098x xxx xxx</div>
     </div>
   </footer>
 
@@ -392,17 +526,16 @@
             body: JSON.stringify({ fullName, role, phone, grade, email, message }),
           });
 
-          // Nếu server trả HTML (ví dụ chạy file://) thì parse sẽ lỗi -> báo rõ
           const text = await res.text();
           let data = {};
           try {
             data = JSON.parse(text);
           } catch {
-            throw new Error("Không nhận được phản hồi JSON. Hãy chạy qua server (npm start).");
+            throw new Error("Server không trả JSON. Hãy chạy backend (npm start).");
           }
 
           if (!res.ok) throw new Error(data.message || "Gửi thất bại");
-          msgEl.textContent = "Đã gửi thông tin tư vấn. Trung tâm sẽ liên hệ sớm (demo).";
+          msgEl.textContent = "Đã gửi thông tin. Chúng tôi sẽ liên hệ sớm (demo).";
           msgEl.classList.add("success");
           form.reset();
         } catch (err) {

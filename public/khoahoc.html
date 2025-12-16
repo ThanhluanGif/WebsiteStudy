@@ -21,85 +21,469 @@
   </header>
 
   <!-- HERO -->
-  <section class="hero" style="min-height: 220px;">
+  <section class="hero" style="min-height: 320px;">
     <div class="container hero-inner">
       <div class="hero-text">
-        <div class="hero-highlight">Lộ trình rõ ràng • Video súc tích</div>
-        <h1>Khoá học theo môn với video chuẩn bài giảng</h1>
+        <div class="hero-highlight">Lộ trình rõ ràng • Video sắc nét</div>
+        <h1>Khoá học theo môn, video chuẩn giảng dạy, dễ tìm và dễ học</h1>
         <p>
-          Học từ nền tảng đến nâng cao với các khoá Lập trình, Toán và Khoa học.
-          Mỗi khoá đều có video ngắn, bài tập gợi ý và phần bình luận trao đổi.
+          Lọc theo môn, độ khó, thời lượng; xem trạng thái hiển thị. Video có mốc nội dung, lượt xem, đánh giá và bình luận.
         </p>
+        <div class="hero-search">
+          <input id="course-hero-search" type="text" placeholder="Tìm tiêu đề khoá/video..." list="course-title-suggestions" />
+          <datalist id="course-title-suggestions"></datalist>
+          <button class="btn btn-primary btn-sm" id="course-hero-search-btn">Tìm kiếm</button>
+        </div>
+        <p style="margin-top:8px;font-size:13px;color:#475569;">Không tìm thấy? <a href="gioithieu.html#consult">Gợi ý liên hệ tư vấn</a></p>
+      </div>
+      <div class="hero-visual-course">
+        <div class="hero-course-card">
+          <div class="hero-course-thumb" id="hero-course-thumb"></div>
+          <div class="hero-course-body">
+            <p class="hero-course-subject" id="hero-course-subject">—</p>
+            <h3 id="hero-course-title">Video nổi bật</h3>
+            <p class="hero-course-meta" id="hero-course-meta">—</p>
+            <div class="hero-course-stats" id="hero-course-stats"></div>
+          </div>
+        </div>
+        <p class="hero-course-note">Được chọn tự động theo lượt xem/đánh giá cao.</p>
       </div>
     </div>
   </section>
 
-  <!-- COURSE LIST -->
-  <main class="container" style="margin-top: 24px; margin-bottom: 40px;">
-    <div class="section-header">
-      <h2>Khoá học nổi bật</h2>
-      <div class="section-actions">
-        <input type="text" class="input-search" placeholder="Tìm theo tên khoá học..." />
-        <select class="select-filter">
-          <option value="">Tất cả chủ đề</option>
-          <option>Lập trình Web</option>
-          <option>Python</option>
-          <option>Toán & Khoa học</option>
-        </select>
+  <section class="container stats-section">
+    <div class="trust-banner">
+      <div>
+        <strong>Nội dung đã kiểm duyệt • An toàn cho lứa tuổi</strong>
+        <p>Video được kiểm duyệt, có log hoạt động và thống kê minh bạch.</p>
+      </div>
+      <a class="btn btn-outline btn-sm" href="gioithieu.html#consult">Đăng ký tư vấn chọn khoá</a>
+    </div>
+    <div class="quick-stats">
+      <div class="stat-card">
+        <p class="stat-label">Tổng số khoá/video</p>
+        <p class="stat-value" id="stat-total">—</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Lượt xem (ước tính)</p>
+        <p class="stat-value" id="stat-views">—</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Đánh giá trung bình</p>
+        <p class="stat-value" id="stat-rating">—</p>
       </div>
     </div>
+  </section>
 
-    <div class="video-grid" id="course-video-grid"></div>
+  <main class="container" style="margin-bottom: 40px;">
+    <section class="course-layout">
+      <aside class="course-sidebar">
+        <div class="sidebar-block">
+          <h3>Danh mục / môn học</h3>
+          <div class="subject-tags" id="subject-groups"></div>
+        </div>
+        <div class="sidebar-block">
+          <h3>Top xem nhiều</h3>
+          <div class="sidebar-list" id="sidebar-top-views"></div>
+        </div>
+        <div class="sidebar-block">
+          <h3>Top đánh giá</h3>
+          <div class="sidebar-list" id="sidebar-top-rating"></div>
+        </div>
+        <div class="sidebar-cta">
+          <p>Phụ huynh cần tư vấn chọn khoá?</p>
+          <a class="btn btn-primary btn-sm" href="gioithieu.html#consult">Đăng ký tư vấn</a>
+        </div>
+      </aside>
 
-    <section style="margin-top: 32px;">
-      <h2>Nhóm khoá học theo chủ đề</h2>
-      <div class="video-grid" style="margin-top: 12px;">
-        <article class="video-card">
-          <div class="video-body">
-            <h3 class="video-title">Nhóm: Lập trình & Công nghệ</h3>
-            <p class="video-desc">
-              Gồm khoá Lập trình Web, Python, nền tảng thuật toán; giúp học sinh xây dựng tư duy công nghệ vững.
-            </p>
+      <section class="course-main">
+        <div class="section-header">
+          <div>
+            <h2>Lọc nâng cao</h2>
+            <p class="section-note">Tìm nhanh theo môn, độ khó, thời lượng, trạng thái.</p>
           </div>
-        </article>
-        <article class="video-card">
-          <div class="video-body">
-            <h3 class="video-title">Nhóm: Toán & Khoa học</h3>
-            <p class="video-desc">
-              Tập trung vào Toán THCS/THPT, Vật lý, Hoá học cơ bản với ví dụ minh họa trực quan qua video.
-            </p>
+        </div>
+        <div class="filter-advanced">
+          <div class="filter-field full">
+            <label>Tìm kiếm</label>
+            <input type="text" id="course-search" class="input-search" placeholder="Tìm tiêu đề, mô tả..." />
           </div>
-        </article>
-        <article class="video-card">
-          <div class="video-body">
-            <h3 class="video-title">Nhóm: Kỹ năng & Định hướng</h3>
-            <p class="video-desc">
-              Chia sẻ cách học hiệu quả, quản lý thời gian và gợi ý định hướng nghề nghiệp trong lĩnh vực công nghệ.
-            </p>
+          <div class="filter-field">
+            <label>Môn học</label>
+            <select id="course-subject" class="select-filter"></select>
           </div>
-        </article>
-      </div>
+          <div class="filter-field">
+            <label>Độ khó</label>
+            <select id="course-level" class="select-filter">
+              <option value="">Tất cả</option>
+              <option value="basic">Cơ bản</option>
+              <option value="intermediate">Trung bình</option>
+              <option value="advanced">Nâng cao</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>Thời lượng</label>
+            <select id="course-duration" class="select-filter">
+              <option value="">Tất cả</option>
+              <option value="short">Ngắn (&le; 10')</option>
+              <option value="medium">Trung (11-25')</option>
+              <option value="long">Dài (&gt; 25')</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>Trạng thái</label>
+            <select id="course-status" class="select-filter">
+              <option value="">Tất cả</option>
+              <option value="published">Đang hiển thị</option>
+              <option value="hidden">Đã ẩn</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label>Sắp xếp</label>
+            <select id="course-sort" class="select-filter">
+              <option value="newest">Mới nhất</option>
+              <option value="views">Xem nhiều</option>
+              <option value="rating">Đánh giá cao</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="section-header" style="margin-top: 18px;">
+          <div>
+            <h2>Danh sách khoá / video</h2>
+            <p class="section-note">Áp dụng bộ lọc bên trên.</p>
+          </div>
+        </div>
+        <div class="video-grid" id="course-grid"></div>
+        <p class="section-note" style="margin-top:10px;">Không tìm thấy? <a href="gioithieu.html#consult">Gợi ý liên hệ tư vấn</a></p>
+      </section>
     </section>
   </main>
 
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container footer-inner">
-      <p>© 2025 StudyVideo • Khoá học mẫu</p>
+      <p>© 2025 StudyVideo • Khoá học</p>
+      <div class="footer-links">
+        <a href="gioithieu.html">Giới thiệu</a>
+        <a href="mailto:support@studyvideo.vn">Hỗ trợ</a>
+        <a href="#">Chính sách</a>
+      </div>
     </div>
   </footer>
 
   <script src="app.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      if (window.studyApp) {
-        studyApp.renderAuthArea();
-        studyApp.toggleAdminLink();
-        studyApp.guardLinks(".video-detail-link", {
-          message: "Vui lòng đăng nhập để xem chi tiết video.",
-        });
-        studyApp.loadVideosIntoGrid({ containerId: "course-video-grid", limit: 12 });
+    let allVideos = [];
+
+    function bucketDuration(v) {
+      const d = Number(v.durationMinutes || 0);
+      if (d <= 10) return "short";
+      if (d <= 25) return "medium";
+      return "long";
+    }
+
+    function isNewVideo(v) {
+      if (!v.createdAt) return false;
+      const days = (Date.now() - new Date(v.createdAt).getTime()) / (1000 * 60 * 60 * 24);
+      return days <= 14;
+    }
+
+    function ratingLabel(v) {
+      if (typeof v.avgRating === "number" && v.totalRatings > 0) {
+        return `${v.avgRating.toFixed(1)} (${v.totalRatings} đánh giá)`;
       }
+      return "Chưa có đánh giá";
+    }
+
+    function makeBadges(v) {
+      const badges = [];
+      if (!v.isPublished) badges.push('<span class="badge hidden">Đã ẩn</span>');
+      if (isNewVideo(v)) badges.push('<span class="badge">Mới</span>');
+      if ((v.totalViews || 0) > 500) badges.push('<span class="badge">Hot</span>');
+      return badges.join(" ");
+    }
+
+    function courseCardHtml(v, isAdmin) {
+      const thumb = v.thumbnailUrl || "";
+      const bg = thumb
+        ? `style="background-image:url('${thumb}');background-size:cover;background-position:center;"`
+        : "";
+      const subject = v.subject || "Chưa phân loại";
+      const duration = v.durationMinutes ? `${v.durationMinutes} phút` : "N/A";
+      const views = (v.totalViews || 0).toLocaleString("vi-VN");
+      const rating = ratingLabel(v);
+      const link = `video.html?id=${v._id || ""}`;
+      const status = v.isPublished ? "Hiển thị" : "Đã ẩn";
+      const badges = makeBadges(v);
+      return `
+        <article class="video-card course-card">
+          <div class="video-thumb" ${bg}></div>
+          <div class="video-body">
+            <div class="course-head">
+              <h3 class="video-title">${v.title || "Khoá học / Video"}</h3>
+              <div class="course-badges">${badges || `<span class="badge">${status}</span>`}</div>
+            </div>
+            <p class="video-meta">Môn: ${subject} • Thời lượng: ${duration}</p>
+            <p class="video-meta">Lượt xem: ${views} • Đánh giá: ${rating}</p>
+            <p class="video-desc">${v.description || ""}</p>
+            <div class="course-actions">
+              <a href="${link}" class="btn btn-sm btn-primary video-detail-link">Xem chi tiết</a>
+              <button class="btn btn-sm btn-outline" disabled title="Tính năng demo">Lưu vào danh sách</button>
+              ${isAdmin ? `<button class="btn btn-sm btn-ghost" disabled title="Sửa nhanh (demo)">Sửa nhanh</button>` : ""}
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderCourseList(containerId, videos) {
+      const grid = document.getElementById(containerId);
+      if (!grid) return;
+      const isAdmin = studyApp.getAuth?.()?.user?.role === "admin";
+      if (!videos.length) {
+        grid.innerHTML = `<div class="video-card">Chưa có dữ liệu.</div>`;
+        return;
+      }
+      grid.innerHTML = videos.map((v) => courseCardHtml(v, isAdmin)).join("");
+      studyApp.guardLinks(".video-detail-link", {
+        message: "Vui lòng đăng nhập để xem chi tiết video.",
+      });
+    }
+
+    function renderQuickStats(videos) {
+      const total = videos.length;
+      const totalViews = videos.reduce((s, v) => s + (v.totalViews || 0), 0);
+      const rated = videos.filter((v) => typeof v.avgRating === "number" && v.totalRatings > 0);
+      const avg = rated.length
+        ? (rated.reduce((s, v) => s + (v.avgRating || 0), 0) / rated.length).toFixed(1)
+        : "—";
+      document.getElementById("stat-total").textContent = total;
+      document.getElementById("stat-views").textContent = totalViews.toLocaleString("vi-VN");
+      document.getElementById("stat-rating").textContent = avg;
+    }
+
+    function renderTopSubjects(videos) {
+      const wrap = document.getElementById("subject-groups");
+      if (!wrap) return;
+      const map = new Map();
+      videos.forEach((v) => {
+        const key = (v.subject || "Khác").trim() || "Khác";
+        const current = map.get(key) || { subject: key, views: 0, count: 0, avg: 0, ratings: 0 };
+        current.views += v.totalViews || 0;
+        current.count += 1;
+        if (typeof v.avgRating === "number" && v.totalRatings > 0) {
+          current.avgSum = (current.avgSum || 0) + v.avgRating;
+          current.ratings += 1;
+        }
+        map.set(key, current);
+      });
+      const list = [...map.values()]
+        .map((s) => ({
+          ...s,
+          avg: s.ratings ? (s.avgSum || 0) / s.ratings : 0,
+        }))
+        .sort((a, b) => {
+          const vdiff = b.views - a.views;
+          if (vdiff !== 0) return vdiff;
+          return b.count - a.count;
+        });
+      if (!list.length) {
+        wrap.innerHTML = `<div class="empty">Chưa có dữ liệu môn học.</div>`;
+        return;
+      }
+      wrap.innerHTML = list
+        .slice(0, 10)
+        .map((s) => {
+          const safe = (s.subject || "").replace(/"/g, "&quot;");
+          return `
+            <button class="subject-pill" data-subject="${safe}">
+              <span>${s.subject}</span>
+              <span class="subject-meta">${s.count} video • ${s.views.toLocaleString("vi-VN")} lượt xem</span>
+              <span class="subject-meta">Đánh giá TB: ${s.avg ? s.avg.toFixed(1) : "—"}</span>
+            </button>
+          `;
+        })
+        .join("");
+
+      wrap.querySelectorAll(".subject-pill").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const value = btn.getAttribute("data-subject") || "";
+          const select = document.getElementById("course-subject");
+          if (select) {
+            select.value = value;
+            filterAndRender();
+            window.scrollTo({ top: document.getElementById("course-grid").offsetTop - 80, behavior: "smooth" });
+          }
+        });
+      });
+    }
+
+    function setTitleSuggestions(videos) {
+      const dl = document.getElementById("course-title-suggestions");
+      if (!dl) return;
+      const titles = Array.from(new Set(videos.map((v) => v.title).filter(Boolean))).slice(0, 50);
+      dl.innerHTML = titles.map((t) => `<option value="${t}">`).join("");
+    }
+
+    function renderHeroCourse(video) {
+      if (!video) return;
+      const thumbEl = document.getElementById("hero-course-thumb");
+      const titleEl = document.getElementById("hero-course-title");
+      const subjEl = document.getElementById("hero-course-subject");
+      const metaEl = document.getElementById("hero-course-meta");
+      const statsEl = document.getElementById("hero-course-stats");
+      if (thumbEl) {
+        const bg = video.thumbnailUrl
+          ? `background-image:url('${video.thumbnailUrl}');background-size:cover;background-position:center;`
+          : "";
+        thumbEl.setAttribute("style", bg);
+      }
+      if (titleEl) titleEl.textContent = video.title || "Video nổi bật";
+      if (subjEl) subjEl.textContent = video.subject || "Chưa phân loại";
+      if (metaEl) {
+        const dur = video.durationMinutes ? `${video.durationMinutes} phút` : "N/A";
+        metaEl.textContent = `Thời lượng: ${dur}`;
+      }
+      if (statsEl) {
+        const rating =
+          typeof video.avgRating === "number" && video.totalRatings > 0
+            ? `${video.avgRating.toFixed(1)} (${video.totalRatings} đánh giá)`
+            : "Chưa có đánh giá";
+        statsEl.innerHTML = `
+          <span class="badge">${rating}</span>
+          <span class="badge">${(video.totalViews || 0).toLocaleString("vi-VN")} lượt xem</span>
+        `;
+      }
+    }
+
+    function renderSmallList(containerId, videos, type = "views") {
+      const box = document.getElementById(containerId);
+      if (!box) return;
+      if (!videos.length) {
+        box.innerHTML = `<div class="empty">Chưa có dữ liệu.</div>`;
+        return;
+      }
+      const icon = type === "rating" ? "★" : "⬆";
+      box.innerHTML = videos
+        .slice(0, 6)
+        .map(
+          (v) => `
+            <div class="sidebar-item">
+              <div class="sidebar-item-title">${v.title || "Video"}</div>
+              <div class="sidebar-item-meta">
+                ${icon} ${type === "rating" ? ratingLabel(v) : (v.totalViews || 0).toLocaleString("vi-VN")} • ${
+            v.subject || "Chưa phân loại"
+          }
+              </div>
+            </div>
+          `
+        )
+        .join("");
+    }
+
+    function filterAndRender() {
+      const keyword = document.getElementById("course-search").value.toLowerCase();
+      const subject = document.getElementById("course-subject").value;
+      const level = document.getElementById("course-level").value;
+      const duration = document.getElementById("course-duration").value;
+      const status = document.getElementById("course-status").value;
+      const sort = document.getElementById("course-sort").value;
+      let list = allVideos;
+
+      if (subject) {
+        list = list.filter((v) => (v.subject || "").toLowerCase().includes(subject.toLowerCase()));
+      }
+      if (keyword) {
+        list = list.filter(
+          (v) =>
+            (v.title || "").toLowerCase().includes(keyword) ||
+            (v.description || "").toLowerCase().includes(keyword)
+        );
+      }
+      if (level) {
+        list = list.filter((v) => {
+          const lv = (v.difficulty || "").toLowerCase();
+          return lv ? lv.includes(level) : true;
+        });
+      }
+      if (duration) {
+        list = list.filter((v) => bucketDuration(v) === duration);
+      }
+      if (status) {
+        list = list.filter((v) =>
+          status === "published" ? v.isPublished !== false : v.isPublished === false
+        );
+      }
+
+      list = [...list].sort((a, b) => {
+        if (sort === "views") return (b.totalViews || 0) - (a.totalViews || 0);
+        if (sort === "rating") return (b.avgRating || 0) - (a.avgRating || 0);
+        return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+      });
+
+      renderCourseList("course-grid", list);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (!window.studyApp) return;
+      studyApp.renderAuthArea();
+      studyApp.toggleAdminLink();
+
+      const heroSearch = document.getElementById("course-hero-search");
+      const heroBtn = document.getElementById("course-hero-search-btn");
+      heroSearch?.addEventListener("input", () => {
+        const main = document.getElementById("course-search");
+        if (main) {
+          main.value = heroSearch.value;
+          filterAndRender();
+        }
+      });
+      heroBtn?.addEventListener("click", () => {
+        const main = document.getElementById("course-search");
+        if (main && heroSearch) {
+          main.value = heroSearch.value;
+          filterAndRender();
+          window.scrollTo({ top: document.getElementById("course-grid").offsetTop - 80, behavior: "smooth" });
+        }
+      });
+
+      studyApp
+        .fetchVideos({ page: 1, limit: 400 })
+        .then((data) => {
+          allVideos = data.videos || [];
+          studyApp.populateSubjects("course-subject", allVideos);
+          const select = document.getElementById("course-subject");
+          if (select && select.options.length) select.options[0].textContent = "Tất cả môn";
+
+          const topViews = [...allVideos].sort((a, b) => (b.totalViews || 0) - (a.totalViews || 0));
+          renderHeroCourse(topViews[0]);
+
+          renderQuickStats(allVideos);
+          renderTopSubjects(allVideos);
+          const topRating = [...allVideos].sort((a, b) => {
+            const rdiff = (b.avgRating || 0) - (a.avgRating || 0);
+            if (rdiff !== 0) return rdiff;
+            return (b.totalRatings || 0) - (a.totalRatings || 0);
+          });
+          renderSmallList("sidebar-top-views", topViews, "views");
+          renderSmallList("sidebar-top-rating", topRating, "rating");
+          setTitleSuggestions(allVideos);
+          filterAndRender();
+        })
+        .catch((err) => {
+          console.error(err);
+          renderCourseList("course-grid", []);
+          renderSmallList("sidebar-top-views", []);
+          renderSmallList("sidebar-top-rating", []);
+        });
+
+      document.getElementById("course-search")?.addEventListener("input", filterAndRender);
+      document.getElementById("course-subject")?.addEventListener("change", filterAndRender);
+      document.getElementById("course-level")?.addEventListener("change", filterAndRender);
+      document.getElementById("course-duration")?.addEventListener("change", filterAndRender);
+      document.getElementById("course-status")?.addEventListener("change", filterAndRender);
+      document.getElementById("course-sort")?.addEventListener("change", filterAndRender);
     });
   </script>
 </body>
